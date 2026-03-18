@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RVR Super Speciality Centre — Opening April 23, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@200;300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<style>
+/* ═══════════════════════════════
+   RESET & BASE
+═══════════════════════════════ */
+:root {
+  --black:  #050a07;
+  --forest: #0d1f14;
+  --deep:   #091209;
+  --teal:   #3ecb96;
+  --mint:   #a8f0d4;
+  --white:  #f4f9f6;
+  --muted:  rgba(244,249,246,0.4);
+  --line:   rgba(62,203,150,0.12);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+::selection { background: var(--teal); color: var(--black); }
+
+/* ═══════════════════════════════
+LOADER
+═══════════════════════════════ */
+#loader {
+position: fixed; inset: 0;
+background: var(–black);
+z-index: 9999;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+gap: 2rem;
+}
+.loader-logo {
+font-family: ‘Playfair Display’, serif;
+font-size: 5rem;
+font-weight: 900;
+color: var(–teal);
+letter-spacing: -0.04em;
+opacity: 0;
+}
+.loader-bar-wrap {
+width: 200px;
+height: 1px;
+background: rgba(62,203,150,0.15);
+overflow: hidden;
+}
+.loader-bar {
+height: 100%;
+width: 0%;
+background: var(–teal);
+transition: width 0.05s linear;
+}
+.loader-percent {
+font-size: 0.7rem;
+letter-spacing: 0.3em;
+color: var(–muted);
+}
+
+/* ═══════════════════════════════
+CURSOR
+═══════════════════════════════ */
+#cursor {
+position: fixed;
+width: 10px; height: 10px;
+background: var(–teal);
+border-radius: 50%;
+pointer-events: none;
+z-index: 8888;
+transform: translate(-50%,-50%);
+transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+mix-blend-mode: difference;
+}
+#cursor-follower {
+position: fixed;
+width: 44px; height: 44px;
+border: 1px solid rgba(62,203,150,0.35);
+border-radius: 50%;
+pointer-events: none;
+z-index: 8887;
+transform: translate(-50%,-50%);
+transition: width 0.4s cubic-bezier(.25,.46,.45,.94),
+height 0.4s cubic-bezier(.25,.46,.45,.94),
+border-color 0.3s;
+}
+body.cursor-hover #cursor { width: 6px; height: 6px; background: var(–white); }
+body.cursor-hover #cursor-follower { width: 70px; height: 70px; border-color: rgba(62,203,150,0.6); }
+
+/* ═══════════════════════════════
+NAV
+═══════════════════════════════ */
+nav {
+position: fixed; top: 0; left: 0; right: 0;
+z-index: 100;
+display: flex; align-items: center; justify-content: space-between;
+padding: 2rem 3.5rem;
+mix-blend-mode: normal;
+}
+nav::after {
+content: ‘’;
+position: absolute;
+bottom: 0; left: 3.5rem; right: 3.5rem;
+height: 1px;
+background: var(–line);
+}
+.nav-logo-wrap {
+display: flex; align-items: center; gap: 0.75rem;
+}
+.nav-logo-text {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.6rem;
+font-weight: 900;
+letter-spacing: -0.02em;
+color: var(–teal);
+}
+.nav-logo-sub {
+font-size: 0.6rem;
+letter-spacing: 0.22em;
+text-transform: uppercase;
+color: var(–muted);
+line-height: 1.4;
+}
+.nav-center {
+position: absolute; left: 50%; transform: translateX(-50%);
+font-size: 0.65rem;
+letter-spacing: 0.3em;
+text-transform: uppercase;
+color: var(–muted);
+}
+.nav-right {
+display: flex; align-items: center; gap: 2rem;
+}
+.nav-link {
+font-size: 0.7rem;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+color: var(–muted);
+text-decoration: none;
+transition: color 0.3s;
+}
+.nav-link:hover { color: var(–teal); }
+.nav-cta {
+font-size: 0.7rem;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+color: var(–black);
+background: var(–teal);
+border: none;
+padding: 0.6rem 1.4rem;
+border-radius: 2px;
+cursor: none;
+font-family: ‘DM Sans’, sans-serif;
+font-weight: 500;
+transition: background 0.3s, transform 0.2s;
+}
+.nav-cta:hover { background: var(–mint); }
+
+/* ═══════════════════════════════
+HERO
+═══════════════════════════════ */
+#hero {
+height: 100vh;
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+justify-content: flex-end;
+padding: 0 3.5rem 5rem;
+position: relative;
+overflow: hidden;
+}
+
+/* Animated gradient background */
+.hero-bg {
+position: absolute; inset: 0;
+background:
+radial-gradient(ellipse 80% 60% at 70% 30%, rgba(62,203,150,0.07) 0%, transparent 60%),
+radial-gradient(ellipse 50% 50% at 20% 70%, rgba(62,203,150,0.04) 0%, transparent 60%),
+linear-gradient(180deg, #050a07 0%, #091209 50%, #050a07 100%);
+animation: heroBg 12s ease-in-out infinite alternate;
+}
+@keyframes heroBg {
+from { background-position: 0% 0%; }
+to   { background-position: 100% 100%; }
+}
+
+/* Grid overlay */
+.hero-grid {
+position: absolute; inset: 0;
+background-image:
+linear-gradient(rgba(62,203,150,0.025) 1px, transparent 1px),
+linear-gradient(90deg, rgba(62,203,150,0.025) 1px, transparent 1px);
+background-size: 100px 100px;
+pointer-events: none;
+}
+
+/* Floating orb */
+.hero-orb {
+position: absolute;
+width: 700px; height: 700px;
+border-radius: 50%;
+background: radial-gradient(circle at center, rgba(62,203,150,0.09) 0%, transparent 65%);
+top: -200px; right: -200px;
+filter: blur(80px);
+animation: orbFloat 15s ease-in-out infinite alternate;
+}
+@keyframes orbFloat {
+from { transform: translate(0,0) scale(1); }
+to   { transform: translate(-80px, 100px) scale(1.15); }
+}
+
+.hero-eyebrow {
+font-size: 0.65rem;
+letter-spacing: 0.4em;
+text-transform: uppercase;
+color: var(–teal);
+margin-bottom: 2rem;
+display: flex; align-items: center; gap: 1rem;
+opacity: 0;
+}
+.hero-eyebrow::before {
+content: ‘’;
+display: block;
+width: 48px; height: 1px;
+background: var(–teal); opacity: 0.5;
+}
+
+.hero-headline {
+position: relative; z-index: 2;
+margin-bottom: 3rem;
+}
+.hero-headline h1 {
+font-family: ‘Playfair Display’, serif;
+font-weight: 900;
+font-size: clamp(4rem, 9vw, 9rem);
+line-height: 0.9;
+letter-spacing: -0.03em;
+overflow: hidden;
+}
+.hero-headline h1 .line {
+display: block;
+overflow: hidden;
+}
+.hero-headline h1 .word {
+display: inline-block;
+transform: translateY(110%);
+}
+.hero-headline h1 em {
+font-style: italic;
+color: var(–teal);
+}
+
+.hero-bottom {
+display: flex;
+align-items: flex-end;
+justify-content: space-between;
+width: 100%;
+opacity: 0;
+}
+.hero-desc {
+max-width: 380px;
+}
+.hero-desc p {
+font-size: 1rem;
+color: var(–muted);
+line-height: 1.75;
+font-weight: 300;
+}
+.hero-desc p strong { color: var(–white); font-weight: 400; }
+
+.hero-scroll-hint {
+display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+}
+.hero-scroll-line {
+width: 1px; height: 60px;
+background: linear-gradient(var(–teal), transparent);
+animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+0%, 100% { opacity: 0.3; transform: scaleY(1); }
+50%       { opacity: 1;   transform: scaleY(1.2); }
+}
+.hero-scroll-text {
+font-size: 0.55rem;
+letter-spacing: 0.35em;
+text-transform: uppercase;
+color: var(–muted);
+writing-mode: vertical-rl;
+}
+
+/* ═══════════════════════════════
+MARQUEE STRIP
+═══════════════════════════════ */
+.marquee-strip {
+border-top: 1px solid var(–line);
+border-bottom: 1px solid var(–line);
+padding: 1.2rem 0;
+overflow: hidden;
+white-space: nowrap;
+background: rgba(62,203,150,0.02);
+}
+.marquee-inner {
+display: inline-flex;
+animation: marqueeScroll 30s linear infinite;
+}
+.marquee-item {
+display: inline-flex; align-items: center; gap: 2rem;
+padding: 0 2rem;
+font-size: 0.65rem;
+letter-spacing: 0.25em;
+text-transform: uppercase;
+color: var(–muted);
+}
+.marquee-item span { color: var(–teal); font-size: 1rem; }
+@keyframes marqueeScroll {
+from { transform: translateX(0); }
+to   { transform: translateX(-50%); }
+}
+
+/* ═══════════════════════════════
+SECTIONS BASE
+═══════════════════════════════ */
+section {
+padding: 8rem 3.5rem;
+position: relative;
+}
+.section-label {
+font-size: 0.6rem;
+letter-spacing: 0.4em;
+text-transform: uppercase;
+color: var(–teal);
+margin-bottom: 1.5rem;
+display: flex; align-items: center; gap: 1rem;
+}
+.section-label::before {
+content: ‘’;
+display: block;
+width: 32px; height: 1px;
+background: var(–teal); opacity: 0.5;
+}
+.section-title {
+font-family: ‘Playfair Display’, serif;
+font-size: clamp(2.5rem, 5vw, 5rem);
+font-weight: 700;
+line-height: 1.05;
+letter-spacing: -0.02em;
+margin-bottom: 2rem;
+}
+.section-title em { font-style: italic; color: var(–teal); }
+
+/* ═══════════════════════════════
+COUNTDOWN SECTION
+═══════════════════════════════ */
+#countdown-section {
+background: var(–forest);
+text-align: center;
+padding: 6rem 3.5rem;
+border-top: 1px solid var(–line);
+border-bottom: 1px solid var(–line);
+}
+.countdown-heading {
+font-size: 0.65rem;
+letter-spacing: 0.4em;
+text-transform: uppercase;
+color: var(–teal);
+margin-bottom: 3rem;
+}
+.countdown-grid {
+display: flex;
+justify-content: center;
+gap: 0;
+margin-bottom: 3rem;
+}
+.cd-item {
+padding: 3rem 4rem;
+border-right: 1px solid var(–line);
+position: relative;
+}
+.cd-item:last-child { border-right: none; }
+.cd-num {
+font-family: ‘Playfair Display’, serif;
+font-size: clamp(4rem, 8vw, 8rem);
+font-weight: 900;
+line-height: 1;
+color: var(–white);
+display: block;
+letter-spacing: -0.04em;
+}
+.cd-label {
+font-size: 0.6rem;
+letter-spacing: 0.3em;
+text-transform: uppercase;
+color: var(–muted);
+margin-top: 1rem;
+display: block;
+}
+.cd-date-badge {
+display: inline-flex;
+align-items: center;
+gap: 0.75rem;
+border: 1px solid rgba(62,203,150,0.2);
+border-radius: 2px;
+padding: 0.8rem 2rem;
+font-size: 0.7rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: var(–teal);
+}
+.cd-pulse {
+width: 6px; height: 6px;
+background: var(–teal);
+border-radius: 50%;
+animation: cdPulse 1.8s ease-in-out infinite;
+}
+@keyframes cdPulse {
+0%,100% { opacity:1; transform: scale(1); box-shadow: 0 0 0 0 rgba(62,203,150,0.4); }
+50%     { opacity:1; transform: scale(1); box-shadow: 0 0 0 8px rgba(62,203,150,0); }
+}
+
+/* ═══════════════════════════════
+ABOUT / VISION
+═══════════════════════════════ */
+#about {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 6rem;
+align-items: center;
+}
+.about-left {}
+.about-right {
+position: relative;
+}
+.about-visual {
+aspect-ratio: 4/5;
+background: var(–forest);
+border: 1px solid var(–line);
+border-radius: 2px;
+overflow: hidden;
+position: relative;
+display: flex; align-items: center; justify-content: center;
+}
+.about-visual-inner {
+width: 200px; height: 200px;
+opacity: 0.15;
+}
+.about-visual::before {
+content: ‘’;
+position: absolute; inset: 0;
+background: linear-gradient(135deg, rgba(62,203,150,0.08) 0%, transparent 60%);
+}
+.about-visual-lines {
+position: absolute; inset: 0;
+background-image:
+linear-gradient(rgba(62,203,150,0.04) 1px, transparent 1px),
+linear-gradient(90deg, rgba(62,203,150,0.04) 1px, transparent 1px);
+background-size: 40px 40px;
+}
+.about-visual-label {
+position: absolute;
+bottom: 2rem; left: 2rem;
+font-size: 0.6rem;
+letter-spacing: 0.25em;
+text-transform: uppercase;
+color: var(–teal);
+opacity: 0.7;
+}
+.about-stats {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 1.5rem;
+margin-top: 3rem;
+}
+.stat-card {
+padding: 1.5rem;
+border: 1px solid var(–line);
+border-radius: 2px;
+background: rgba(62,203,150,0.02);
+transition: border-color 0.3s, background 0.3s;
+}
+.stat-card:hover {
+border-color: rgba(62,203,150,0.25);
+background: rgba(62,203,150,0.05);
+}
+.stat-num {
+font-family: ‘Playfair Display’, serif;
+font-size: 2.5rem;
+font-weight: 700;
+color: var(–teal);
+line-height: 1;
+margin-bottom: 0.5rem;
+}
+.stat-label {
+font-size: 0.7rem;
+letter-spacing: 0.1em;
+color: var(–muted);
+line-height: 1.4;
+}
+.about-desc {
+font-size: 1.1rem;
+color: rgba(244,249,246,0.6);
+line-height: 1.85;
+margin-bottom: 2rem;
+}
+.about-quote {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.6rem;
+font-weight: 400;
+font-style: italic;
+color: var(–white);
+line-height: 1.4;
+border-left: 2px solid var(–teal);
+padding-left: 1.5rem;
+margin-bottom: 3rem;
+}
+
+/* ═══════════════════════════════
+SPECIALITIES
+═══════════════════════════════ */
+#specialities { background: var(–forest); }
+.spec-grid {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 1px;
+background: var(–line);
+border: 1px solid var(–line);
+margin-top: 4rem;
+}
+.spec-card {
+background: var(–forest);
+padding: 2.5rem 2rem;
+position: relative;
+overflow: hidden;
+cursor: none;
+transition: background 0.4s;
+}
+.spec-card::before {
+content: ‘’;
+position: absolute; bottom: 0; left: 0; right: 0;
+height: 0;
+background: rgba(62,203,150,0.06);
+transition: height 0.4s cubic-bezier(.25,.46,.45,.94);
+}
+.spec-card:hover::before { height: 100%; }
+.spec-card:hover .spec-arrow { transform: translate(4px, -4px); }
+.spec-icon {
+width: 40px; height: 40px;
+margin-bottom: 2rem;
+opacity: 0.6;
+}
+.spec-name {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.3rem;
+font-weight: 700;
+margin-bottom: 0.75rem;
+color: var(–white);
+}
+.spec-desc {
+font-size: 0.8rem;
+color: var(–muted);
+line-height: 1.6;
+margin-bottom: 2rem;
+}
+.spec-arrow {
+font-size: 1.2rem;
+color: var(–teal);
+transition: transform 0.3s cubic-bezier(.25,.46,.45,.94);
+display: block;
+}
+.spec-number {
+position: absolute;
+top: 2rem; right: 2rem;
+font-family: ‘Playfair Display’, serif;
+font-size: 3rem;
+font-weight: 900;
+color: rgba(62,203,150,0.06);
+line-height: 1;
+}
+
+/* ═══════════════════════════════
+DOCTORS
+═══════════════════════════════ */
+#doctors {}
+.doctors-intro {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 4rem;
+align-items: end;
+margin-bottom: 4rem;
+}
+.doctors-intro-right {
+font-size: 0.9rem;
+color: var(–muted);
+line-height: 1.8;
+}
+.doctors-grid {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 1.5rem;
+}
+.doctor-card {
+border: 1px solid var(–line);
+border-radius: 2px;
+overflow: hidden;
+background: var(–forest);
+transition: border-color 0.3s, transform 0.3s;
+cursor: none;
+}
+.doctor-card:hover {
+border-color: rgba(62,203,150,0.3);
+transform: translateY(-6px);
+}
+.doctor-avatar {
+aspect-ratio: 3/4;
+background: linear-gradient(135deg, var(–deep) 0%, var(–forest) 100%);
+display: flex; align-items: center; justify-content: center;
+position: relative;
+overflow: hidden;
+}
+.doctor-avatar::before {
+content: ‘’;
+position: absolute; inset: 0;
+background: linear-gradient(180deg, transparent 50%, rgba(9,18,9,0.8) 100%);
+}
+.doctor-initials {
+font-family: ‘Playfair Display’, serif;
+font-size: 3rem;
+font-weight: 700;
+color: rgba(62,203,150,0.2);
+z-index: 1;
+}
+.doctor-speciality-tag {
+position: absolute;
+bottom: 1rem; left: 1rem;
+font-size: 0.55rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: var(–teal);
+background: rgba(9,18,9,0.8);
+padding: 0.3rem 0.7rem;
+border-radius: 1px;
+z-index: 2;
+}
+.doctor-info {
+padding: 1.25rem;
+}
+.doctor-name {
+font-family: ‘Playfair Display’, serif;
+font-size: 1rem;
+font-weight: 700;
+margin-bottom: 0.3rem;
+color: var(–white);
+}
+.doctor-qual {
+font-size: 0.65rem;
+letter-spacing: 0.05em;
+color: var(–teal);
+margin-bottom: 0.25rem;
+}
+.doctor-spec {
+font-size: 0.7rem;
+color: var(–muted);
+}
+
+/* ═══════════════════════════════
+TECHNOLOGY
+═══════════════════════════════ */
+#technology {
+background: var(–forest);
+position: relative;
+overflow: hidden;
+}
+.tech-bg-text {
+position: absolute;
+top: 50%; left: 50%;
+transform: translate(-50%,-50%);
+font-family: ‘Playfair Display’, serif;
+font-size: 20vw;
+font-weight: 900;
+color: rgba(62,203,150,0.025);
+white-space: nowrap;
+pointer-events: none;
+line-height: 1;
+}
+.tech-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 1.5rem;
+margin-top: 4rem;
+position: relative; z-index: 1;
+}
+.tech-card {
+padding: 2.5rem;
+border: 1px solid var(–line);
+border-radius: 2px;
+background: rgba(5,10,7,0.5);
+backdrop-filter: blur(10px);
+transition: border-color 0.3s;
+cursor: none;
+}
+.tech-card:hover { border-color: rgba(62,203,150,0.3); }
+.tech-card-num {
+font-family: ‘Playfair Display’, serif;
+font-size: 0.8rem;
+color: var(–teal);
+margin-bottom: 1.5rem;
+opacity: 0.7;
+}
+.tech-card-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.4rem;
+font-weight: 700;
+margin-bottom: 1rem;
+line-height: 1.2;
+}
+.tech-card-desc {
+font-size: 0.85rem;
+color: var(–muted);
+line-height: 1.7;
+}
+.tech-card-tag {
+display: inline-block;
+margin-top: 1.5rem;
+font-size: 0.6rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: var(–teal);
+border: 1px solid rgba(62,203,150,0.2);
+padding: 0.3rem 0.8rem;
+border-radius: 1px;
+}
+
+/* ═══════════════════════════════
+VISION STRIP
+═══════════════════════════════ */
+#vision-strip {
+padding: 6rem 3.5rem;
+text-align: center;
+position: relative;
+overflow: hidden;
+}
+.vision-bg-orb {
+position: absolute;
+width: 800px; height: 800px;
+border-radius: 50%;
+background: radial-gradient(circle, rgba(62,203,150,0.06) 0%, transparent 60%);
+top: 50%; left: 50%;
+transform: translate(-50%,-50%);
+pointer-events: none;
+filter: blur(60px);
+}
+.vision-overline {
+font-size: 0.65rem;
+letter-spacing: 0.4em;
+text-transform: uppercase;
+color: var(–teal);
+margin-bottom: 2rem;
+}
+.vision-statement {
+font-family: ‘Playfair Display’, serif;
+font-size: clamp(1.8rem, 4vw, 3.5rem);
+font-weight: 400;
+font-style: italic;
+line-height: 1.35;
+color: var(–white);
+max-width: 900px;
+margin: 0 auto 3rem;
+}
+.vision-statement strong { font-style: normal; font-weight: 700; color: var(–teal); }
+.vision-phases {
+display: flex;
+justify-content: center;
+gap: 0;
+margin-top: 4rem;
+}
+.phase-item {
+padding: 1.5rem 2.5rem;
+border-right: 1px solid var(–line);
+text-align: center;
+}
+.phase-item:last-child { border-right: none; }
+.phase-year {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.4rem;
+font-weight: 700;
+color: var(–teal);
+display: block;
+margin-bottom: 0.5rem;
+}
+.phase-label {
+font-size: 0.65rem;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+color: var(–muted);
+}
+
+/* ═══════════════════════════════
+NOTIFY / CTA
+═══════════════════════════════ */
+#notify {
+background: var(–teal);
+padding: 8rem 3.5rem;
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 6rem;
+align-items: center;
+}
+.notify-left {}
+.notify-title {
+font-family: ‘Playfair Display’, serif;
+font-size: clamp(2.5rem, 5vw, 4.5rem);
+font-weight: 900;
+color: var(–black);
+line-height: 0.95;
+letter-spacing: -0.03em;
+margin-bottom: 1.5rem;
+}
+.notify-sub {
+font-size: 1rem;
+color: rgba(5,10,7,0.6);
+line-height: 1.7;
+}
+.notify-right {}
+.notify-form-label {
+font-size: 0.65rem;
+letter-spacing: 0.3em;
+text-transform: uppercase;
+color: rgba(5,10,7,0.5);
+margin-bottom: 1rem;
+}
+.notify-form {
+display: flex;
+border: 1.5px solid rgba(5,10,7,0.25);
+border-radius: 2px;
+overflow: hidden;
+margin-bottom: 1rem;
+transition: border-color 0.3s;
+}
+.notify-form:focus-within { border-color: var(–black); }
+.notify-input {
+flex: 1;
+background: transparent;
+border: none; outline: none;
+padding: 1rem 1.25rem;
+font-family: ‘DM Sans’, sans-serif;
+font-size: 0.9rem;
+color: var(–black);
+}
+.notify-input::placeholder { color: rgba(5,10,7,0.35); }
+.notify-submit {
+background: var(–black);
+border: none;
+padding: 1rem 1.75rem;
+font-family: ‘DM Sans’, sans-serif;
+font-size: 0.7rem;
+font-weight: 500;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+color: var(–teal);
+cursor: none;
+transition: background 0.3s;
+}
+.notify-submit:hover { background: var(–forest); }
+.notify-note {
+font-size: 0.7rem;
+color: rgba(5,10,7,0.4);
+}
+.notify-success-msg {
+display: none;
+font-size: 0.9rem;
+color: var(–black);
+padding: 1rem 0;
+}
+
+/* ═══════════════════════════════
+FOOTER
+═══════════════════════════════ */
+footer {
+background: var(–deep);
+padding: 3rem 3.5rem;
+border-top: 1px solid var(–line);
+display: flex;
+align-items: center;
+justify-content: space-between;
+flex-wrap: wrap;
+gap: 1rem;
+}
+.footer-logo {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.4rem;
+font-weight: 900;
+color: var(–teal);
+letter-spacing: -0.02em;
+}
+.footer-links {
+display: flex; gap: 2rem;
+}
+.footer-link {
+font-size: 0.65rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: var(–muted);
+text-decoration: none;
+transition: color 0.3s;
+}
+.footer-link:hover { color: var(–teal); }
+.footer-copy {
+font-size: 0.65rem;
+letter-spacing: 0.1em;
+color: rgba(244,249,246,0.2);
+}
+
+/* ═══════════════════════════════
+REVEAL ANIMATIONS
+═══════════════════════════════ */
+.reveal { opacity: 0; transform: translateY(40px); }
+.reveal-left { opacity: 0; transform: translateX(-40px); }
+.reveal-right { opacity: 0; transform: translateX(40px); }
+.reveal-scale { opacity: 0; transform: scale(0.94); }
+
+/* ═══════════════════════════════
+RESPONSIVE
+═══════════════════════════════ */
+@media (max-width: 900px) {
+nav { padding: 1.5rem; }
+nav::after { left: 1.5rem; right: 1.5rem; }
+.nav-center, .nav-cta { display: none; }
+section { padding: 5rem 1.5rem; }
+#hero { padding: 0 1.5rem 4rem; }
+#about, .doctors-intro { grid-template-columns: 1fr; gap: 3rem; }
+.about-right { display: none; }
+.spec-grid, .tech-grid { grid-template-columns: 1fr 1fr; }
+.doctors-grid { grid-template-columns: 1fr 1fr; }
+.countdown-grid { flex-wrap: wrap; }
+.cd-item { flex: 1; min-width: 100px; padding: 2rem; }
+#notify { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 1.5rem; }
+.vision-phases { flex-wrap: wrap; justify-content: center; }
+.phase-item { border-right: none; border-bottom: 1px solid var(–line); padding: 1rem 2rem; }
+footer { padding: 2rem 1.5rem; flex-direction: column; text-align: center; }
+.footer-links { justify-content: center; flex-wrap: wrap; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- Cursor -->
+
+<div id="cursor"></div>
+<div id="cursor-follower"></div>
+
+<!-- Loader -->
+
+<div id="loader">
+  <div class="loader-logo">RVR</div>
+  <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
+  <div class="loader-percent" id="loaderPercent">0%</div>
+</div>
+
+<!-- NAV -->
+
+<nav id="mainNav" style="opacity:0">
+  <div class="nav-logo-wrap">
+    <div>
+      <div class="nav-logo-text">RVR</div>
+      <div class="nav-logo-sub">Super Speciality Centre<br>Falnir, Mangalore</div>
+    </div>
+  </div>
+  <div class="nav-center">Opening April 23, 2026</div>
+  <div class="nav-right">
+    <a href="#about" class="nav-link">About</a>
+    <a href="#specialities" class="nav-link">Specialities</a>
+    <a href="#doctors" class="nav-link">Doctors</a>
+    <button class="nav-cta" onclick="document.getElementById('notify').scrollIntoView({behavior:'smooth'})">Get Notified</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-orb"></div>
+
+  <div class="hero-eyebrow" id="heroEyebrow">
+    Mangalore · Falnir · Opening 2026
+  </div>
+
+  <div class="hero-headline">
+    <h1>
+      <span class="line"><span class="word">Mangalore</span></span>
+      <span class="line"><span class="word">never had</span></span>
+      <span class="line"><span class="word"><em>this</em> before.</span></span>
+    </h1>
+  </div>
+
+  <div class="hero-bottom" id="heroBottom">
+    <div class="hero-desc">
+      <p><strong>RVR Super Speciality Centre</strong> — The most advanced hospital in Coastal Karnataka. World-class neurology, cardiology, and super speciality care. Right here. Right now.</p>
+    </div>
+    <div class="hero-scroll-hint">
+      <div class="hero-scroll-line"></div>
+      <span class="hero-scroll-text">Scroll</span>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+
+<div class="marquee-strip">
+  <div class="marquee-inner">
+    <div class="marquee-item"><span>◆</span> Neurology</div>
+    <div class="marquee-item"><span>◆</span> Cardiology</div>
+    <div class="marquee-item"><span>◆</span> Advanced Diagnostics</div>
+    <div class="marquee-item"><span>◆</span> Super Speciality Care</div>
+    <div class="marquee-item"><span>◆</span> Emergency Medicine</div>
+    <div class="marquee-item"><span>◆</span> AI-Powered Clinical Notes</div>
+    <div class="marquee-item"><span>◆</span> World-Class Equipment</div>
+    <div class="marquee-item"><span>◆</span> Opening April 23, 2026</div>
+    <div class="marquee-item"><span>◆</span> Neurology</div>
+    <div class="marquee-item"><span>◆</span> Cardiology</div>
+    <div class="marquee-item"><span>◆</span> Advanced Diagnostics</div>
+    <div class="marquee-item"><span>◆</span> Super Speciality Care</div>
+    <div class="marquee-item"><span>◆</span> Emergency Medicine</div>
+    <div class="marquee-item"><span>◆</span> AI-Powered Clinical Notes</div>
+    <div class="marquee-item"><span>◆</span> World-Class Equipment</div>
+    <div class="marquee-item"><span>◆</span> Opening April 23, 2026</div>
+  </div>
+</div>
+
+<!-- COUNTDOWN -->
+
+<section id="countdown-section">
+  <div class="countdown-heading">Grand opening countdown</div>
+  <div class="countdown-grid">
+    <div class="cd-item reveal">
+      <span class="cd-num" id="cd-days">00</span>
+      <span class="cd-label">Days</span>
+    </div>
+    <div class="cd-item reveal">
+      <span class="cd-num" id="cd-hours">00</span>
+      <span class="cd-label">Hours</span>
+    </div>
+    <div class="cd-item reveal">
+      <span class="cd-num" id="cd-mins">00</span>
+      <span class="cd-label">Minutes</span>
+    </div>
+    <div class="cd-item reveal">
+      <span class="cd-num" id="cd-secs">00</span>
+      <span class="cd-label">Seconds</span>
+    </div>
+  </div>
+  <div class="cd-date-badge">
+    <div class="cd-pulse"></div>
+    April 23, 2026 — Falnir, Ayush Building, Mangalore
+  </div>
+</section>
+
+<!-- ABOUT -->
+
+<section id="about">
+  <div class="about-left">
+    <div class="section-label reveal">Our vision</div>
+    <h2 class="section-title reveal">Born in Mangalore.<br><em>Built for the world.</em></h2>
+    <p class="about-desc reveal">For too long, people from Coastal Karnataka traveled hundreds of kilometers for advanced medical care. RVR Super Speciality Centre was built to change that — bringing international-standard medicine, AI-powered clinical systems, and the finest specialists to Mangalore.</p>
+    <p class="about-quote reveal">"Not just a hospital. The beginning of a global healthcare ecosystem."</p>
+    <div class="about-stats">
+      <div class="stat-card reveal">
+        <div class="stat-num">8+</div>
+        <div class="stat-label">Super speciality doctors</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Neurology specialists</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-num">AI</div>
+        <div class="stat-label">Powered clinical notes</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Global expansion vision</div>
+      </div>
+    </div>
+  </div>
+  <div class="about-right reveal-right">
+    <div class="about-visual">
+      <div class="about-visual-lines"></div>
+      <div class="about-visual-inner">
+        <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="16" r="14" fill="#3ecb96"/>
+          <path d="M100 30 L58 76 L40 104 Q36 116 52 120 Q64 124 72 108 L100 72 L128 108 Q136 124 148 120 Q164 116 160 104 L142 76 Z" fill="#3ecb96" opacity="0.9"/>
+          <path d="M40 104 Q20 136 44 144 Q68 152 76 124" stroke="#3ecb96" stroke-width="10" fill="none" stroke-linecap="round"/>
+          <path d="M160 104 Q180 136 156 144 Q132 152 124 124" stroke="#3ecb96" stroke-width="10" fill="none" stroke-linecap="round"/>
+          <ellipse cx="60" cy="128" rx="20" ry="14" fill="#3ecb96" opacity="0.65" transform="rotate(-20 60 128)"/>
+          <ellipse cx="140" cy="128" rx="20" ry="14" fill="#3ecb96" opacity="0.65" transform="rotate(20 140 128)"/>
+        </svg>
+      </div>
+      <div class="about-visual-label">RVR — Est. 2026</div>
+    </div>
+  </div>
+</section>
+
+<!-- SPECIALITIES -->
+
+<section id="specialities">
+  <div class="section-label reveal">What we treat</div>
+  <h2 class="section-title reveal">Super speciality <em>departments</em></h2>
+  <div class="spec-grid">
+    <div class="spec-card reveal">
+      <div class="spec-number">01</div>
+      <svg class="spec-icon" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="10" r="6" stroke="#3ecb96" stroke-width="1.5"/>
+        <path d="M8 35 Q8 22 20 22 Q32 22 32 35" stroke="#3ecb96" stroke-width="1.5" fill="none"/>
+        <path d="M15 28 Q20 32 25 28" stroke="#3ecb96" stroke-width="1.5" fill="none"/>
+      </svg>
+      <div class="spec-name">Neurology</div>
+      <div class="spec-desc">Advanced diagnosis and treatment of neurological disorders. 4 specialist neurologists.</div>
+      <span class="spec-arrow">↗</span>
+    </div>
+    <div class="spec-card reveal">
+      <div class="spec-number">02</div>
+      <svg class="spec-icon" viewBox="0 0 40 40" fill="none">
+        <path d="M20 8 Q28 12 28 20 Q28 30 20 34 Q12 30 12 20 Q12 12 20 8Z" stroke="#3ecb96" stroke-width="1.5" fill="none"/>
+        <path d="M14 20 L18 18 L20 22 L22 15 L24 20 L26 20" stroke="#3ecb96" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="spec-name">Cardiology</div>
+      <div class="spec-desc">Comprehensive cardiac care with the most advanced cardiac diagnostic technology.</div>
+      <span class="spec-arrow">↗</span>
+    </div>
+    <div class="spec-card reveal">
+      <div class="spec-number">03</div>
+      <svg class="spec-icon" viewBox="0 0 40 40" fill="none">
+        <rect x="10" y="8" width="20" height="26" rx="3" stroke="#3ecb96" stroke-width="1.5"/>
+        <path d="M15 16 L25 16 M15 20 L25 20 M15 24 L21 24" stroke="#3ecb96" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <div class="spec-name">Diagnostics</div>
+      <div class="spec-desc">AI-powered diagnostic labs, radiology, and pathology. Results delivered on WhatsApp.</div>
+      <span class="spec-arrow">↗</span>
+    </div>
+    <div class="spec-card reveal">
+      <div class="spec-number">04</div>
+      <svg class="spec-icon" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="12" stroke="#3ecb96" stroke-width="1.5"/>
+        <path d="M20 14 L20 20 L25 23" stroke="#3ecb96" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <div class="spec-name">Emergency</div>
+      <div class="spec-desc">24/7 emergency medicine with rapid response protocols and intensive care.</div>
+      <span class="spec-arrow">↗</span>
+    </div>
+    <div class="spec-card reveal">
+      <div class="spec-number">05</div>
+      <svg class="spec-icon" viewBox="0 0 40 40" fill="none">
+        <path d="M10 20 Q10 10 20 8 Q30 10 30 20 Q30 32 20 35 Q10 32 10 20Z" stroke="#3ecb96" stroke-width="1.5" fill="none"/>
+        <circle cx="20" cy="20" r="4" stroke="#3ecb96" stroke-width="1.5"/>
+      </svg>
+      <div class="spec-name">Surgery</div>
+      <div class="spec-desc">State-of-the-art operation theatres with advanced surgical equipment and techniques.</div>
+      <span class="spec-arrow">↗</span>
+    </div>
+    <div class="spec-card reveal">
+      <div class="spec-number">06</div>
+      <svg class="spec-icon" viewBox="0 0 40 40" fill="none">
+        <path d="M12 30 L12 14 M20 30 L20 10 M28 30 L28 18" stroke="#3ecb96" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M8 30 L32 30" stroke="#3ecb96" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <div class="spec-name">Analytics</div>
+      <div class="spec-desc">Real-time health monitoring, AI-assisted diagnosis, and data-driven patient care.</div>
+      <span class="spec-arrow">↗</span>
+    </div>
+    <div class="spec-card reveal">
+      <div class="spec-number">07</div>
+      <svg class="spec-icon" viewBox="0 0 40 40" fill="none">
+        <path d="M20 6 L24 16 L35 16 L26 22 L30 33 L20 27 L10 33 L14 22 L5 16 L16 16Z" stroke="#3ecb96" stroke-width="1.5" fill="none"/>
+      </svg>
+      <div class="spec-name">Pharmacy</div>
+      <div class="spec-desc">In-house pharmacy with digital prescription routing. Medicine reminders via WhatsApp.</div>
+      <span class="spec-arrow">↗</span>
+    </div>
+    <div class="spec-card reveal">
+      <div class="spec-number">08</div>
+      <svg class="spec-icon" viewBox="0 0 40 40" fill="none">
+        <rect x="8" y="8" width="24" height="24" rx="12" stroke="#3ecb96" stroke-width="1.5"/>
+        <path d="M14 20 L18 24 L26 16" stroke="#3ecb96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="spec-name">Wellness</div>
+      <div class="spec-desc">Preventive care, health screenings, and lifestyle medicine for long-term wellbeing.</div>
+      <span class="spec-arrow">↗</span>
+    </div>
+  </div>
+</section>
+
+<!-- DOCTORS -->
+
+<section id="doctors">
+  <div class="doctors-intro">
+    <div class="doctors-intro-left">
+      <div class="section-label reveal">The team</div>
+      <h2 class="section-title reveal">Meet the <em>specialists</em></h2>
+    </div>
+    <div class="doctors-intro-right reveal">
+      <p>RVR brings together Mangalore's finest medical minds — specialists trained at India's leading institutions, with decades of combined experience in super speciality care. Every doctor at RVR is handpicked for clinical excellence and patient empathy.</p>
+    </div>
+  </div>
+  <div class="doctors-grid">
+    <div class="doctor-card reveal">
+      <div class="doctor-avatar">
+        <span class="doctor-initials">RB</span>
+        <div class="doctor-speciality-tag">Neurology</div>
+      </div>
+      <div class="doctor-info">
+        <div class="doctor-name">Dr. Raghavendra BS</div>
+        <div class="doctor-qual">MBBS · MD · DM</div>
+        <div class="doctor-spec">Senior Neurologist</div>
+      </div>
+    </div>
+    <div class="doctor-card reveal">
+      <div class="doctor-avatar">
+        <span class="doctor-initials">MR</span>
+        <div class="doctor-speciality-tag">Cardiology</div>
+      </div>
+      <div class="doctor-info">
+        <div class="doctor-name">Dr. Manish Rai</div>
+        <div class="doctor-qual">To be confirmed</div>
+        <div class="doctor-spec">Cardiologist</div>
+      </div>
+    </div>
+    <div class="doctor-card reveal">
+      <div class="doctor-avatar">
+        <span class="doctor-initials">SS</span>
+        <div class="doctor-speciality-tag">Neurology</div>
+      </div>
+      <div class="doctor-info">
+        <div class="doctor-name">Dr. Shruthi</div>
+        <div class="doctor-qual">To be confirmed</div>
+        <div class="doctor-spec">Neurologist</div>
+      </div>
+    </div>
+    <div class="doctor-card reveal">
+      <div class="doctor-avatar">
+        <span class="doctor-initials">SH</span>
+        <div class="doctor-speciality-tag">Neurology</div>
+      </div>
+      <div class="doctor-info">
+        <div class="doctor-name">Dr. Shishir</div>
+        <div class="doctor-qual">To be confirmed</div>
+        <div class="doctor-spec">Neurologist</div>
+      </div>
+    </div>
+    <div class="doctor-card reveal">
+      <div class="doctor-avatar">
+        <span class="doctor-initials">VG</span>
+        <div class="doctor-speciality-tag">Neurology</div>
+      </div>
+      <div class="doctor-info">
+        <div class="doctor-name">Dr. Vignesh</div>
+        <div class="doctor-qual">To be confirmed</div>
+        <div class="doctor-spec">Neurologist</div>
+      </div>
+    </div>
+    <div class="doctor-card reveal">
+      <div class="doctor-avatar">
+        <span class="doctor-initials">NK</span>
+        <div class="doctor-speciality-tag">Speciality</div>
+      </div>
+      <div class="doctor-info">
+        <div class="doctor-name">Dr. Nishitha</div>
+        <div class="doctor-qual">To be confirmed</div>
+        <div class="doctor-spec">Specialist</div>
+      </div>
+    </div>
+    <div class="doctor-card reveal">
+      <div class="doctor-avatar">
+        <span class="doctor-initials">RK</span>
+        <div class="doctor-speciality-tag">Speciality</div>
+      </div>
+      <div class="doctor-info">
+        <div class="doctor-name">Dr. Rakshith Kedambady</div>
+        <div class="doctor-qual">To be confirmed</div>
+        <div class="doctor-spec">Specialist</div>
+      </div>
+    </div>
+    <div class="doctor-card reveal">
+      <div class="doctor-avatar">
+        <span class="doctor-initials">AJ</span>
+        <div class="doctor-speciality-tag">Speciality</div>
+      </div>
+      <div class="doctor-info">
+        <div class="doctor-name">Dr. Anjan</div>
+        <div class="doctor-qual">To be confirmed</div>
+        <div class="doctor-spec">Specialist</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECHNOLOGY -->
+
+<section id="technology">
+  <div class="tech-bg-text">ADVANCED</div>
+  <div class="section-label reveal">Technology</div>
+  <h2 class="section-title reveal">The most <em>advanced</em><br>systems ever in Mangalore</h2>
+  <div class="tech-grid">
+    <div class="tech-card reveal">
+      <div class="tech-card-num">01 / 04</div>
+      <div class="tech-card-title">AI Clinical Documentation</div>
+      <div class="tech-card-desc">Powered by Sully.ai — the doctor speaks, the AI writes. Zero typing. Clinically accurate notes generated in real time. Prescriptions auto-generated and pushed to pharmacy instantly.</div>
+      <div class="tech-card-tag">Sully.ai powered</div>
+    </div>
+    <div class="tech-card reveal">
+      <div class="tech-card-num">02 / 04</div>
+      <div class="tech-card-title">WhatsApp-First Patient Experience</div>
+      <div class="tech-card-desc">Every patient communication automated via official WhatsApp Business API. Appointment confirmations, lab reports, medicine reminders, follow-ups — all on WhatsApp. 24/7.</div>
+      <div class="tech-card-tag">Wati powered</div>
+    </div>
+    <div class="tech-card reveal">
+      <div class="tech-card-num">03 / 04</div>
+      <div class="tech-card-title">International HMS</div>
+      <div class="tech-card-desc">International-grade Hospital Management System used across 23+ countries. Real-time dashboards. Role-based access. Complete EMR. Pharmacy, lab, billing — all under one system.</div>
+      <div class="tech-card-tag">International standard</div>
+    </div>
+    <div class="tech-card reveal">
+      <div class="tech-card-num">04 / 04</div>
+      <div class="tech-card-title">Instant Doctor Payouts</div>
+      <div class="tech-card-desc">Powered by Razorpay Route — doctors see their earnings in real time and transfer to their bank accounts instantly. Transparent. Automatic. No delays.</div>
+      <div class="tech-card-tag">Razorpay Route</div>
+    </div>
+    <div class="tech-card reveal" style="grid-column: span 2;">
+      <div class="tech-card-num">05 / 04+</div>
+      <div class="tech-card-title">Advanced Diagnostic Equipment</div>
+      <div class="tech-card-desc">The most advanced diagnostic equipment available in Coastal Karnataka — state-of-the-art neurology, cardiology and imaging technology that no other hospital in the region possesses. Patients no longer need to travel to Bangalore or Chennai for advanced diagnosis.</div>
+      <div class="tech-card-tag">Industry first in Mangalore</div>
+    </div>
+    <div class="tech-card reveal">
+      <div class="tech-card-num">06 / 04+</div>
+      <div class="tech-card-title">Complete Security & Privacy</div>
+      <div class="tech-card-desc">Role-based access control — every staff member sees only what they need. Directors get live dashboards. Doctors see only their patients. Every action logged and audited.</div>
+      <div class="tech-card-tag">Zero data breach risk</div>
+    </div>
+  </div>
+</section>
+
+<!-- VISION STRIP -->
+
+<section id="vision-strip">
+  <div class="vision-bg-orb"></div>
+  <div class="vision-overline reveal">Our ambition</div>
+  <p class="vision-statement reveal">
+    "Born in Mangalore. <strong>Built for the world.</strong><br>
+    A healthcare ecosystem that will one day mean the same thing in Singapore, London and Dubai<br>
+    that it means in Mangalore today — <strong>the best care, anywhere.</strong>"
+  </p>
+  <div class="vision-phases">
+    <div class="phase-item reveal">
+      <span class="phase-year">2026</span>
+      <span class="phase-label">Mangalore Flagship</span>
+    </div>
+    <div class="phase-item reveal">
+      <span class="phase-year">2027</span>
+      <span class="phase-label">Regional Expansion</span>
+    </div>
+    <div class="phase-item reveal">
+      <span class="phase-year">2029</span>
+      <span class="phase-label">Pan India</span>
+    </div>
+    <div class="phase-item reveal">
+      <span class="phase-year">2031</span>
+      <span class="phase-label">Full Ecosystem</span>
+    </div>
+    <div class="phase-item reveal">
+      <span class="phase-year">2033+</span>
+      <span class="phase-label">International</span>
+    </div>
+  </div>
+</section>
+
+<!-- NOTIFY -->
+
+<section id="notify">
+  <div class="notify-left">
+    <div class="notify-title">Be the first<br>to know.</div>
+    <p class="notify-sub">RVR opens its doors on April 23, 2026. Leave your WhatsApp number and we will notify you on launch day with our first appointment booking link.</p>
+  </div>
+  <div class="notify-right">
+    <div class="notify-form-label">Your WhatsApp number</div>
+    <form class="notify-form" onsubmit="handleNotify(event)">
+      <input type="tel" class="notify-input" placeholder="+91 00000 00000" id="notifyInput">
+      <button type="submit" class="notify-submit">Notify Me</button>
+    </form>
+    <div class="notify-note">We will only contact you with RVR launch updates. No spam.</div>
+    <div class="notify-success-msg" id="notifySuccess">
+      ✓ &nbsp; You're on the list. We'll message you on April 23, 2026.
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+  <div class="footer-logo">RVR</div>
+  <div class="footer-links">
+    <a href="#" class="footer-link">Instagram</a>
+    <a href="#" class="footer-link">Facebook</a>
+    <a href="mailto:info@rvrhealthcare.in" class="footer-link">info@rvrhealthcare.in</a>
+    <a href="#" class="footer-link">rvrhealthcare.in</a>
+  </div>
+  <div class="footer-copy">© 2026 RVR Super Speciality Centre Private Limited</div>
+</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// ── CURSOR ──
+const cur = document.getElementById('cursor');
+const fol = document.getElementById('cursor-follower');
+let mx=0,my=0,fx=0,fy=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cur.style.left=mx+'px'; cur.style.top=my+'px';
+});
+(function animFol(){
+  fx+=(mx-fx)*0.1; fy+=(my-fy)*0.1;
+  fol.style.left=fx+'px'; fol.style.top=fy+'px';
+  requestAnimationFrame(animFol);
+})();
+document.querySelectorAll('a,button,.spec-card,.doctor-card,.tech-card,.stat-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
+});
+
+// ── LOADER ──
+const bar=document.getElementById('loaderBar');
+const pct=document.getElementById('loaderPercent');
+const logoEl=document.querySelector('.loader-logo');
+let progress=0;
+gsap.to(logoEl,{opacity:1,duration:0.6,delay:0.2});
+const interval=setInterval(()=>{
+  progress+=Math.random()*4+1;
+  if(progress>=100){progress=100;clearInterval(interval);}
+  bar.style.width=progress+'%';
+  pct.textContent=Math.floor(progress)+'%';
+  if(progress===100){
+    setTimeout(()=>{
+      gsap.to('#loader',{opacity:0,duration:0.8,ease:'power2.inOut',onComplete:()=>{
+        document.getElementById('loader').style.display='none';
+        initPage();
+      }});
+    },400);
+  }
+},60);
+
+// ── INIT PAGE ──
+function initPage(){
+  // Nav
+  gsap.to('#mainNav',{opacity:1,duration:0.8,ease:'power2.out'});
+
+  // Hero eyebrow
+  gsap.to('#heroEyebrow',{opacity:1,y:0,duration:0.8,delay:0.2,ease:'power3.out'});
+
+  // Hero words
+  gsap.to('.word',{
+    y:0, duration:1.2, stagger:0.12,
+    ease:'power4.out', delay:0.4
+  });
+
+  // Hero bottom
+  gsap.to('#heroBottom',{opacity:1,y:0,duration:1,delay:1,ease:'power3.out'});
+
+  // Scroll reveals
+  document.querySelectorAll('.reveal').forEach(el=>{
+    gsap.to(el,{
+      scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'},
+      opacity:1, y:0, duration:0.9, ease:'power3.out'
+    });
+  });
+  document.querySelectorAll('.reveal-left').forEach(el=>{
+    gsap.to(el,{
+      scrollTrigger:{trigger:el,start:'top 88%'},
+      opacity:1, x:0, duration:1, ease:'power3.out'
+    });
+  });
+  document.querySelectorAll('.reveal-right').forEach(el=>{
+    gsap.to(el,{
+      scrollTrigger:{trigger:el,start:'top 85%'},
+      opacity:1, x:0, duration:1, ease:'power3.out'
+    });
+  });
+  document.querySelectorAll('.reveal-scale').forEach(el=>{
+    gsap.to(el,{
+      scrollTrigger:{trigger:el,start:'top 85%'},
+      opacity:1, scale:1, duration:1, ease:'power3.out'
+    });
+  });
+
+  // Stagger spec cards
+  gsap.set('.spec-card',{opacity:0,y:40});
+  ScrollTrigger.create({
+    trigger:'.spec-grid', start:'top 80%',
+    onEnter:()=>{
+      gsap.to('.spec-card',{opacity:1,y:0,duration:0.7,stagger:0.08,ease:'power3.out'});
+    }
+  });
+
+  // Stagger doctor cards
+  gsap.set('.doctor-card',{opacity:0,y:40});
+  ScrollTrigger.create({
+    trigger:'.doctors-grid', start:'top 80%',
+    onEnter:()=>{
+      gsap.to('.doctor-card',{opacity:1,y:0,duration:0.7,stagger:0.07,ease:'power3.out'});
+    }
+  });
+
+  // Stagger tech cards
+  gsap.set('.tech-card',{opacity:0,y:40});
+  ScrollTrigger.create({
+    trigger:'.tech-grid', start:'top 80%',
+    onEnter:()=>{
+      gsap.to('.tech-card',{opacity:1,y:0,duration:0.8,stagger:0.1,ease:'power3.out'});
+    }
+  });
+
+  // Nav scroll effect
+  ScrollTrigger.create({
+    start:'top -80',
+    onUpdate:self=>{
+      const nav=document.getElementById('mainNav');
+      if(self.progress>0){
+        nav.style.background='rgba(5,10,7,0.92)';
+        nav.style.backdropFilter='blur(20px)';
+      } else {
+        nav.style.background='transparent';
+        nav.style.backdropFilter='none';
+      }
+    }
+  });
+}
+
+// ── COUNTDOWN ──
+function pad(n){return String(n).padStart(2,'0');}
+function tick(){
+  const launch=new Date('2026-04-23T00:00:00+05:30').getTime();
+  const diff=Math.max(0,launch-Date.now());
+  document.getElementById('cd-days').textContent=pad(Math.floor(diff/86400000));
+  document.getElementById('cd-hours').textContent=pad(Math.floor(diff%86400000/3600000));
+  document.getElementById('cd-mins').textContent=pad(Math.floor(diff%3600000/60000));
+  document.getElementById('cd-secs').textContent=pad(Math.floor(diff%60000/1000));
+}
+tick(); setInterval(tick,1000);
+
+// ── NOTIFY ──
+function handleNotify(e){
+  e.preventDefault();
+  const val=document.getElementById('notifyInput').value.trim();
+  if(val.length<8)return;
+  document.querySelector('.notify-form').style.display='none';
+  document.querySelector('.notify-note').style.display='none';
+  document.getElementById('notifySuccess').style.display='block';
+}
+
+// ── SMOOTH NAV SCROLL ──
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const target=document.querySelector(a.getAttribute('href'));
+    if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth'});}
+  });
+});
+</script>
+
+</body>
+</html>
