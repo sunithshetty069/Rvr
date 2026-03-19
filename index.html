@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Coming Soon — RVR Super Speciality Centre</title>
+<title>RVR Super Speciality Centre — Coming Soon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@ body{background:#1a6644;font-family:'DM Sans',sans-serif;font-weight:300;overflo
   position:fixed;inset:0;background:#1a6644;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   z-index:1000;gap:2.2rem;
-  transition:opacity 1s ease,visibility 1s ease;
+  transition:opacity .6s ease,visibility .6s ease;
 }
 #loader.out{opacity:0;visibility:hidden;pointer-events:none;}
 
@@ -63,7 +63,7 @@ body{background:#1a6644;font-family:'DM Sans',sans-serif;font-weight:300;overflo
 @keyframes prog{0%{width:0%}60%{width:72%}85%{width:90%}100%{width:100%}}
 
 /* ══ MAIN ════════════════════════════════════════════════════════ */
-#main{opacity:0;transform:translateY(8px);transition:opacity 1s ease,transform 1s ease;min-height:100vh;display:flex;flex-direction:column;}
+#main{opacity:0;transform:translateY(6px);transition:opacity .8s ease,transform .8s ease;min-height:100vh;display:flex;flex-direction:column;}
 #main.show{opacity:1;transform:translateY(0);}
 
 /* top shimmer line */
@@ -162,7 +162,7 @@ body{background:#1a6644;font-family:'DM Sans',sans-serif;font-weight:300;overflo
 .mapaddr{font-family:'Unbounded',sans-serif;font-weight:300;font-size:clamp(.78rem,1.3vw,.9rem);color:#fff;line-height:1.55;}
 .maplink{font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);text-decoration:none;border:1px solid rgba(255,255,255,.15);padding:.42rem .95rem;transition:color .25s,border-color .25s,background .25s;white-space:nowrap;}
 .maplink:hover{color:#fff;border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.07);}
-.mapframe{width:100%;height:400px;display:block;border:none;filter:saturate(.45) brightness(.72) hue-rotate(100deg);}
+.mapframe{width:100%;height:450px;display:block;border:none;filter:saturate(.45) brightness(.72) hue-rotate(100deg);}
 
 /* ══ FOOTER ══════════════════════════════════════════════════════ */
 footer{
@@ -176,10 +176,11 @@ footer{
 
 /* ══ RESPONSIVE ══════════════════════════════════════════════════ */
 @media(max-width:640px){
-  .hero{padding:5.5rem 1.5rem 3.5rem;}
+  .hero{padding:3.5rem 1.5rem 3rem;min-height:calc(100vh - 2px);}
   .cd{gap:1.2rem;}
   .cds{display:none;}
-  .mapframe{height:260px;}
+  .wm{display:none;}
+  .mapframe{height:300px;}
   .maphdr{padding:1.4rem 1.5rem 1rem;}
   footer{padding:1.4rem 1.5rem;}
 }
@@ -245,18 +246,17 @@ footer{
       </div>
       <a href="https://share.google/LlHL5bByfhyDFlbDl" target="_blank" class="maplink">Open in Google Maps →</a>
     </div>
-       <iframe
+    <iframe
       class="mapframe"
       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.631816467879!2d74.8549687!3d12.8670407!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba35bd3cbe7ed7d%3A0x8f7ebfba1cbbe89e!2sRVR%20Healthcare!5e0!3m2!1sen!2sin!4v1773943910674!5m2!1sen!2sin"
       allowfullscreen=""
       loading="lazy"
       referrerpolicy="no-referrer-when-downgrade">
     </iframe>
-
   </div>
 
   <footer>
-    <a href="mailto:info@rvrhealthcare.in" class="ftr-email">info@rvrhealthcare.in</a>
+    <a href="/cdn-cgi/l/email-protection#a2cbccc4cde2d0d4d0cac7c3ced6cac1c3d0c78ccbcc" class="ftr-email"><span class="__cf_email__" data-cfemail="87eee9e1e8c7f5f1f5efe2e6ebf3efe4e6f5e2a9eee9">[email&#160;protected]</span></a>
     <div class="ftr-divider"></div>
     <div class="ftr-copy">
       © 2026 RVR Super Speciality Centre Private Limited. All rights reserved.<br>
@@ -265,13 +265,26 @@ footer{
   </footer>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* LOADER */
-window.addEventListener('load',()=>{
+window.addEventListener('DOMContentLoaded',()=>{
   setTimeout(()=>{
-    document.getElementById('loader').classList.add('out');
-    document.getElementById('main').classList.add('show');
-  },3000);
+    const loader   = document.getElementById('loader');
+    const main     = document.getElementById('main');
+    const spinWrap = loader.querySelector('.spin-wrap');
+    const progWrap = loader.querySelector('.prog-wrap');
+    /* 1. fade icon+progress first */
+    spinWrap.style.transition = 'opacity .5s ease';
+    spinWrap.style.opacity    = '0';
+    progWrap.style.transition = 'opacity .4s ease';
+    progWrap.style.opacity    = '0';
+    /* 2. fade entire loader after icon gone */
+    setTimeout(()=>{
+      loader.classList.add('out');
+      /* 3. show main slightly after loader starts fading */
+      setTimeout(()=>{ main.classList.add('show'); }, 300);
+    }, 500);
+  },2500);
 });
 
 /* COUNTDOWN — fixed: April 27 2026 10:00 AM IST */
@@ -293,11 +306,4 @@ tick();setInterval(tick,1000);
 /* NOTIFY */
 function nsub(e){
   e.preventDefault();
-  if(document.getElementById('ph').value.trim().length<8)return;
-  document.querySelector('.ntfy-form').style.display='none';
-  document.querySelector('.ntfy-note').style.display='none';
-  document.getElementById('ok').style.display='block';
-}
-</script>
-</body>
-</html>
+  if(document.getEleme
