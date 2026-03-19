@@ -1,1585 +1,597 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RVR Super Speciality Centre — Opening April 23, 2026</title>
+<meta name="description" content="Mangalore's most advanced super speciality centre. Opening April 23, 2026. Falnir, Mangalore.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@200;300;400;500&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════
-   RESET & BASE
-═══════════════════════════════ */
-:root {
-  --black:  #050a07;
-  --forest: #0d1f14;
-  --deep:   #091209;
-  --teal:   #3ecb96;
-  --mint:   #a8f0d4;
-  --white:  #f4f9f6;
-  --muted:  rgba(244,249,246,0.4);
-  --line:   rgba(62,203,150,0.12);
+:root{
+  --g:#1a6644;--gl:#eaf5ef;--m:#3ecb96;
+  --p:#f7f4ef;--w:#ffffff;--k:#0e0e0e;
+  --d:#8a8680;--wa:#e8e3d8;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; font-size: 16px; }
-body {
-  background: var(--black);
-  color: var(--white);
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 300;
-  overflow-x: hidden;
-  cursor: none;
-}
-::selection { background: var(--teal); color: var(--black); }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth}
+body{background:var(--w);color:var(--k);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;cursor:none}
+::selection{background:var(--g);color:#fff}
 
-/* ═══════════════════════════════
-LOADER
-═══════════════════════════════ */
-#loader {
-position: fixed; inset: 0;
-background: var(–black);
-z-index: 9999;
-display: flex;
-align-items: center;
-justify-content: center;
-flex-direction: column;
-gap: 2rem;
-}
-.loader-logo {
-font-family: ‘Playfair Display’, serif;
-font-size: 5rem;
-font-weight: 900;
-color: var(–teal);
-letter-spacing: -0.04em;
-opacity: 0;
-}
-.loader-bar-wrap {
-width: 200px;
-height: 1px;
-background: rgba(62,203,150,0.15);
-overflow: hidden;
-}
-.loader-bar {
-height: 100%;
-width: 0%;
-background: var(–teal);
-transition: width 0.05s linear;
-}
-.loader-percent {
-font-size: 0.7rem;
-letter-spacing: 0.3em;
-color: var(–muted);
-}
+/* CURSOR */
+#dot{position:fixed;width:7px;height:7px;background:var(--g);border-radius:50%;pointer-events:none;z-index:9999;top:0;left:0;transform:translate(-50%,-50%);will-change:left,top}
+#ring{position:fixed;width:38px;height:38px;border:1px solid rgba(26,102,68,.25);border-radius:50%;pointer-events:none;z-index:9998;top:0;left:0;transform:translate(-50%,-50%);will-change:left,top;transition:width .3s,height .3s,border-color .3s}
+.hov #ring{width:56px;height:56px;border-color:rgba(62,203,150,.4)}
 
-/* ═══════════════════════════════
-CURSOR
-═══════════════════════════════ */
-#cursor {
-position: fixed;
-width: 10px; height: 10px;
-background: var(–teal);
-border-radius: 50%;
-pointer-events: none;
-z-index: 8888;
-transform: translate(-50%,-50%);
-transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
-mix-blend-mode: difference;
-}
-#cursor-follower {
-position: fixed;
-width: 44px; height: 44px;
-border: 1px solid rgba(62,203,150,0.35);
-border-radius: 50%;
-pointer-events: none;
-z-index: 8887;
-transform: translate(-50%,-50%);
-transition: width 0.4s cubic-bezier(.25,.46,.45,.94),
-height 0.4s cubic-bezier(.25,.46,.45,.94),
-border-color 0.3s;
-}
-body.cursor-hover #cursor { width: 6px; height: 6px; background: var(–white); }
-body.cursor-hover #cursor-follower { width: 70px; height: 70px; border-color: rgba(62,203,150,0.6); }
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes wUp{from{transform:translateY(105%)}to{transform:translateY(0)}}
+@keyframes roll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes revealY{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 
-/* ═══════════════════════════════
-NAV
-═══════════════════════════════ */
-nav {
-position: fixed; top: 0; left: 0; right: 0;
-z-index: 100;
-display: flex; align-items: center; justify-content: space-between;
-padding: 2rem 3.5rem;
-mix-blend-mode: normal;
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.6rem 3rem;
+  transition:background .4s,border-color .4s;
 }
-nav::after {
-content: ‘’;
-position: absolute;
-bottom: 0; left: 3.5rem; right: 3.5rem;
-height: 1px;
-background: var(–line);
+nav.sc{
+  background:rgba(247,244,239,.95);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(14,14,14,.07);
 }
-.nav-logo-wrap {
-display: flex; align-items: center; gap: 0.75rem;
-}
-.nav-logo-text {
-font-family: ‘Playfair Display’, serif;
-font-size: 1.6rem;
-font-weight: 900;
-letter-spacing: -0.02em;
-color: var(–teal);
-}
-.nav-logo-sub {
-font-size: 0.6rem;
-letter-spacing: 0.22em;
-text-transform: uppercase;
-color: var(–muted);
-line-height: 1.4;
-}
-.nav-center {
-position: absolute; left: 50%; transform: translateX(-50%);
-font-size: 0.65rem;
-letter-spacing: 0.3em;
-text-transform: uppercase;
-color: var(–muted);
-}
-.nav-right {
-display: flex; align-items: center; gap: 2rem;
-}
-.nav-link {
-font-size: 0.7rem;
-letter-spacing: 0.15em;
-text-transform: uppercase;
-color: var(–muted);
-text-decoration: none;
-transition: color 0.3s;
-}
-.nav-link:hover { color: var(–teal); }
-.nav-cta {
-font-size: 0.7rem;
-letter-spacing: 0.15em;
-text-transform: uppercase;
-color: var(–black);
-background: var(–teal);
-border: none;
-padding: 0.6rem 1.4rem;
-border-radius: 2px;
-cursor: none;
-font-family: ‘DM Sans’, sans-serif;
-font-weight: 500;
-transition: background 0.3s, transform 0.2s;
-}
-.nav-cta:hover { background: var(–mint); }
+.nlogo{width:90px;height:auto;display:block}
+.nst{font-size:.5rem;letter-spacing:.26em;text-transform:uppercase;color:var(--d);margin-top:.3rem}
+.nr{display:flex;align-items:center;gap:2.5rem}
+.na{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--d);text-decoration:none;transition:color .25s}
+.na:hover{color:var(--g)}
+.nb{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:#fff;background:var(--g);border:none;padding:.55rem 1.4rem;cursor:none;font-family:'DM Sans',sans-serif;font-weight:500;transition:background .25s}
+.nb:hover{background:var(--k)}
 
-/* ═══════════════════════════════
-HERO
-═══════════════════════════════ */
-#hero {
-height: 100vh;
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-justify-content: flex-end;
-padding: 0 3.5rem 5rem;
-position: relative;
-overflow: hidden;
+/* HERO */
+#hero{height:100vh;min-height:680px;display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
+.hl{background:var(--p);display:flex;flex-direction:column;justify-content:flex-end;padding:0 4rem 5rem}
+.hlbl{
+  font-size:.56rem;letter-spacing:.42em;text-transform:uppercase;color:var(--g);
+  margin-bottom:2rem;display:flex;align-items:center;gap:.8rem;
+  animation:fadeUp .7s .1s ease both;
+}
+.hlbl::before{content:'';display:block;width:28px;height:1px;background:var(--g)}
+h1{
+  font-family:'Unbounded',sans-serif;font-weight:200;
+  font-size:clamp(2.2rem,4.4vw,5rem);
+  line-height:1.1;letter-spacing:-.02em;
+  margin-bottom:2.5rem;overflow:hidden;
+}
+h1 .ln{display:block;overflow:hidden}
+h1 .w1{display:inline-block;animation:wUp .85s .2s cubic-bezier(.22,1,.36,1) both}
+h1 .w2{display:inline-block;animation:wUp .85s .35s cubic-bezier(.22,1,.36,1) both}
+h1 .w3{display:inline-block;animation:wUp .85s .5s cubic-bezier(.22,1,.36,1) both}
+h1 em{font-style:normal;color:var(--g)}
+.hsub{font-size:.88rem;color:var(--d);line-height:1.85;max-width:340px;animation:fadeUp .7s .75s ease both}
+.hsub strong{color:var(--k);font-weight:400}
+.hact{display:flex;align-items:center;gap:1.5rem;margin-top:2.5rem;animation:fadeUp .7s .9s ease both}
+.hbp{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:#fff;background:var(--g);border:none;padding:.75rem 2rem;cursor:none;font-family:'DM Sans',sans-serif;font-weight:500;transition:background .25s}
+.hbp:hover{background:var(--k)}
+.hbs{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--g);background:none;border:none;cursor:none;font-family:'DM Sans',sans-serif;font-weight:500;display:flex;align-items:center;gap:.45rem;transition:gap .25s}
+.hbs:hover{gap:.85rem}
+
+/* RIGHT PANEL */
+.hr{
+  background:var(--g);display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.hr::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(255,255,255,.03) 59px,rgba(255,255,255,.03) 60px);
+}
+.hr-logo{
+  width:min(320px,65%);position:relative;z-index:2;
+  animation:fadeIn 1s .3s ease both;
+}
+.hr-logo svg path{fill:rgba(255,255,255,.82)!important}
+.hr-bot{position:absolute;bottom:2rem;left:2.5rem;font-size:.5rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.28)}
+.hr-top{position:absolute;top:2rem;right:2.5rem;font-family:'Unbounded',sans-serif;font-weight:200;font-size:.7rem;letter-spacing:.12em;color:rgba(255,255,255,.3)}
+.hr-wm{
+  position:absolute;font-family:'Unbounded',sans-serif;font-weight:200;
+  font-size:20vw;color:rgba(255,255,255,.025);line-height:1;
+  letter-spacing:-.04em;bottom:-3vw;right:-1vw;pointer-events:none;
 }
 
-/* Animated gradient background */
-.hero-bg {
-position: absolute; inset: 0;
-background:
-radial-gradient(ellipse 80% 60% at 70% 30%, rgba(62,203,150,0.07) 0%, transparent 60%),
-radial-gradient(ellipse 50% 50% at 20% 70%, rgba(62,203,150,0.04) 0%, transparent 60%),
-linear-gradient(180deg, #050a07 0%, #091209 50%, #050a07 100%);
-animation: heroBg 12s ease-in-out infinite alternate;
-}
-@keyframes heroBg {
-from { background-position: 0% 0%; }
-to   { background-position: 100% 100%; }
-}
+/* STRIP */
+.strip{background:var(--k);padding:.85rem 0;overflow:hidden;white-space:nowrap}
+.strip-in{display:inline-flex;animation:roll 32s linear infinite}
+.si{display:inline-flex;align-items:center;gap:1.4rem;padding:0 2rem;font-size:.57rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.28)}
+.si .d{color:var(--m);font-size:.4rem}
 
-/* Grid overlay */
-.hero-grid {
-position: absolute; inset: 0;
-background-image:
-linear-gradient(rgba(62,203,150,0.025) 1px, transparent 1px),
-linear-gradient(90deg, rgba(62,203,150,0.025) 1px, transparent 1px);
-background-size: 100px 100px;
-pointer-events: none;
-}
+/* COUNTDOWN */
+#cdown{display:grid;grid-template-columns:1fr 1fr}
+.cdl{background:var(--p);display:flex;flex-direction:column;justify-content:center;padding:5rem 4rem;border-right:1px solid var(--wa)}
+.cdov{font-size:.54rem;letter-spacing:.4em;text-transform:uppercase;color:var(--g);margin-bottom:1.5rem}
+.cdbig{font-family:'Unbounded',sans-serif;font-weight:200;font-size:clamp(1.4rem,2.8vw,2.4rem);line-height:1.2;color:var(--k);margin-bottom:1.5rem}
+.cdloc{font-size:.7rem;letter-spacing:.1em;color:var(--d);line-height:1.6}
+.cdr{background:var(--w);display:flex;align-items:center;justify-content:center;padding:4rem}
+.cdg{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--wa);border:1px solid var(--wa);width:100%}
+.cdc{background:var(--w);padding:3rem 2rem;text-align:center}
+.cdn{font-family:'Unbounded',sans-serif;font-weight:200;font-size:clamp(2.8rem,5vw,4.5rem);color:var(--k);line-height:1;display:block;letter-spacing:-.03em}
+.cdu{font-size:.5rem;letter-spacing:.3em;text-transform:uppercase;color:var(--d);display:block;margin-top:.6rem}
 
-/* Floating orb */
-.hero-orb {
-position: absolute;
-width: 700px; height: 700px;
-border-radius: 50%;
-background: radial-gradient(circle at center, rgba(62,203,150,0.09) 0%, transparent 65%);
-top: -200px; right: -200px;
-filter: blur(80px);
-animation: orbFloat 15s ease-in-out infinite alternate;
-}
-@keyframes orbFloat {
-from { transform: translate(0,0) scale(1); }
-to   { transform: translate(-80px, 100px) scale(1.15); }
-}
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.on{opacity:1;transform:none}
+.reveal-l{opacity:0;transform:translateX(-24px);transition:opacity .7s ease,transform .7s ease}
+.reveal-l.on{opacity:1;transform:none}
+.reveal-r{opacity:0;transform:translateX(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal-r.on{opacity:1;transform:none}
 
-.hero-eyebrow {
-font-size: 0.65rem;
-letter-spacing: 0.4em;
-text-transform: uppercase;
-color: var(–teal);
-margin-bottom: 2rem;
-display: flex; align-items: center; gap: 1rem;
-opacity: 0;
-}
-.hero-eyebrow::before {
-content: ‘’;
-display: block;
-width: 48px; height: 1px;
-background: var(–teal); opacity: 0.5;
-}
+/* ABOUT */
+#about{padding:9rem 3rem;display:grid;grid-template-columns:.85fr 1fr;gap:5rem;align-items:start;border-top:1px solid var(--wa)}
+.abst{position:sticky;top:8rem}
+.abno{font-family:'Unbounded',sans-serif;font-weight:200;font-size:6rem;color:var(--wa);line-height:1;letter-spacing:-.04em;margin-bottom:1.5rem}
+.abtg{font-size:.54rem;letter-spacing:.38em;text-transform:uppercase;color:var(--g);margin-bottom:1rem}
+.abti{font-family:'Unbounded',sans-serif;font-weight:200;font-size:clamp(1.6rem,2.5vw,2.4rem);line-height:1.15}
+.abti em{font-style:normal;color:var(--g)}
+.abri{padding-top:.5rem}
+.abin{font-family:'Unbounded',sans-serif;font-weight:200;font-size:clamp(1rem,1.4vw,1.2rem);line-height:1.7;color:var(--k);margin-bottom:2.5rem}
+.abbd{font-size:.88rem;color:var(--d);line-height:1.9;margin-bottom:1.5rem}
+.absts{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--wa);border-left:1px solid var(--wa);margin-top:3rem}
+.abs{background:var(--w);padding:1.6rem 1.25rem;border-right:1px solid var(--wa);border-bottom:1px solid var(--wa);transition:background .25s}
+.abs:hover{background:var(--p)}
+.absn{font-family:'Unbounded',sans-serif;font-weight:200;font-size:2.2rem;color:var(--g);line-height:1;margin-bottom:.25rem;letter-spacing:-.03em}
+.absl{font-size:.58rem;letter-spacing:.06em;color:var(--d);line-height:1.4}
 
-.hero-headline {
-position: relative; z-index: 2;
-margin-bottom: 3rem;
+/* SPECS */
+#specs{background:var(--p);padding:7rem 3rem;border-top:1px solid var(--wa)}
+.sphd{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-bottom:4.5rem;align-items:end}
+.spti{font-family:'Unbounded',sans-serif;font-weight:200;font-size:clamp(1.8rem,3.5vw,3.2rem);line-height:1.1;letter-spacing:-.02em}
+.spti em{font-style:normal;color:var(--g)}
+.spin{font-size:.87rem;color:var(--d);line-height:1.8}
+.spls{border-top:1px solid rgba(14,14,14,.1)}
+.sprw{
+  display:grid;grid-template-columns:56px 1fr 1fr;align-items:center;
+  padding:1.5rem 0;border-bottom:1px solid rgba(14,14,14,.07);
+  cursor:none;gap:2rem;position:relative;overflow:hidden;
+  transition:padding .3s;
 }
-.hero-headline h1 {
-font-family: ‘Playfair Display’, serif;
-font-weight: 900;
-font-size: clamp(4rem, 9vw, 9rem);
-line-height: 0.9;
-letter-spacing: -0.03em;
-overflow: hidden;
+.sprw::after{
+  content:'';position:absolute;left:-3rem;right:-3rem;top:0;bottom:0;
+  background:var(--g);transform:scaleX(0);transform-origin:left;
+  transition:transform .4s cubic-bezier(.23,1,.32,1);z-index:0;
 }
-.hero-headline h1 .line {
-display: block;
-overflow: hidden;
-}
-.hero-headline h1 .word {
-display: inline-block;
-transform: translateY(110%);
-}
-.hero-headline h1 em {
-font-style: italic;
-color: var(–teal);
-}
+.sprw:hover::after{transform:scaleX(1)}
+.sprw:hover .spix,.sprw:hover .spnm,.sprw:hover .spdt{color:rgba(255,255,255,.75)}
+.spix{font-family:'Unbounded',sans-serif;font-weight:200;font-size:.8rem;color:var(--d);position:relative;z-index:1;transition:color .3s}
+.spnm{font-size:.92rem;font-weight:500;letter-spacing:.02em;color:var(--k);position:relative;z-index:1;transition:color .3s}
+.spdt{font-size:.7rem;color:var(--d);position:relative;z-index:1;transition:color .3s;text-align:right}
 
-.hero-bottom {
-display: flex;
-align-items: flex-end;
-justify-content: space-between;
-width: 100%;
-opacity: 0;
-}
-.hero-desc {
-max-width: 380px;
-}
-.hero-desc p {
-font-size: 1rem;
-color: var(–muted);
-line-height: 1.75;
-font-weight: 300;
-}
-.hero-desc p strong { color: var(–white); font-weight: 400; }
+/* DOCTORS */
+#docs{padding:7rem 3rem;border-top:1px solid var(--wa)}
+.dchd{margin-bottom:4rem}
+.dcti{font-family:'Unbounded',sans-serif;font-weight:200;font-size:clamp(1.8rem,3.5vw,3.2rem);line-height:1.1;letter-spacing:-.02em}
+.dcti em{font-style:normal;color:var(--g)}
+.dcgr{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.dccd{background:var(--p);overflow:hidden;cursor:none;transition:background .3s}
+.dccd:hover{background:var(--g)}
+.dccd:hover .dcnm,.dccd:hover .dcdp{color:rgba(255,255,255,.85)}
+.dccd:hover .dcql{color:rgba(255,255,255,.45)}
+.dccd:hover .dcin{color:rgba(255,255,255,.05)}
+.dcfc{aspect-ratio:1/1.1;display:flex;align-items:center;justify-content:center;position:relative}
+.dcin{font-family:'Unbounded',sans-serif;font-weight:200;font-size:3.5rem;color:rgba(14,14,14,.06);letter-spacing:-.04em;transition:color .3s}
+.dctg{position:absolute;bottom:.75rem;left:.75rem;font-size:.46rem;letter-spacing:.2em;text-transform:uppercase;background:var(--g);color:#fff;padding:.22rem .55rem;transition:background .3s}
+.dccd:hover .dctg{background:rgba(255,255,255,.15)}
+.dcbd{padding:1.2rem 1.2rem 1.6rem}
+.dcnm{font-family:'Unbounded',sans-serif;font-weight:200;font-size:.85rem;color:var(--k);margin-bottom:.25rem;transition:color .3s;line-height:1.3}
+.dcql{font-size:.57rem;letter-spacing:.07em;color:var(--g);margin-bottom:.15rem;transition:color .3s}
+.dcdp{font-size:.63rem;color:var(--d);transition:color .3s}
 
-.hero-scroll-hint {
-display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
-}
-.hero-scroll-line {
-width: 1px; height: 60px;
-background: linear-gradient(var(–teal), transparent);
-animation: scrollPulse 2s ease-in-out infinite;
-}
-@keyframes scrollPulse {
-0%, 100% { opacity: 0.3; transform: scaleY(1); }
-50%       { opacity: 1;   transform: scaleY(1.2); }
-}
-.hero-scroll-text {
-font-size: 0.55rem;
-letter-spacing: 0.35em;
-text-transform: uppercase;
-color: var(–muted);
-writing-mode: vertical-rl;
-}
+/* TECH */
+#tech{background:var(--k);color:var(--w);padding:7rem 3rem;position:relative;overflow:hidden}
+.tcbg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Unbounded',sans-serif;font-weight:200;font-size:20vw;color:rgba(255,255,255,.018);white-space:nowrap;pointer-events:none;line-height:1;letter-spacing:-.04em}
+.tctg{font-size:.54rem;letter-spacing:.4em;text-transform:uppercase;color:var(--m);margin-bottom:1.5rem}
+.tcti{font-family:'Unbounded',sans-serif;font-weight:200;font-size:clamp(1.8rem,3.5vw,3.2rem);line-height:1.1;letter-spacing:-.02em;margin-bottom:5rem;position:relative;z-index:1}
+.tcti em{font-style:normal;color:var(--m)}
+.tcls{border-top:1px solid rgba(255,255,255,.08);position:relative;z-index:1}
+.tcit{display:grid;grid-template-columns:2.5rem 1fr 1fr;gap:3rem;align-items:start;padding:2.5rem 0;border-bottom:1px solid rgba(255,255,255,.06);cursor:none;transition:opacity .25s}
+.tcit:hover .tcnm{color:var(--m)}
+.tcix{font-family:'Unbounded',sans-serif;font-weight:200;font-size:.8rem;color:rgba(255,255,255,.18);padding-top:.3rem}
+.tcnm{font-family:'Unbounded',sans-serif;font-weight:200;font-size:clamp(1.1rem,1.8vw,1.4rem);line-height:1.2;transition:color .3s}
+.tcpl{display:inline-block;font-size:.48rem;letter-spacing:.2em;text-transform:uppercase;border:1px solid rgba(62,203,150,.3);color:var(--m);padding:.2rem .65rem;margin-top:1rem}
+.tcds{font-size:.77rem;color:rgba(255,255,255,.35);line-height:1.8;padding-top:.35rem}
 
-/* ═══════════════════════════════
-MARQUEE STRIP
-═══════════════════════════════ */
-.marquee-strip {
-border-top: 1px solid var(–line);
-border-bottom: 1px solid var(–line);
-padding: 1.2rem 0;
-overflow: hidden;
-white-space: nowrap;
-background: rgba(62,203,150,0.02);
-}
-.marquee-inner {
-display: inline-flex;
-animation: marqueeScroll 30s linear infinite;
-}
-.marquee-item {
-display: inline-flex; align-items: center; gap: 2rem;
-padding: 0 2rem;
-font-size: 0.65rem;
-letter-spacing: 0.25em;
-text-transform: uppercase;
-color: var(–muted);
-}
-.marquee-item span { color: var(–teal); font-size: 1rem; }
-@keyframes marqueeScroll {
-from { transform: translateX(0); }
-to   { transform: translateX(-50%); }
-}
+/* VISION */
+#vision{background:var(--g);padding:8rem 3rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.vitg{font-size:.54rem;letter-spacing:.4em;text-transform:uppercase;color:rgba(255,255,255,.38);margin-bottom:2rem}
+.vist{font-family:'Unbounded',sans-serif;font-weight:200;font-size:clamp(1.3rem,2.4vw,2rem);line-height:1.45;color:#fff}
+.vist strong{font-weight:300;color:var(--m)}
+.viri{border-left:1px solid rgba(255,255,255,.12);padding-left:5rem}
+.virw{display:flex;justify-content:space-between;align-items:flex-start;padding:1.5rem 0;border-bottom:1px solid rgba(255,255,255,.1)}
+.virw:first-child{border-top:1px solid rgba(255,255,255,.1)}
+.viyr{font-family:'Unbounded',sans-serif;font-weight:200;font-size:1.4rem;color:#fff;letter-spacing:-.02em}
+.viph{font-size:.65rem;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-top:.3rem}
+.vige{font-size:.65rem;color:rgba(255,255,255,.25);text-align:right;margin-top:.3rem}
 
-/* ═══════════════════════════════
-SECTIONS BASE
-═══════════════════════════════ */
-section {
-padding: 8rem 3.5rem;
-position: relative;
-}
-.section-label {
-font-size: 0.6rem;
-letter-spacing: 0.4em;
-text-transform: uppercase;
-color: var(–teal);
-margin-bottom: 1.5rem;
-display: flex; align-items: center; gap: 1rem;
-}
-.section-label::before {
-content: ‘’;
-display: block;
-width: 32px; height: 1px;
-background: var(–teal); opacity: 0.5;
-}
-.section-title {
-font-family: ‘Playfair Display’, serif;
-font-size: clamp(2.5rem, 5vw, 5rem);
-font-weight: 700;
-line-height: 1.05;
-letter-spacing: -0.02em;
-margin-bottom: 2rem;
-}
-.section-title em { font-style: italic; color: var(–teal); }
+/* NOTIFY */
+#ntfy{background:var(--p);padding:8rem 3rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;border-top:1px solid var(--wa)}
+.nttg{font-size:.54rem;letter-spacing:.4em;text-transform:uppercase;color:var(--g);margin-bottom:1.5rem}
+.ntti{font-family:'Unbounded',sans-serif;font-weight:200;font-size:clamp(1.8rem,3.5vw,3.2rem);line-height:1.1;letter-spacing:-.02em;margin-bottom:1.5rem}
+.ntti em{font-style:normal;color:var(--g)}
+.ntsb{font-size:.87rem;color:var(--d);line-height:1.85}
+.ntfl{font-size:.54rem;letter-spacing:.32em;text-transform:uppercase;color:var(--d);margin-bottom:.9rem}
+.ntfm{display:flex;border:1.5px solid rgba(14,14,14,.14);transition:border-color .3s;margin-bottom:.75rem}
+.ntfm:focus-within{border-color:var(--g)}
+.ntip{flex:1;background:transparent;border:none;outline:none;padding:.88rem 1.1rem;font-family:'DM Sans',sans-serif;font-size:.85rem;color:var(--k)}
+.ntip::placeholder{color:rgba(14,14,14,.25)}
+.ntsm{background:var(--g);border:none;padding:.88rem 1.6rem;cursor:none;font-family:'DM Sans',sans-serif;font-size:.58rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:#fff;transition:background .3s}
+.ntsm:hover{background:var(--k)}
+.ntnt{font-size:.6rem;color:var(--d)}
+.ntok{display:none;font-size:.88rem;color:var(--g);padding:.5rem 0}
 
-/* ═══════════════════════════════
-COUNTDOWN SECTION
-═══════════════════════════════ */
-#countdown-section {
-background: var(–forest);
-text-align: center;
-padding: 6rem 3.5rem;
-border-top: 1px solid var(–line);
-border-bottom: 1px solid var(–line);
-}
-.countdown-heading {
-font-size: 0.65rem;
-letter-spacing: 0.4em;
-text-transform: uppercase;
-color: var(–teal);
-margin-bottom: 3rem;
-}
-.countdown-grid {
-display: flex;
-justify-content: center;
-gap: 0;
-margin-bottom: 3rem;
-}
-.cd-item {
-padding: 3rem 4rem;
-border-right: 1px solid var(–line);
-position: relative;
-}
-.cd-item:last-child { border-right: none; }
-.cd-num {
-font-family: ‘Playfair Display’, serif;
-font-size: clamp(4rem, 8vw, 8rem);
-font-weight: 900;
-line-height: 1;
-color: var(–white);
-display: block;
-letter-spacing: -0.04em;
-}
-.cd-label {
-font-size: 0.6rem;
-letter-spacing: 0.3em;
-text-transform: uppercase;
-color: var(–muted);
-margin-top: 1rem;
-display: block;
-}
-.cd-date-badge {
-display: inline-flex;
-align-items: center;
-gap: 0.75rem;
-border: 1px solid rgba(62,203,150,0.2);
-border-radius: 2px;
-padding: 0.8rem 2rem;
-font-size: 0.7rem;
-letter-spacing: 0.2em;
-text-transform: uppercase;
-color: var(–teal);
-}
-.cd-pulse {
-width: 6px; height: 6px;
-background: var(–teal);
-border-radius: 50%;
-animation: cdPulse 1.8s ease-in-out infinite;
-}
-@keyframes cdPulse {
-0%,100% { opacity:1; transform: scale(1); box-shadow: 0 0 0 0 rgba(62,203,150,0.4); }
-50%     { opacity:1; transform: scale(1); box-shadow: 0 0 0 8px rgba(62,203,150,0); }
-}
+/* FOOTER */
+footer{background:var(--k);padding:2rem 3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.fmk{width:70px;height:auto;display:block;opacity:.45}
+.fls{display:flex;gap:2rem;flex-wrap:wrap}
+.fa{font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.22);text-decoration:none;transition:color .25s}
+.fa:hover{color:var(--m)}
+.fcp{font-size:.52rem;color:rgba(255,255,255,.12)}
 
-/* ═══════════════════════════════
-ABOUT / VISION
-═══════════════════════════════ */
-#about {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 6rem;
-align-items: center;
-}
-.about-left {}
-.about-right {
-position: relative;
-}
-.about-visual {
-aspect-ratio: 4/5;
-background: var(–forest);
-border: 1px solid var(–line);
-border-radius: 2px;
-overflow: hidden;
-position: relative;
-display: flex; align-items: center; justify-content: center;
-}
-.about-visual-inner {
-width: 200px; height: 200px;
-opacity: 0.15;
-}
-.about-visual::before {
-content: ‘’;
-position: absolute; inset: 0;
-background: linear-gradient(135deg, rgba(62,203,150,0.08) 0%, transparent 60%);
-}
-.about-visual-lines {
-position: absolute; inset: 0;
-background-image:
-linear-gradient(rgba(62,203,150,0.04) 1px, transparent 1px),
-linear-gradient(90deg, rgba(62,203,150,0.04) 1px, transparent 1px);
-background-size: 40px 40px;
-}
-.about-visual-label {
-position: absolute;
-bottom: 2rem; left: 2rem;
-font-size: 0.6rem;
-letter-spacing: 0.25em;
-text-transform: uppercase;
-color: var(–teal);
-opacity: 0.7;
-}
-.about-stats {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 1.5rem;
-margin-top: 3rem;
-}
-.stat-card {
-padding: 1.5rem;
-border: 1px solid var(–line);
-border-radius: 2px;
-background: rgba(62,203,150,0.02);
-transition: border-color 0.3s, background 0.3s;
-}
-.stat-card:hover {
-border-color: rgba(62,203,150,0.25);
-background: rgba(62,203,150,0.05);
-}
-.stat-num {
-font-family: ‘Playfair Display’, serif;
-font-size: 2.5rem;
-font-weight: 700;
-color: var(–teal);
-line-height: 1;
-margin-bottom: 0.5rem;
-}
-.stat-label {
-font-size: 0.7rem;
-letter-spacing: 0.1em;
-color: var(–muted);
-line-height: 1.4;
-}
-.about-desc {
-font-size: 1.1rem;
-color: rgba(244,249,246,0.6);
-line-height: 1.85;
-margin-bottom: 2rem;
-}
-.about-quote {
-font-family: ‘Playfair Display’, serif;
-font-size: 1.6rem;
-font-weight: 400;
-font-style: italic;
-color: var(–white);
-line-height: 1.4;
-border-left: 2px solid var(–teal);
-padding-left: 1.5rem;
-margin-bottom: 3rem;
-}
-
-/* ═══════════════════════════════
-SPECIALITIES
-═══════════════════════════════ */
-#specialities { background: var(–forest); }
-.spec-grid {
-display: grid;
-grid-template-columns: repeat(4, 1fr);
-gap: 1px;
-background: var(–line);
-border: 1px solid var(–line);
-margin-top: 4rem;
-}
-.spec-card {
-background: var(–forest);
-padding: 2.5rem 2rem;
-position: relative;
-overflow: hidden;
-cursor: none;
-transition: background 0.4s;
-}
-.spec-card::before {
-content: ‘’;
-position: absolute; bottom: 0; left: 0; right: 0;
-height: 0;
-background: rgba(62,203,150,0.06);
-transition: height 0.4s cubic-bezier(.25,.46,.45,.94);
-}
-.spec-card:hover::before { height: 100%; }
-.spec-card:hover .spec-arrow { transform: translate(4px, -4px); }
-.spec-icon {
-width: 40px; height: 40px;
-margin-bottom: 2rem;
-opacity: 0.6;
-}
-.spec-name {
-font-family: ‘Playfair Display’, serif;
-font-size: 1.3rem;
-font-weight: 700;
-margin-bottom: 0.75rem;
-color: var(–white);
-}
-.spec-desc {
-font-size: 0.8rem;
-color: var(–muted);
-line-height: 1.6;
-margin-bottom: 2rem;
-}
-.spec-arrow {
-font-size: 1.2rem;
-color: var(–teal);
-transition: transform 0.3s cubic-bezier(.25,.46,.45,.94);
-display: block;
-}
-.spec-number {
-position: absolute;
-top: 2rem; right: 2rem;
-font-family: ‘Playfair Display’, serif;
-font-size: 3rem;
-font-weight: 900;
-color: rgba(62,203,150,0.06);
-line-height: 1;
-}
-
-/* ═══════════════════════════════
-DOCTORS
-═══════════════════════════════ */
-#doctors {}
-.doctors-intro {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 4rem;
-align-items: end;
-margin-bottom: 4rem;
-}
-.doctors-intro-right {
-font-size: 0.9rem;
-color: var(–muted);
-line-height: 1.8;
-}
-.doctors-grid {
-display: grid;
-grid-template-columns: repeat(4, 1fr);
-gap: 1.5rem;
-}
-.doctor-card {
-border: 1px solid var(–line);
-border-radius: 2px;
-overflow: hidden;
-background: var(–forest);
-transition: border-color 0.3s, transform 0.3s;
-cursor: none;
-}
-.doctor-card:hover {
-border-color: rgba(62,203,150,0.3);
-transform: translateY(-6px);
-}
-.doctor-avatar {
-aspect-ratio: 3/4;
-background: linear-gradient(135deg, var(–deep) 0%, var(–forest) 100%);
-display: flex; align-items: center; justify-content: center;
-position: relative;
-overflow: hidden;
-}
-.doctor-avatar::before {
-content: ‘’;
-position: absolute; inset: 0;
-background: linear-gradient(180deg, transparent 50%, rgba(9,18,9,0.8) 100%);
-}
-.doctor-initials {
-font-family: ‘Playfair Display’, serif;
-font-size: 3rem;
-font-weight: 700;
-color: rgba(62,203,150,0.2);
-z-index: 1;
-}
-.doctor-speciality-tag {
-position: absolute;
-bottom: 1rem; left: 1rem;
-font-size: 0.55rem;
-letter-spacing: 0.2em;
-text-transform: uppercase;
-color: var(–teal);
-background: rgba(9,18,9,0.8);
-padding: 0.3rem 0.7rem;
-border-radius: 1px;
-z-index: 2;
-}
-.doctor-info {
-padding: 1.25rem;
-}
-.doctor-name {
-font-family: ‘Playfair Display’, serif;
-font-size: 1rem;
-font-weight: 700;
-margin-bottom: 0.3rem;
-color: var(–white);
-}
-.doctor-qual {
-font-size: 0.65rem;
-letter-spacing: 0.05em;
-color: var(–teal);
-margin-bottom: 0.25rem;
-}
-.doctor-spec {
-font-size: 0.7rem;
-color: var(–muted);
-}
-
-/* ═══════════════════════════════
-TECHNOLOGY
-═══════════════════════════════ */
-#technology {
-background: var(–forest);
-position: relative;
-overflow: hidden;
-}
-.tech-bg-text {
-position: absolute;
-top: 50%; left: 50%;
-transform: translate(-50%,-50%);
-font-family: ‘Playfair Display’, serif;
-font-size: 20vw;
-font-weight: 900;
-color: rgba(62,203,150,0.025);
-white-space: nowrap;
-pointer-events: none;
-line-height: 1;
-}
-.tech-grid {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 1.5rem;
-margin-top: 4rem;
-position: relative; z-index: 1;
-}
-.tech-card {
-padding: 2.5rem;
-border: 1px solid var(–line);
-border-radius: 2px;
-background: rgba(5,10,7,0.5);
-backdrop-filter: blur(10px);
-transition: border-color 0.3s;
-cursor: none;
-}
-.tech-card:hover { border-color: rgba(62,203,150,0.3); }
-.tech-card-num {
-font-family: ‘Playfair Display’, serif;
-font-size: 0.8rem;
-color: var(–teal);
-margin-bottom: 1.5rem;
-opacity: 0.7;
-}
-.tech-card-title {
-font-family: ‘Playfair Display’, serif;
-font-size: 1.4rem;
-font-weight: 700;
-margin-bottom: 1rem;
-line-height: 1.2;
-}
-.tech-card-desc {
-font-size: 0.85rem;
-color: var(–muted);
-line-height: 1.7;
-}
-.tech-card-tag {
-display: inline-block;
-margin-top: 1.5rem;
-font-size: 0.6rem;
-letter-spacing: 0.2em;
-text-transform: uppercase;
-color: var(–teal);
-border: 1px solid rgba(62,203,150,0.2);
-padding: 0.3rem 0.8rem;
-border-radius: 1px;
-}
-
-/* ═══════════════════════════════
-VISION STRIP
-═══════════════════════════════ */
-#vision-strip {
-padding: 6rem 3.5rem;
-text-align: center;
-position: relative;
-overflow: hidden;
-}
-.vision-bg-orb {
-position: absolute;
-width: 800px; height: 800px;
-border-radius: 50%;
-background: radial-gradient(circle, rgba(62,203,150,0.06) 0%, transparent 60%);
-top: 50%; left: 50%;
-transform: translate(-50%,-50%);
-pointer-events: none;
-filter: blur(60px);
-}
-.vision-overline {
-font-size: 0.65rem;
-letter-spacing: 0.4em;
-text-transform: uppercase;
-color: var(–teal);
-margin-bottom: 2rem;
-}
-.vision-statement {
-font-family: ‘Playfair Display’, serif;
-font-size: clamp(1.8rem, 4vw, 3.5rem);
-font-weight: 400;
-font-style: italic;
-line-height: 1.35;
-color: var(–white);
-max-width: 900px;
-margin: 0 auto 3rem;
-}
-.vision-statement strong { font-style: normal; font-weight: 700; color: var(–teal); }
-.vision-phases {
-display: flex;
-justify-content: center;
-gap: 0;
-margin-top: 4rem;
-}
-.phase-item {
-padding: 1.5rem 2.5rem;
-border-right: 1px solid var(–line);
-text-align: center;
-}
-.phase-item:last-child { border-right: none; }
-.phase-year {
-font-family: ‘Playfair Display’, serif;
-font-size: 1.4rem;
-font-weight: 700;
-color: var(–teal);
-display: block;
-margin-bottom: 0.5rem;
-}
-.phase-label {
-font-size: 0.65rem;
-letter-spacing: 0.15em;
-text-transform: uppercase;
-color: var(–muted);
-}
-
-/* ═══════════════════════════════
-NOTIFY / CTA
-═══════════════════════════════ */
-#notify {
-background: var(–teal);
-padding: 8rem 3.5rem;
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 6rem;
-align-items: center;
-}
-.notify-left {}
-.notify-title {
-font-family: ‘Playfair Display’, serif;
-font-size: clamp(2.5rem, 5vw, 4.5rem);
-font-weight: 900;
-color: var(–black);
-line-height: 0.95;
-letter-spacing: -0.03em;
-margin-bottom: 1.5rem;
-}
-.notify-sub {
-font-size: 1rem;
-color: rgba(5,10,7,0.6);
-line-height: 1.7;
-}
-.notify-right {}
-.notify-form-label {
-font-size: 0.65rem;
-letter-spacing: 0.3em;
-text-transform: uppercase;
-color: rgba(5,10,7,0.5);
-margin-bottom: 1rem;
-}
-.notify-form {
-display: flex;
-border: 1.5px solid rgba(5,10,7,0.25);
-border-radius: 2px;
-overflow: hidden;
-margin-bottom: 1rem;
-transition: border-color 0.3s;
-}
-.notify-form:focus-within { border-color: var(–black); }
-.notify-input {
-flex: 1;
-background: transparent;
-border: none; outline: none;
-padding: 1rem 1.25rem;
-font-family: ‘DM Sans’, sans-serif;
-font-size: 0.9rem;
-color: var(–black);
-}
-.notify-input::placeholder { color: rgba(5,10,7,0.35); }
-.notify-submit {
-background: var(–black);
-border: none;
-padding: 1rem 1.75rem;
-font-family: ‘DM Sans’, sans-serif;
-font-size: 0.7rem;
-font-weight: 500;
-letter-spacing: 0.15em;
-text-transform: uppercase;
-color: var(–teal);
-cursor: none;
-transition: background 0.3s;
-}
-.notify-submit:hover { background: var(–forest); }
-.notify-note {
-font-size: 0.7rem;
-color: rgba(5,10,7,0.4);
-}
-.notify-success-msg {
-display: none;
-font-size: 0.9rem;
-color: var(–black);
-padding: 1rem 0;
-}
-
-/* ═══════════════════════════════
-FOOTER
-═══════════════════════════════ */
-footer {
-background: var(–deep);
-padding: 3rem 3.5rem;
-border-top: 1px solid var(–line);
-display: flex;
-align-items: center;
-justify-content: space-between;
-flex-wrap: wrap;
-gap: 1rem;
-}
-.footer-logo {
-font-family: ‘Playfair Display’, serif;
-font-size: 1.4rem;
-font-weight: 900;
-color: var(–teal);
-letter-spacing: -0.02em;
-}
-.footer-links {
-display: flex; gap: 2rem;
-}
-.footer-link {
-font-size: 0.65rem;
-letter-spacing: 0.2em;
-text-transform: uppercase;
-color: var(–muted);
-text-decoration: none;
-transition: color 0.3s;
-}
-.footer-link:hover { color: var(–teal); }
-.footer-copy {
-font-size: 0.65rem;
-letter-spacing: 0.1em;
-color: rgba(244,249,246,0.2);
-}
-
-/* ═══════════════════════════════
-REVEAL ANIMATIONS
-═══════════════════════════════ */
-.reveal { opacity: 0; transform: translateY(40px); }
-.reveal-left { opacity: 0; transform: translateX(-40px); }
-.reveal-right { opacity: 0; transform: translateX(40px); }
-.reveal-scale { opacity: 0; transform: scale(0.94); }
-
-/* ═══════════════════════════════
-RESPONSIVE
-═══════════════════════════════ */
-@media (max-width: 900px) {
-nav { padding: 1.5rem; }
-nav::after { left: 1.5rem; right: 1.5rem; }
-.nav-center, .nav-cta { display: none; }
-section { padding: 5rem 1.5rem; }
-#hero { padding: 0 1.5rem 4rem; }
-#about, .doctors-intro { grid-template-columns: 1fr; gap: 3rem; }
-.about-right { display: none; }
-.spec-grid, .tech-grid { grid-template-columns: 1fr 1fr; }
-.doctors-grid { grid-template-columns: 1fr 1fr; }
-.countdown-grid { flex-wrap: wrap; }
-.cd-item { flex: 1; min-width: 100px; padding: 2rem; }
-#notify { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 1.5rem; }
-.vision-phases { flex-wrap: wrap; justify-content: center; }
-.phase-item { border-right: none; border-bottom: 1px solid var(–line); padding: 1rem 2rem; }
-footer { padding: 2rem 1.5rem; flex-direction: column; text-align: center; }
-.footer-links { justify-content: center; flex-wrap: wrap; }
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:1.2rem 1.5rem}
+  .nr .na{display:none}
+  #hero{grid-template-columns:1fr}
+  .hr{display:none}
+  .hl{padding:0 1.5rem 4rem;min-height:100vh}
+  #cdown{grid-template-columns:1fr}
+  .cdl{border-right:none;border-bottom:1px solid var(--wa)}
+  #about{grid-template-columns:1fr;padding:5rem 1.5rem;gap:3rem}
+  .abst{position:static}
+  #specs,#docs,#tech,#vision,#ntfy{padding:5rem 1.5rem}
+  .sphd{grid-template-columns:1fr;gap:1.5rem}
+  .sprw{grid-template-columns:44px 1fr}
+  .spdt{display:none}
+  .dcgr{grid-template-columns:1fr 1fr}
+  .tcit{grid-template-columns:2rem 1fr}
+  .tcds{display:none}
+  #vision{grid-template-columns:1fr;gap:3rem}
+  .viri{border-left:none;padding-left:0;border-top:1px solid rgba(255,255,255,.12);padding-top:2rem}
+  #ntfy{grid-template-columns:1fr;gap:3rem}
+  .absts{grid-template-columns:1fr 1fr}
+  footer{padding:1.5rem;flex-direction:column;text-align:center}
+  .fls{justify-content:center}
+  h1{font-size:clamp(2rem,8vw,3.5rem)}
 }
 </style>
-
 </head>
 <body>
 
-<!-- Cursor -->
-
-<div id="cursor"></div>
-<div id="cursor-follower"></div>
-
-<!-- Loader -->
-
-<div id="loader">
-  <div class="loader-logo">RVR</div>
-  <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
-  <div class="loader-percent" id="loaderPercent">0%</div>
-</div>
+<div id="dot"></div>
+<div id="ring"></div>
 
 <!-- NAV -->
-
-<nav id="mainNav" style="opacity:0">
-  <div class="nav-logo-wrap">
-    <div>
-      <div class="nav-logo-text">RVR</div>
-      <div class="nav-logo-sub">Super Speciality Centre<br>Falnir, Mangalore</div>
-    </div>
+<nav id="nav">
+  <div>
+    <div class="nlogo" style="width:80px;"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 666 294">
+<path d="M0 0 C3.05625827 1.51700738 5.13735897 3.30989903 7.62109375 5.64453125 C10.27998288 8.11910211 12.87386698 10.47959008 15.74609375 12.70703125 C24.17742085 20.24140866 30.4076539 29.99972353 36.68359375 39.33203125 C37.09609375 38.79835937 37.50859375 38.2646875 37.93359375 37.71484375 C39.84453202 35.24939215 41.7627089 32.78974133 43.68359375 30.33203125 C44.32039062 29.51605469 44.9571875 28.70007813 45.61328125 27.859375 C47.61098667 25.32814584 49.63748507 22.82428392 51.68359375 20.33203125 C52.34875 19.51734375 53.01390625 18.70265625 53.69921875 17.86328125 C58.03387801 12.79012449 62.73859978 8.32763565 67.87109375 4.08203125 C68.4532666 3.57937744 69.03543945 3.07672363 69.63525391 2.55883789 C71.3515625 1.19140625 71.3515625 1.19140625 74.68359375 -0.66796875 C87.67538433 1.56424249 99.34720558 15.05668305 106.63671875 25.125 C110.47071497 31.13208186 113.4291244 37.56862321 115.68359375 44.33203125 C116.60398438 44.46738281 117.524375 44.60273437 118.47265625 44.7421875 C135.59571179 47.65415316 148.48578526 55.05433178 159.24609375 68.95703125 C162.19250505 73.21295868 163.89600048 76.12806626 163.68359375 81.33203125 C162.58151367 84.73011151 161.76261499 85.27935042 158.68359375 87.33203125 C151.70958438 88.11941941 151.70958438 88.11941941 147.99609375 85.26953125 C145.68359375 82.33203125 145.68359375 82.33203125 143.55859375 79.01953125 C137.6686136 70.58949716 128.28013115 66.15345037 118.68359375 63.33203125 C118.71839844 64.15703125 118.75320312 64.98203125 118.7890625 65.83203125 C119.31813364 88.40573315 112.51579277 109.42472695 96.91015625 126.07421875 C89.14577423 133.94757455 81.44266261 139.38460664 70.05859375 139.70703125 C63.39884753 139.64517602 58.8121174 138.66399697 53.68359375 134.33203125 C47.00968135 127.41154573 46.21348675 119.31834408 46.37109375 110.01953125 C47.94845681 91.40664717 59.13029292 75.47247697 72.87109375 63.53515625 C80.23216197 57.76898615 88.00190452 52.84000733 96.68359375 49.33203125 C95.0531795 39.01225017 88.17359341 30.29092184 80.68359375 23.33203125 C78.53911034 22.06968829 78.53911034 22.06968829 76.68359375 21.33203125 C59.44023245 34.47453585 48.29500037 55.8862457 37.68359375 74.33203125 C34.02835974 71.09290646 31.9284414 67.40705086 29.68359375 63.14453125 C23.20462016 51.27917586 15.38485358 40.3457697 6.74609375 29.95703125 C6.09181396 29.16292847 6.09181396 29.16292847 5.42431641 28.3527832 C2.80860887 25.29642413 0.24221565 23.20364992 -3.31640625 21.33203125 C-11.91369082 28.3145974 -18.15452523 35.96415952 -22.31640625 46.33203125 C-22.31640625 47.32203125 -22.31640625 48.31203125 -22.31640625 49.33203125 C-21.589375 49.66074219 -20.86234375 49.98945313 -20.11328125 50.328125 C-12.06335659 54.13635859 -5.24673767 58.76407267 1.68359375 64.33203125 C2.40289062 64.8734375 3.1221875 65.41484375 3.86328125 65.97265625 C16.25757901 75.8283629 25.13069108 91.87715125 27.68359375 107.33203125 C28.68219516 116.8187446 27.38993504 125.6239761 21.37109375 133.26953125 C20.48421875 133.95015625 19.59734375 134.63078125 18.68359375 135.33203125 C17.71421875 136.09515625 16.74484375 136.85828125 15.74609375 137.64453125 C9.54148668 140.96358962 1.5597729 140.20430785 -5.09375 138.70703125 C-19.34848124 133.66270297 -29.17609549 121.02392464 -35.70825195 107.91137695 C-41.40750202 95.89677764 -44.53782331 84.2557887 -44.37890625 70.89453125 C-44.37439453 70.16298828 -44.36988281 69.43144531 -44.36523438 68.67773438 C-44.35358773 66.89579706 -44.33565816 65.11390262 -44.31640625 63.33203125 C-57.98954236 66.17936545 -66.07175848 74.56868889 -74.31640625 85.33203125 C-76.31640625 87.33203125 -76.31640625 87.33203125 -80.19140625 87.70703125 C-83.37397413 87.63771943 -84.12564781 87.47876851 -86.75390625 85.45703125 C-89.36766724 81.90231631 -89.77617131 79.76057283 -89.31640625 75.33203125 C-87.91364648 72.97164634 -86.60039425 71.05191065 -84.87890625 68.95703125 C-84.42298096 68.38903809 -83.96705566 67.82104492 -83.49731445 67.23583984 C-74.25759098 55.96866621 -63.53842495 47.87554294 -48.81640625 46.14453125 C-46.06886592 45.78505793 -43.98502169 45.25413865 -41.31640625 44.33203125 C-38.49919095 40.66390194 -37.57626952 36.73078464 -36.31640625 32.33203125 C-31.76295988 22.93537375 -12.93702239 -3.73057475 0 0 Z M-27.31640625 67.33203125 C-25.82692531 86.93982505 -21.29526581 103.4898482 -6.51953125 117.51171875 C-2.74940799 120.62674967 0.44955181 122.48096738 5.49609375 122.14453125 C7.85049237 121.44290244 7.85049237 121.44290244 9.68359375 119.33203125 C11.24198405 109.40754563 8.38223528 100.21498217 3.109375 91.828125 C1.40451595 89.54305751 -0.39447642 87.43718766 -2.31640625 85.33203125 C-3.28513672 84.22601563 -3.28513672 84.22601563 -4.2734375 83.09765625 C-10.3742809 76.53274127 -17.53818236 71.70147176 -25.31640625 67.33203125 C-25.97640625 67.33203125 -26.63640625 67.33203125 -27.31640625 67.33203125 Z M79.484375 81.40625 C69.91003522 91.64518604 64.07751384 102.45504084 64.21484375 116.6171875 C64.48197023 119.33492791 64.48197023 119.33492791 66.015625 121.19921875 C67.7871731 122.62397452 67.7871731 122.62397452 70.87109375 122.39453125 C79.37461228 120.02469822 86.2514401 113.07715802 90.71679688 105.60253906 C97.68958093 93.16921722 101.37357655 81.74500527 100.68359375 67.33203125 C94.76282796 67.33203125 83.65814541 77.51847671 79.484375 81.40625 Z " fill="#47BD95" transform="translate(94.31640625,79.66796875)"/>
+<path d="M0 0 C10.02375 -0.04125 20.0475 -0.0825 30.375 -0.125 C33.5207959 -0.14320801 36.6665918 -0.16141602 39.90771484 -0.18017578 C42.425454 -0.1860218 44.94319505 -0.1911171 47.4609375 -0.1953125 C49.39223511 -0.2106604 49.39223511 -0.2106604 51.36254883 -0.22631836 C65.64489789 -0.22906338 78.15259848 2.12665086 89 12 C96.83684929 19.90082357 100.08675416 29.46233686 100.5 40.5 C100.12380146 50.87053984 97.21485683 60.40266883 90 68 C89.47535156 68.55300781 88.95070313 69.10601562 88.41015625 69.67578125 C82.96434699 74.8396898 76.22807652 77.32175695 69 79 C69.56847656 79.6290625 70.13695312 80.258125 70.72265625 80.90625 C74.30075926 84.87262796 77.8754359 88.83900637 81.375 92.875 C83.85090418 95.72343606 86.38636788 98.5088647 88.95239258 101.27636719 C105 118.60458855 105 118.60458855 105 122 C83.05856808 124.24897016 83.05856808 124.24897016 77.05078125 119.4921875 C74.40419071 116.82875539 72.2298193 113.86147445 70.16015625 110.73535156 C68.4654609 108.20044109 66.5166339 105.90048163 64.5625 103.5625 C63.86253906 102.68851562 63.16257812 101.81453125 62.44140625 100.9140625 C58.87375095 96.65570913 55.07357196 92.62461299 51.25219727 88.59399414 C47.09743581 84.19487162 47.09743581 84.19487162 46 82 C33.13 81.505 33.13 81.505 20 81 C20 94.53 20 108.06 20 122 C13.4 122 6.8 122 0 122 C0 81.74 0 41.48 0 0 Z M20 19 C20 33.19 20 47.38 20 62 C30.1165625 62.12375 30.1165625 62.12375 40.4375 62.25 C43.60363892 62.30462402 43.60363892 62.30462402 46.83374023 62.36035156 C48.53368111 62.37204967 50.23363331 62.38223883 51.93359375 62.390625 C53.2248114 62.4213208 53.2248114 62.4213208 54.54211426 62.45263672 C62.08878127 62.45692034 67.97437933 60.4336514 73.875 55.6875 C78.4678191 49.87893467 79.57821248 45.0224738 79.34765625 37.71484375 C78.60913352 31.94772805 76.26496943 28.29371874 72.25 24.1875 C65.32336214 19.5253399 59.38935986 18.55907819 51.25 18.70703125 C50.45207031 18.71005249 49.65414062 18.71307373 48.83203125 18.71618652 C45.88788682 18.73173066 42.94392864 18.77361316 40 18.8125 C33.4 18.874375 26.8 18.93625 20 19 Z " fill="#47BD96" transform="translate(512,78)"/>
+<path d="M0 0 C10.02375 -0.04125 20.0475 -0.0825 30.375 -0.125 C33.5207959 -0.14320801 36.6665918 -0.16141602 39.90771484 -0.18017578 C42.425454 -0.1860218 44.94319505 -0.1911171 47.4609375 -0.1953125 C49.39223511 -0.2106604 49.39223511 -0.2106604 51.36254883 -0.22631836 C65.64489789 -0.22906338 78.15259848 2.12665086 89 12 C96.83684929 19.90082357 100.08675416 29.46233686 100.5 40.5 C100.12380146 50.87053984 97.21485683 60.40266883 90 68 C89.47535156 68.55300781 88.95070313 69.10601562 88.41015625 69.67578125 C82.96434699 74.8396898 76.22807652 77.32175695 69 79 C69.56847656 79.6290625 70.13695312 80.258125 70.72265625 80.90625 C74.30075926 84.87262796 77.8754359 88.83900637 81.375 92.875 C83.85090418 95.72343606 86.38636788 98.5088647 88.95239258 101.27636719 C105 118.60458855 105 118.60458855 105 122 C83.05856808 124.24897016 83.05856808 124.24897016 77.05078125 119.4921875 C74.40419071 116.82875539 72.2298193 113.86147445 70.16015625 110.73535156 C68.4654609 108.20044109 66.5166339 105.90048163 64.5625 103.5625 C63.86253906 102.68851562 63.16257812 101.81453125 62.44140625 100.9140625 C58.87375095 96.65570913 55.07357196 92.62461299 51.25219727 88.59399414 C47.09743581 84.19487162 47.09743581 84.19487162 46 82 C33.13 81.505 33.13 81.505 20 81 C20 94.53 20 108.06 20 122 C13.4 122 6.8 122 0 122 C0 81.74 0 41.48 0 0 Z M20 19 C20 33.19 20 47.38 20 62 C30.1165625 62.12375 30.1165625 62.12375 40.4375 62.25 C43.60363892 62.30462402 43.60363892 62.30462402 46.83374023 62.36035156 C48.53368111 62.37204967 50.23363331 62.38223883 51.93359375 62.390625 C53.2248114 62.4213208 53.2248114 62.4213208 54.54211426 62.45263672 C62.08878127 62.45692034 67.97437933 60.4336514 73.875 55.6875 C78.4678191 49.87893467 79.57821248 45.0224738 79.34765625 37.71484375 C78.60913352 31.94772805 76.26496943 28.29371874 72.25 24.1875 C65.32336214 19.5253399 59.38935986 18.55907819 51.25 18.70703125 C50.45207031 18.71005249 49.65414062 18.71307373 48.83203125 18.71618652 C45.88788682 18.73173066 42.94392864 18.77361316 40 18.8125 C33.4 18.874375 26.8 18.93625 20 19 Z " fill="#47BD96" transform="translate(262,78)"/>
+<path d="M0 0 C7.59 0 15.18 0 23 0 C28.006234 10.55662387 32.1503105 21.42572315 36.375 32.3125 C37.56857214 35.37799122 38.76332526 38.44302027 39.95822144 41.50799561 C40.7688619 43.58733967 41.5791838 45.66680796 42.38919067 47.74639893 C46.43708267 58.1347439 50.52630168 68.50661542 54.625 78.875 C55.27653466 80.52384254 55.92806475 82.17268688 56.57958984 83.8215332 C58.052317 87.54798293 59.52586771 91.27410591 61 95 C63.95195395 89.29539392 66.46090437 83.55460083 68.765625 77.5625 C69.11651688 76.66013107 69.46740875 75.75776215 69.82893372 74.82804871 C70.58179828 72.8912986 71.33303992 70.95391697 72.08279419 69.01596069 C74.07111784 63.87830124 76.07314789 58.74598627 78.07421875 53.61328125 C78.4814769 52.56795731 78.88873505 51.52263336 79.30833435 50.44563293 C83.16434208 40.55759514 87.06916254 30.68937683 91.00598145 20.83325195 C91.70957654 19.07129701 92.41213434 17.30892749 93.11364746 15.54614258 C94.08479535 13.10650031 95.05937291 10.66826002 96.03515625 8.23046875 C96.32284378 7.50667526 96.61053131 6.78288177 96.90693665 6.03715515 C98.88514045 1.11485955 98.88514045 1.11485955 100 0 C101.63472882 -0.08700342 103.27314055 -0.10701063 104.91015625 -0.09765625 C105.89951172 -0.09443359 106.88886719 -0.09121094 107.90820312 -0.08789062 C108.94912109 -0.07951172 109.99003906 -0.07113281 111.0625 -0.0625 C112.62967773 -0.05573242 112.62967773 -0.05573242 114.22851562 -0.04882812 C116.8190666 -0.03699913 119.40950559 -0.02051689 122 0 C121.31343897 4.35846446 119.81761421 8.25911023 118.1484375 12.31640625 C117.85806107 13.03183594 117.56768463 13.74726562 117.26850891 14.484375 C116.30851885 16.84561676 115.34191552 19.20408659 114.375 21.5625 C113.69354178 23.23355104 113.01231182 24.90469519 112.33129883 26.57592773 C107.2422307 39.04549438 102.07122896 51.48063132 96.87011719 63.90380859 C93.2369292 72.58910875 89.64545086 81.29044015 86.08984375 90.0078125 C85.46933388 91.52866707 85.46933388 91.52866707 84.83628845 93.08024597 C82.79544268 98.08456911 80.75828712 103.09036283 78.7253418 108.09790039 C77.98622456 109.91294728 77.247051 111.72797124 76.5078125 113.54296875 C76.16689072 114.38590485 75.82596893 115.22884094 75.47471619 116.09732056 C73.1132084 121.8867916 73.1132084 121.8867916 72 123 C70.43827255 123.08685603 68.87270656 123.10702219 67.30859375 123.09765625 C66.36435547 123.09443359 65.42011719 123.09121094 64.44726562 123.08789062 C63.45404297 123.07951172 62.46082031 123.07113281 61.4375 123.0625 C60.44041016 123.05798828 59.44332031 123.05347656 58.41601562 123.04882812 C55.94395151 123.03700007 53.47200482 123.02051849 51 123 C48.0685225 117.29421236 45.47588564 111.53433987 43.05078125 105.59765625 C42.4958625 104.24997162 42.4958625 104.24997162 41.92973328 102.87506104 C40.72126748 99.93865142 39.51690769 97.00057614 38.3125 94.0625 C37.03518659 90.95598846 35.75683562 87.84990508 34.47848511 84.74382019 C33.60664433 82.62516356 32.73516677 80.50635743 31.86404419 78.3874054 C27.9533063 68.87648171 24.01305541 59.37795635 20.06719971 49.88156128 C14.8269707 37.2668001 9.60282469 24.64563844 4.4375 12 C3.74817383 10.31644409 3.74817383 10.31644409 3.04492188 8.59887695 C2.63693359 7.59687256 2.22894531 6.59486816 1.80859375 5.5625 C1.45595459 4.69753906 1.10331543 3.83257812 0.73999023 2.94140625 C0 1 0 1 0 0 Z " fill="#47BD96" transform="translate(373,78)"/>
+<path d="M0 0 C4.86108919 2.29796944 7.70203056 5.13891081 10 10 C10.77379561 15.29813119 10.67768515 19.56643525 8.375 24.4375 C4.04565669 29.10863357 0.92123974 31.23861982 -5.5 31.5 C-10.4207651 31.29969749 -13.30010527 30.42917072 -17 27 C-20.12846245 23.1105602 -21.9013906 20.02907952 -22 15 C-20.87876534 9.73387329 -19.41795519 5.34693575 -15 2 C-10.24878386 -0.84658919 -5.38259209 -0.62497441 0 0 Z " fill="#47BD96" transform="translate(137,64)"/>
+<path d="M0 0 C0 0.99 0 1.98 0 3 C0.66 3 1.32 3 2 3 C2.33 1.68 2.66 0.36 3 -1 C5.75 -1.6875 5.75 -1.6875 9 -2 C11.375 -0.5625 11.375 -0.5625 13 1 C13.556875 0.484375 14.11375 -0.03125 14.6875 -0.5625 C17 -2 17 -2 19.75 -1.6875 C20.86375 -1.3471875 20.86375 -1.3471875 22 -1 C22 -0.01 22 0.98 22 2 C20.35 2.33 18.7 2.66 17 3 C17.33 3.99 17.66 4.98 18 6 C20.475 6.495 20.475 6.495 23 7 C23 7.66 23 8.32 23 9 C17.62295082 10.3442623 17.62295082 10.3442623 14.625 8.6875 C13 7 13 7 13 5 C11.68 5.33 10.36 5.66 9 6 C9.99 6.33 10.98 6.66 12 7 C10.875 8.5625 10.875 8.5625 9 10 C5.8125 9.6875 5.8125 9.6875 3 9 C2.67 7.68 2.34 6.36 2 5 C1.34 5 0.68 5 0 5 C-0.33 6.32 -0.66 7.64 -1 9 C-2.98 9.33 -4.96 9.66 -7 10 C-7.33 11.32 -7.66 12.64 -8 14 C-8.99 14 -9.98 14 -11 14 C-11 9.05 -11 4.1 -11 -1 C-5.98177299 -2.0036454 -4.53099278 -1.79132273 0 0 Z M-6 1 C-6.66 2.32 -7.32 3.64 -8 5 C-6.02 5.99 -6.02 5.99 -4 7 C-3.67 5.35 -3.34 3.7 -3 2 C-3.99 1.67 -4.98 1.34 -6 1 Z M6 1 C5.67 1.66 5.34 2.32 5 3 C6.32 2.67 7.64 2.34 9 2 C8.01 1.67 7.02 1.34 6 1 Z " fill="#FFFFFF" transform="translate(349,218)"/>
+<path d="M0 0 C0.99 0 1.98 0 3 0 C3 0.99 3 1.98 3 3 C5.31 3 7.62 3 10 3 C10.66 4.32 11.32 5.64 12 7 C12.66 5.68 13.32 4.36 14 3 C14.99 3 15.98 3 17 3 C16.39644592 6.85025879 15.23227397 9.86101159 13.4375 13.3125 C12.98246094 14.19550781 12.52742188 15.07851562 12.05859375 15.98828125 C11.70925781 16.65214844 11.35992187 17.31601563 11 18 C10.01 18 9.02 18 8 18 C8.20625 17.154375 8.4125 16.30875 8.625 15.4375 C9.05843012 11.46439054 8.2762763 8.75375382 7 5 C5.68 5 4.36 5 3 5 C3 6.65 3 8.3 3 10 C3.99 10 4.98 10 6 10 C5.67 11.32 5.34 12.64 5 14 C1.125 13.125 1.125 13.125 0 12 C-0.04092937 9.66702567 -0.04241723 7.33294775 0 5 C-0.66 5 -1.32 5 -2 5 C-2 4.34 -2 3.68 -2 3 C-1.34 3 -0.68 3 0 3 C0 2.01 0 1.02 0 0 Z " fill="#FFFFFF" transform="translate(402,214)"/>
+<path d="M0 0 C0 1.32 0 2.64 0 4 C-2.97 3.505 -2.97 3.505 -6 3 C-5.4225 3.268125 -4.845 3.53625 -4.25 3.8125 C-1.9674132 5.01719859 -0.0262058 6.40798115 2 8 C1.6875 10.375 1.6875 10.375 1 13 C-2 15 -2 15 -5.5625 14.875 C-9 14 -9 14 -10.4375 11.9375 C-10.623125 11.298125 -10.80875 10.65875 -11 10 C-10.01 9.67 -9.02 9.34 -8 9 C-8 9.66 -8 10.32 -8 11 C-6.35 11 -4.7 11 -3 11 C-3 10.34 -3 9.68 -3 9 C-3.969375 8.690625 -4.93875 8.38125 -5.9375 8.0625 C-9 7 -9 7 -10 6 C-10.25 3.5625 -10.25 3.5625 -10 1 C-6.1496895 -1.56687367 -4.41430237 -0.83288724 0 0 Z " fill="#FFFFFF" transform="translate(274,213)"/>
+<path d="M0 0 C2 2 2 2 2.375 4.9375 C2 8 2 8 0.3125 9.9375 C-2.56502006 11.25960381 -4.02211118 10.90991047 -7 10 C-7 11.65 -7 13.3 -7 15 C-7.99 15 -8.98 15 -10 15 C-10 10.05 -10 5.1 -10 0 C-5.66955459 -0.86608908 -3.99392372 -1.18738273 0 0 Z M-6 3 C-5.67 4.65 -5.34 6.3 -5 8 C-3.68 7.34 -2.36 6.68 -1 6 C-1.66 4.68 -2.32 3.36 -3 2 C-4.2236068 1.9254644 -4.2236068 1.9254644 -6 3 Z " fill="#FFFFFF" transform="translate(299,217)"/>
+<path d="M0 0 C0 3.3 0 6.6 0 10 C-7.625 11.25 -7.625 11.25 -11 9 C-11.97868153 6.13923862 -12.22135111 4.61297231 -11.1875 1.75 C-8.37354036 -2.39688789 -4.35856806 -0.63269536 0 0 Z M-7 2 C-7.33 3.65 -7.66 5.3 -8 7 C-6.68 7 -5.36 7 -4 7 C-4 5.68 -4 4.36 -4 3 C-4.99 2.67 -5.98 2.34 -7 2 Z " fill="#FFFFFF" transform="translate(389,217)"/>
+<path d="M0 0 C0.33 1.98 0.66 3.96 1 6 C-0.32 6.33 -1.64 6.66 -3 7 C-1.68 7.33 -0.36 7.66 1 8 C-0.125 9.5625 -0.125 9.5625 -2 11 C-5.64734979 10.77669287 -7.38372835 10.61627165 -10 8 C-10.375 5.0625 -10.375 5.0625 -10 2 C-6.92702006 -1.66393762 -4.38919352 -1.09729838 0 0 Z M-5 2 C-5.33 2.66 -5.66 3.32 -6 4 C-4.68 3.67 -3.36 3.34 -2 3 C-2.99 2.67 -3.98 2.34 -5 2 Z " fill="#FFFFFF" transform="translate(486,217)"/>
+<path d="M0 0 C2 2 2 2 2 6 C0.68 6.33 -0.64 6.66 -2 7 C-1.01 7 -0.02 7 1 7 C1 7.99 1 8.98 1 10 C-4.28301887 11.32075472 -4.28301887 11.32075472 -7.375 9.9375 C-9 8 -9 8 -9.5 5 C-9 2 -9 2 -7.3125 0.0625 C-4.38550346 -1.28233625 -3.01415011 -1.03115662 0 0 Z M-4 2 C-4.66 2.66 -5.32 3.32 -6 4 C-4.35 4 -2.7 4 -1 4 C-1.33 3.34 -1.66 2.68 -2 2 C-2.66 2 -3.32 2 -4 2 Z " fill="#FFFFFF" transform="translate(444,217)"/>
+<path d="M0 0 C2 3 2 3 2 6 C0.68 6.33 -0.64 6.66 -2 7 C-1.01 7 -0.02 7 1 7 C0.67 7.99 0.34 8.98 0 10 C-5.42465753 11.3260274 -5.42465753 11.3260274 -7.875 9.9375 C-9.51670894 7.11011239 -9.46768561 5.20698706 -9 2 C-6.14911792 -1.27323499 -4.00227856 -1.47452368 0 0 Z M-5 2 C-5.33 2.66 -5.66 3.32 -6 4 C-4.35 4 -2.7 4 -1 4 C-1.33 3.34 -1.66 2.68 -2 2 C-2.99 2 -3.98 2 -5 2 Z " fill="#FFFFFF" transform="translate(311,217)"/>
+<path d="M0 0 C0.99 0 1.98 0 3 0 C3.33 2.31 3.66 4.62 4 7 C4.66 7 5.32 7 6 7 C6.66 4.69 7.32 2.38 8 0 C8.99 0 9.98 0 11 0 C11 3.3 11 6.6 11 10 C7.33291043 10.94296589 4.64653273 11.11421833 1 10 C-0.60725635 6.78548731 -0.05748185 3.56387464 0 0 Z " fill="#FFFFFF" transform="translate(277,217)"/>
+<path d="M0 0 C0 0.99 0 1.98 0 3 C-1.32 3 -2.64 3 -4 3 C-1.525 3.99 -1.525 3.99 1 5 C0.67 6.65 0.34 8.3 0 10 C-2.8125 10.6875 -2.8125 10.6875 -6 11 C-7.875 9.5625 -7.875 9.5625 -9 8 C-5.25 6.875 -5.25 6.875 -3 8 C-3 7.34 -3 6.68 -3 6 C-4.65 5.67 -6.3 5.34 -8 5 C-8 3.35 -8 1.7 -8 0 C-5.13822943 -1.43088528 -3.06624227 -0.59991697 0 0 Z " fill="#FFFFFF" transform="translate(336,217)"/>
+<path d="M0 0 C1 1 1 1 1.09765625 2.84765625 C1.04882812 5.92382812 1.04882812 5.92382812 1 9 C0.01 9 -0.98 9 -2 9 C-2.66 6.69 -3.32 4.38 -4 2 C-4.99 2.495 -4.99 2.495 -6 3 C-6.65772428 6.02934491 -6.65772428 6.02934491 -7 9 C-7.99 9 -8.98 9 -10 9 C-10 5.7 -10 2.4 -10 -1 C-5.94988606 -2.15717541 -3.76349849 -1.88174925 0 0 Z " fill="#FFFFFF" transform="translate(457,218)"/>
+<path d="M0 0 C0 0.99 0 1.98 0 3 C-1.98 3 -3.96 3 -6 3 C-5.67 4.32 -5.34 5.64 -5 7 C-3.35 7 -1.7 7 0 7 C0 7.99 0 8.98 0 10 C-5.42465753 11.3260274 -5.42465753 11.3260274 -7.875 9.9375 C-9.46240233 7.20364043 -9.26430653 5.10560173 -9 2 C-6.98558063 -2.02883874 -3.72407517 -0.90585612 0 0 Z " fill="#FFFFFF" transform="translate(434,217)"/>
+<path d="M0 0 C0.99 0 1.98 0 3 0 C3 0.99 3 1.98 3 3 C3.99 3 4.98 3 6 3 C6 3.66 6 4.32 6 5 C5.01 5 4.02 5 3 5 C3.34444881 7.47266765 3.34444881 7.47266765 4 10 C4.66 10.33 5.32 10.66 6 11 C5.67 11.99 5.34 12.98 5 14 C3.35 13.67 1.7 13.34 0 13 C0 10.36 0 7.72 0 5 C-0.66 5 -1.32 5 -2 5 C-2 4.34 -2 3.68 -2 3 C-1.34 3 -0.68 3 0 3 C0 2.01 0 1.02 0 0 Z " fill="#FFFFFF" transform="translate(461,214)"/>
+<path d="M0 0 C0 0.99 0 1.98 0 3 C-1.65 3 -3.3 3 -5 3 C-5 5.31 -5 7.62 -5 10 C-5.99 10 -6.98 10 -8 10 C-8 6.7 -8 3.4 -8 0 C-4.29847322 -0.92538169 -3.36541838 -1.08174162 0 0 Z " fill="#FFFFFF" transform="translate(322,217)"/>
+<path d="M0 0 C-0.33 0.99 -0.66 1.98 -1 3 C-1.99 3 -2.98 3 -4 3 C-4.33 5.31 -4.66 7.62 -5 10 C-5.99 10 -6.98 10 -8 10 C-8 6.7 -8 3.4 -8 0 C-4.29847322 -0.92538169 -3.36541838 -1.08174162 0 0 Z " fill="#FFFFFF" transform="translate(476,217)"/>
+<path d="M0 0 C0.99 0 1.98 0 3 0 C3 4.95 3 9.9 3 15 C2.01 15 1.02 15 0 15 C0 10.05 0 5.1 0 0 Z " fill="#FFFFFF" transform="translate(391,212)"/>
+<path d="M0 0 C0.99 0 1.98 0 3 0 C3 3.3 3 6.6 3 10 C2.01 10 1.02 10 0 10 C0 6.7 0 3.4 0 0 Z " fill="#FFFFFF" transform="translate(396,217)"/>
+<path d="M0 0 C0.99 0 1.98 0 3 0 C3 3.3 3 6.6 3 10 C2.01 10 1.02 10 0 10 C0 6.7 0 3.4 0 0 Z " fill="#FFFFFF" transform="translate(373,217)"/>
+<path d="M0 0 C0.99 0.33 1.98 0.66 3 1 C3 1.99 3 2.98 3 4 C1.68 3.67 0.36 3.34 -1 3 C-0.67 2.01 -0.34 1.02 0 0 Z " fill="#FFFFFF" transform="translate(396,212)"/>
+<path d="M0 0 C0.66 0.33 1.32 0.66 2 1 C2 1.99 2 2.98 2 4 C1.01 4 0.02 4 -1 4 C-0.67 2.68 -0.34 1.36 0 0 Z " fill="#FFFFFF" transform="translate(374,212)"/>
+</svg></div>
+    <div class="nst">Super Speciality Centre · Falnir, Mangalore</div>
   </div>
-  <div class="nav-center">Opening April 23, 2026</div>
-  <div class="nav-right">
-    <a href="#about" class="nav-link">About</a>
-    <a href="#specialities" class="nav-link">Specialities</a>
-    <a href="#doctors" class="nav-link">Doctors</a>
-    <button class="nav-cta" onclick="document.getElementById('notify').scrollIntoView({behavior:'smooth'})">Get Notified</button>
+  <div class="nr">
+    <a href="#about"  class="na">About</a>
+    <a href="#specs"  class="na">Specialities</a>
+    <a href="#docs"   class="na">Doctors</a>
+    <a href="#vision" class="na">Vision</a>
+    <button class="nb" onclick="go('#ntfy')">Get Notified</button>
   </div>
 </nav>
 
 <!-- HERO -->
-
 <section id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
-  <div class="hero-orb"></div>
-
-  <div class="hero-eyebrow" id="heroEyebrow">
-    Mangalore · Falnir · Opening 2026
-  </div>
-
-  <div class="hero-headline">
+  <div class="hl">
+    <div class="hlbl">Opening April 23, 2026</div>
     <h1>
-      <span class="line"><span class="word">Mangalore</span></span>
-      <span class="line"><span class="word">never had</span></span>
-      <span class="line"><span class="word"><em>this</em> before.</span></span>
+      <span class="ln"><span class="w1">Mangalore</span></span>
+      <span class="ln"><span class="w2">never had</span></span>
+      <span class="ln"><span class="w3"><em>this</em> before.</span></span>
     </h1>
+    <p class="hsub"><strong>RVR Super Speciality Centre</strong> — the most advanced hospital in Coastal Karnataka. World-class neurology, cardiology and super speciality care. Falnir, Mangalore.</p>
+    <div class="hact">
+      <button class="hbp" onclick="go('#ntfy')">Get Notified</button>
+      <button class="hbs" onclick="go('#about')">Learn more →</button>
+    </div>
   </div>
-
-  <div class="hero-bottom" id="heroBottom">
-    <div class="hero-desc">
-      <p><strong>RVR Super Speciality Centre</strong> — The most advanced hospital in Coastal Karnataka. World-class neurology, cardiology, and super speciality care. Right here. Right now.</p>
-    </div>
-    <div class="hero-scroll-hint">
-      <div class="hero-scroll-line"></div>
-      <span class="hero-scroll-text">Scroll</span>
-    </div>
+  <div class="hr">
+    <div class="hr-logo" style="filter:brightness(0) invert(1) opacity(0.82);"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 666 294">
+<path d="M0 0 C3.05625827 1.51700738 5.13735897 3.30989903 7.62109375 5.64453125 C10.27998288 8.11910211 12.87386698 10.47959008 15.74609375 12.70703125 C24.17742085 20.24140866 30.4076539 29.99972353 36.68359375 39.33203125 C37.09609375 38.79835937 37.50859375 38.2646875 37.93359375 37.71484375 C39.84453202 35.24939215 41.7627089 32.78974133 43.68359375 30.33203125 C44.32039062 29.51605469 44.9571875 28.70007813 45.61328125 27.859375 C47.61098667 25.32814584 49.63748507 22.82428392 51.68359375 20.33203125 C52.34875 19.51734375 53.01390625 18.70265625 53.69921875 17.86328125 C58.03387801 12.79012449 62.73859978 8.32763565 67.87109375 4.08203125 C68.4532666 3.57937744 69.03543945 3.07672363 69.63525391 2.55883789 C71.3515625 1.19140625 71.3515625 1.19140625 74.68359375 -0.66796875 C87.67538433 1.56424249 99.34720558 15.05668305 106.63671875 25.125 C110.47071497 31.13208186 113.4291244 37.56862321 115.68359375 44.33203125 C116.60398438 44.46738281 117.524375 44.60273437 118.47265625 44.7421875 C135.59571179 47.65415316 148.48578526 55.05433178 159.24609375 68.95703125 C162.19250505 73.21295868 163.89600048 76.12806626 163.68359375 81.33203125 C162.58151367 84.73011151 161.76261499 85.27935042 158.68359375 87.33203125 C151.70958438 88.11941941 151.70958438 88.11941941 147.99609375 85.26953125 C145.68359375 82.33203125 145.68359375 82.33203125 143.55859375 79.01953125 C137.6686136 70.58949716 128.28013115 66.15345037 118.68359375 63.33203125 C118.71839844 64.15703125 118.75320312 64.98203125 118.7890625 65.83203125 C119.31813364 88.40573315 112.51579277 109.42472695 96.91015625 126.07421875 C89.14577423 133.94757455 81.44266261 139.38460664 70.05859375 139.70703125 C63.39884753 139.64517602 58.8121174 138.66399697 53.68359375 134.33203125 C47.00968135 127.41154573 46.21348675 119.31834408 46.37109375 110.01953125 C47.94845681 91.40664717 59.13029292 75.47247697 72.87109375 63.53515625 C80.23216197 57.76898615 88.00190452 52.84000733 96.68359375 49.33203125 C95.0531795 39.01225017 88.17359341 30.29092184 80.68359375 23.33203125 C78.53911034 22.06968829 78.53911034 22.06968829 76.68359375 21.33203125 C59.44023245 34.47453585 48.29500037 55.8862457 37.68359375 74.33203125 C34.02835974 71.09290646 31.9284414 67.40705086 29.68359375 63.14453125 C23.20462016 51.27917586 15.38485358 40.3457697 6.74609375 29.95703125 C6.09181396 29.16292847 6.09181396 29.16292847 5.42431641 28.3527832 C2.80860887 25.29642413 0.24221565 23.20364992 -3.31640625 21.33203125 C-11.91369082 28.3145974 -18.15452523 35.96415952 -22.31640625 46.33203125 C-22.31640625 47.32203125 -22.31640625 48.31203125 -22.31640625 49.33203125 C-21.589375 49.66074219 -20.86234375 49.98945313 -20.11328125 50.328125 C-12.06335659 54.13635859 -5.24673767 58.76407267 1.68359375 64.33203125 C2.40289062 64.8734375 3.1221875 65.41484375 3.86328125 65.97265625 C16.25757901 75.8283629 25.13069108 91.87715125 27.68359375 107.33203125 C28.68219516 116.8187446 27.38993504 125.6239761 21.37109375 133.26953125 C20.48421875 133.95015625 19.59734375 134.63078125 18.68359375 135.33203125 C17.71421875 136.09515625 16.74484375 136.85828125 15.74609375 137.64453125 C9.54148668 140.96358962 1.5597729 140.20430785 -5.09375 138.70703125 C-19.34848124 133.66270297 -29.17609549 121.02392464 -35.70825195 107.91137695 C-41.40750202 95.89677764 -44.53782331 84.2557887 -44.37890625 70.89453125 C-44.37439453 70.16298828 -44.36988281 69.43144531 -44.36523438 68.67773438 C-44.35358773 66.89579706 -44.33565816 65.11390262 -44.31640625 63.33203125 C-57.98954236 66.17936545 -66.07175848 74.56868889 -74.31640625 85.33203125 C-76.31640625 87.33203125 -76.31640625 87.33203125 -80.19140625 87.70703125 C-83.37397413 87.63771943 -84.12564781 87.47876851 -86.75390625 85.45703125 C-89.36766724 81.90231631 -89.77617131 79.76057283 -89.31640625 75.33203125 C-87.91364648 72.97164634 -86.60039425 71.05191065 -84.87890625 68.95703125 C-84.42298096 68.38903809 -83.96705566 67.82104492 -83.49731445 67.23583984 C-74.25759098 55.96866621 -63.53842495 47.87554294 -48.81640625 46.14453125 C-46.06886592 45.78505793 -43.98502169 45.25413865 -41.31640625 44.33203125 C-38.49919095 40.66390194 -37.57626952 36.73078464 -36.31640625 32.33203125 C-31.76295988 22.93537375 -12.93702239 -3.73057475 0 0 Z M-27.31640625 67.33203125 C-25.82692531 86.93982505 -21.29526581 103.4898482 -6.51953125 117.51171875 C-2.74940799 120.62674967 0.44955181 122.48096738 5.49609375 122.14453125 C7.85049237 121.44290244 7.85049237 121.44290244 9.68359375 119.33203125 C11.24198405 109.40754563 8.38223528 100.21498217 3.109375 91.828125 C1.40451595 89.54305751 -0.39447642 87.43718766 -2.31640625 85.33203125 C-3.28513672 84.22601563 -3.28513672 84.22601563 -4.2734375 83.09765625 C-10.3742809 76.53274127 -17.53818236 71.70147176 -25.31640625 67.33203125 C-25.97640625 67.33203125 -26.63640625 67.33203125 -27.31640625 67.33203125 Z M79.484375 81.40625 C69.91003522 91.64518604 64.07751384 102.45504084 64.21484375 116.6171875 C64.48197023 119.33492791 64.48197023 119.33492791 66.015625 121.19921875 C67.7871731 122.62397452 67.7871731 122.62397452 70.87109375 122.39453125 C79.37461228 120.02469822 86.2514401 113.07715802 90.71679688 105.60253906 C97.68958093 93.16921722 101.37357655 81.74500527 100.68359375 67.33203125 C94.76282796 67.33203125 83.65814541 77.51847671 79.484375 81.40625 Z " fill="#47BD95" transform="translate(94.31640625,79.66796875)"/>
+<path d="M0 0 C10.02375 -0.04125 20.0475 -0.0825 30.375 -0.125 C33.5207959 -0.14320801 36.6665918 -0.16141602 39.90771484 -0.18017578 C42.425454 -0.1860218 44.94319505 -0.1911171 47.4609375 -0.1953125 C49.39223511 -0.2106604 49.39223511 -0.2106604 51.36254883 -0.22631836 C65.64489789 -0.22906338 78.15259848 2.12665086 89 12 C96.83684929 19.90082357 100.08675416 29.46233686 100.5 40.5 C100.12380146 50.87053984 97.21485683 60.40266883 90 68 C89.47535156 68.55300781 88.95070313 69.10601562 88.41015625 69.67578125 C82.96434699 74.8396898 76.22807652 77.32175695 69 79 C69.56847656 79.6290625 70.13695312 80.258125 70.72265625 80.90625 C74.30075926 84.87262796 77.8754359 88.83900637 81.375 92.875 C83.85090418 95.72343606 86.38636788 98.5088647 88.95239258 101.27636719 C105 118.60458855 105 118.60458855 105 122 C83.05856808 124.24897016 83.05856808 124.24897016 77.05078125 119.4921875 C74.40419071 116.82875539 72.2298193 113.86147445 70.16015625 110.73535156 C68.4654609 108.20044109 66.5166339 105.90048163 64.5625 103.5625 C63.86253906 102.68851562 63.16257812 101.81453125 62.44140625 100.9140625 C58.87375095 96.65570913 55.07357196 92.62461299 51.25219727 88.59399414 C47.09743581 84.19487162 47.09743581 84.19487162 46 82 C33.13 81.505 33.13 81.505 20 81 C20 94.53 20 108.06 20 122 C13.4 122 6.8 122 0 122 C0 81.74 0 41.48 0 0 Z M20 19 C20 33.19 20 47.38 20 62 C30.1165625 62.12375 30.1165625 62.12375 40.4375 62.25 C43.60363892 62.30462402 43.60363892 62.30462402 46.83374023 62.36035156 C48.53368111 62.37204967 50.23363331 62.38223883 51.93359375 62.390625 C53.2248114 62.4213208 53.2248114 62.4213208 54.54211426 62.45263672 C62.08878127 62.45692034 67.97437933 60.4336514 73.875 55.6875 C78.4678191 49.87893467 79.57821248 45.0224738 79.34765625 37.71484375 C78.60913352 31.94772805 76.26496943 28.29371874 72.25 24.1875 C65.32336214 19.5253399 59.38935986 18.55907819 51.25 18.70703125 C50.45207031 18.71005249 49.65414062 18.71307373 48.83203125 18.71618652 C45.88788682 18.73173066 42.94392864 18.77361316 40 18.8125 C33.4 18.874375 26.8 18.93625 20 19 Z " fill="#47BD96" transform="translate(512,78)"/>
+<path d="M0 0 C10.02375 -0.04125 20.0475 -0.0825 30.375 -0.125 C33.5207959 -0.14320801 36.6665918 -0.16141602 39.90771484 -0.18017578 C42.425454 -0.1860218 44.94319505 -0.1911171 47.4609375 -0.1953125 C49.39223511 -0.2106604 49.39223511 -0.2106604 51.36254883 -0.22631836 C65.64489789 -0.22906338 78.15259848 2.12665086 89 12 C96.83684929 19.90082357 100.08675416 29.46233686 100.5 40.5 C100.12380146 50.87053984 97.21485683 60.40266883 90 68 C89.47535156 68.55300781 88.95070313 69.10601562 88.41015625 69.67578125 C82.96434699 74.8396898 76.22807652 77.32175695 69 79 C69.56847656 79.6290625 70.13695312 80.258125 70.72265625 80.90625 C74.30075926 84.87262796 77.8754359 88.83900637 81.375 92.875 C83.85090418 95.72343606 86.38636788 98.5088647 88.95239258 101.27636719 C105 118.60458855 105 118.60458855 105 122 C83.05856808 124.24897016 83.05856808 124.24897016 77.05078125 119.4921875 C74.40419071 116.82875539 72.2298193 113.86147445 70.16015625 110.73535156 C68.4654609 108.20044109 66.5166339 105.90048163 64.5625 103.5625 C63.86253906 102.68851562 63.16257812 101.81453125 62.44140625 100.9140625 C58.87375095 96.65570913 55.07357196 92.62461299 51.25219727 88.59399414 C47.09743581 84.19487162 47.09743581 84.19487162 46 82 C33.13 81.505 33.13 81.505 20 81 C20 94.53 20 108.06 20 122 C13.4 122 6.8 122 0 122 C0 81.74 0 41.48 0 0 Z M20 19 C20 33.19 20 47.38 20 62 C30.1165625 62.12375 30.1165625 62.12375 40.4375 62.25 C43.60363892 62.30462402 43.60363892 62.30462402 46.83374023 62.36035156 C48.53368111 62.37204967 50.23363331 62.38223883 51.93359375 62.390625 C53.2248114 62.4213208 53.2248114 62.4213208 54.54211426 62.45263672 C62.08878127 62.45692034 67.97437933 60.4336514 73.875 55.6875 C78.4678191 49.87893467 79.57821248 45.0224738 79.34765625 37.71484375 C78.60913352 31.94772805 76.26496943 28.29371874 72.25 24.1875 C65.32336214 19.5253399 59.38935986 18.55907819 51.25 18.70703125 C50.45207031 18.71005249 49.65414062 18.71307373 48.83203125 18.71618652 C45.88788682 18.73173066 42.94392864 18.77361316 40 18.8125 C33.4 18.874375 26.8 18.93625 20 19 Z " fill="#47BD96" transform="translate(262,78)"/>
+<path d="M0 0 C7.59 0 15.18 0 23 0 C28.006234 10.55662387 32.1503105 21.42572315 36.375 32.3125 C37.56857214 35.37799122 38.76332526 38.44302027 39.95822144 41.50799561 C40.7688619 43.58733967 41.5791838 45.66680796 42.38919067 47.74639893 C46.43708267 58.1347439 50.52630168 68.50661542 54.625 78.875 C55.27653466 80.52384254 55.92806475 82.17268688 56.57958984 83.8215332 C58.052317 87.54798293 59.52586771 91.27410591 61 95 C63.95195395 89.29539392 66.46090437 83.55460083 68.765625 77.5625 C69.11651688 76.66013107 69.46740875 75.75776215 69.82893372 74.82804871 C70.58179828 72.8912986 71.33303992 70.95391697 72.08279419 69.01596069 C74.07111784 63.87830124 76.07314789 58.74598627 78.07421875 53.61328125 C78.4814769 52.56795731 78.88873505 51.52263336 79.30833435 50.44563293 C83.16434208 40.55759514 87.06916254 30.68937683 91.00598145 20.83325195 C91.70957654 19.07129701 92.41213434 17.30892749 93.11364746 15.54614258 C94.08479535 13.10650031 95.05937291 10.66826002 96.03515625 8.23046875 C96.32284378 7.50667526 96.61053131 6.78288177 96.90693665 6.03715515 C98.88514045 1.11485955 98.88514045 1.11485955 100 0 C101.63472882 -0.08700342 103.27314055 -0.10701063 104.91015625 -0.09765625 C105.89951172 -0.09443359 106.88886719 -0.09121094 107.90820312 -0.08789062 C108.94912109 -0.07951172 109.99003906 -0.07113281 111.0625 -0.0625 C112.62967773 -0.05573242 112.62967773 -0.05573242 114.22851562 -0.04882812 C116.8190666 -0.03699913 119.40950559 -0.02051689 122 0 C121.31343897 4.35846446 119.81761421 8.25911023 118.1484375 12.31640625 C117.85806107 13.03183594 117.56768463 13.74726562 117.26850891 14.484375 C116.30851885 16.84561676 115.34191552 19.20408659 114.375 21.5625 C113.69354178 23.23355104 113.01231182 24.90469519 112.33129883 26.57592773 C107.2422307 39.04549438 102.07122896 51.48063132 96.87011719 63.90380859 C93.2369292 72.58910875 89.64545086 81.29044015 86.08984375 90.0078125 C85.46933388 91.52866707 85.46933388 91.52866707 84.83628845 93.08024597 C82.79544268 98.08456911 80.75828712 103.09036283 78.7253418 108.09790039 C77.98622456 109.91294728 77.247051 111.72797124 76.5078125 113.54296875 C76.16689072 114.38590485 75.82596893 115.22884094 75.47471619 116.09732056 C73.1132084 121.8867916 73.1132084 121.8867916 72 123 C70.43827255 123.08685603 68.87270656 123.10702219 67.30859375 123.09765625 C66.36435547 123.09443359 65.42011719 123.09121094 64.44726562 123.08789062 C63.45404297 123.07951172 62.46082031 123.07113281 61.4375 123.0625 C60.44041016 123.05798828 59.44332031 123.05347656 58.41601562 123.04882812 C55.94395151 123.03700007 53.47200482 123.02051849 51 123 C48.0685225 117.29421236 45.47588564 111.53433987 43.05078125 105.59765625 C42.4958625 104.24997162 42.4958625 104.24997162 41.92973328 102.87506104 C40.72126748 99.93865142 39.51690769 97.00057614 38.3125 94.0625 C37.03518659 90.95598846 35.75683562 87.84990508 34.47848511 84.74382019 C33.60664433 82.62516356 32.73516677 80.50635743 31.86404419 78.3874054 C27.9533063 68.87648171 24.01305541 59.37795635 20.06719971 49.88156128 C14.8269707 37.2668001 9.60282469 24.64563844 4.4375 12 C3.74817383 10.31644409 3.74817383 10.31644409 3.04492188 8.59887695 C2.63693359 7.59687256 2.22894531 6.59486816 1.80859375 5.5625 C1.45595459 4.69753906 1.10331543 3.83257812 0.73999023 2.94140625 C0 1 0 1 0 0 Z " fill="#47BD96" transform="translate(373,78)"/>
+<path d="M0 0 C4.86108919 2.29796944 7.70203056 5.13891081 10 10 C10.77379561 15.29813119 10.67768515 19.56643525 8.375 24.4375 C4.04565669 29.10863357 0.92123974 31.23861982 -5.5 31.5 C-10.4207651 31.29969749 -13.30010527 30.42917072 -17 27 C-20.12846245 23.1105602 -21.9013906 20.02907952 -22 15 C-20.87876534 9.73387329 -19.41795519 5.34693575 -15 2 C-10.24878386 -0.84658919 -5.38259209 -0.62497441 0 0 Z " fill="#47BD96" transform="translate(137,64)"/>
+<path d="M0 0 C0 0.99 0 1.98 0 3 C0.66 3 1.32 3 2 3 C2.33 1.68 2.66 0.36 3 -1 C5.75 -1.6875 5.75 -1.6875 9 -2 C11.375 -0.5625 11.375 -0.5625 13 1 C13.556875 0.484375 14.11375 -0.03125 14.6875 -0.5625 C17 -2 17 -2 19.75 -1.6875 C20.86375 -1.3471875 20.86375 -1.3471875 22 -1 C22 -0.01 22 0.98 22 2 C20.35 2.33 18.7 2.66 17 3 C17.33 3.99 17.66 4.98 18 6 C20.475 6.495 20.475 6.495 23 7 C23 7.66 23 8.32 23 9 C17.62295082 10.3442623 17.62295082 10.3442623 14.625 8.6875 C13 7 13 7 13 5 C11.68 5.33 10.36 5.66 9 6 C9.99 6.33 10.98 6.66 12 7 C10.875 8.5625 10.875 8.5625 9 10 C5.8125 9.6875 5.8125 9.6875 3 9 C2.67 7.68 2.34 6.36 2 5 C1.34 5 0.68 5 0 5 C-0.33 6.32 -0.66 7.64 -1 9 C-2.98 9.33 -4.96 9.66 -7 10 C-7.33 11.32 -7.66 12.64 -8 14 C-8.99 14 -9.98 14 -11 14 C-11 9.05 -11 4.1 -11 -1 C-5.98177299 -2.0036454 -4.53099278 -1.79132273 0 0 Z M-6 1 C-6.66 2.32 -7.32 3.64 -8 5 C-6.02 5.99 -6.02 5.99 -4 7 C-3.67 5.35 -3.34 3.7 -3 2 C-3.99 1.67 -4.98 1.34 -6 1 Z M6 1 C5.67 1.66 5.34 2.32 5 3 C6.32 2.67 7.64 2.34 9 2 C8.01 1.67 7.02 1.34 6 1 Z " fill="#FFFFFF" transform="translate(349,218)"/>
+<path d="M0 0 C0.99 0 1.98 0 3 0 C3 0.99 3 1.98 3 3 C5.31 3 7.62 3 10 3 C10.66 4.32 11.32 5.64 12 7 C12.66 5.68 13.32 4.36 14 3 C14.99 3 15.98 3 17 3 C16.39644592 6.85025879 15.23227397 9.86101159 13.4375 13.3125 C12.98246094 14.19550781 12.52742188 15.07851562 12.05859375 15.98828125 C11.70925781 16.65214844 11.35992187 17.31601563 11 18 C10.01 18 9.02 18 8 18 C8.20625 17.154375 8.4125 16.30875 8.625 15.4375 C9.05843012 11.46439054 8.2762763 8.75375382 7 5 C5.68 5 4.36 5 3 5 C3 6.65 3 8.3 3 10 C3.99 10 4.98 10 6 10 C5.67 11.32 5.34 12.64 5 14 C1.125 13.125 1.125 13.125 0 12 C-0.04092937 9.66702567 -0.04241723 7.33294775 0 5 C-0.66 5 -1.32 5 -2 5 C-2 4.34 -2 3.68 -2 3 C-1.34 3 -0.68 3 0 3 C0 2.01 0 1.02 0 0 Z " fill="#FFFFFF" transform="translate(402,214)"/>
+<path d="M0 0 C0 1.32 0 2.64 0 4 C-2.97 3.505 -2.97 3.505 -6 3 C-5.4225 3.268125 -4.845 3.53625 -4.25 3.8125 C-1.9674132 5.01719859 -0.0262058 6.40798115 2 8 C1.6875 10.375 1.6875 10.375 1 13 C-2 15 -2 15 -5.5625 14.875 C-9 14 -9 14 -10.4375 11.9375 C-10.623125 11.298125 -10.80875 10.65875 -11 10 C-10.01 9.67 -9.02 9.34 -8 9 C-8 9.66 -8 10.32 -8 11 C-6.35 11 -4.7 11 -3 11 C-3 10.34 -3 9.68 -3 9 C-3.969375 8.690625 -4.93875 8.38125 -5.9375 8.0625 C-9 7 -9 7 -10 6 C-10.25 3.5625 -10.25 3.5625 -10 1 C-6.1496895 -1.56687367 -4.41430237 -0.83288724 0 0 Z " fill="#FFFFFF" transform="translate(274,213)"/>
+<path d="M0 0 C2 2 2 2 2.375 4.9375 C2 8 2 8 0.3125 9.9375 C-2.56502006 11.25960381 -4.02211118 10.90991047 -7 10 C-7 11.65 -7 13.3 -7 15 C-7.99 15 -8.98 15 -10 15 C-10 10.05 -10 5.1 -10 0 C-5.66955459 -0.86608908 -3.99392372 -1.18738273 0 0 Z M-6 3 C-5.67 4.65 -5.34 6.3 -5 8 C-3.68 7.34 -2.36 6.68 -1 6 C-1.66 4.68 -2.32 3.36 -3 2 C-4.2236068 1.9254644 -4.2236068 1.9254644 -6 3 Z " fill="#FFFFFF" transform="translate(299,217)"/>
+<path d="M0 0 C0 3.3 0 6.6 0 10 C-7.625 11.25 -7.625 11.25 -11 9 C-11.97868153 6.13923862 -12.22135111 4.61297231 -11.1875 1.75 C-8.37354036 -2.39688789 -4.35856806 -0.63269536 0 0 Z M-7 2 C-7.33 3.65 -7.66 5.3 -8 7 C-6.68 7 -5.36 7 -4 7 C-4 5.68 -4 4.36 -4 3 C-4.99 2.67 -5.98 2.34 -7 2 Z " fill="#FFFFFF" transform="translate(389,217)"/>
+<path d="M0 0 C0.33 1.98 0.66 3.96 1 6 C-0.32 6.33 -1.64 6.66 -3 7 C-1.68 7.33 -0.36 7.66 1 8 C-0.125 9.5625 -0.125 9.5625 -2 11 C-5.64734979 10.77669287 -7.38372835 10.61627165 -10 8 C-10.375 5.0625 -10.375 5.0625 -10 2 C-6.92702006 -1.66393762 -4.38919352 -1.09729838 0 0 Z M-5 2 C-5.33 2.66 -5.66 3.32 -6 4 C-4.68 3.67 -3.36 3.34 -2 3 C-2.99 2.67 -3.98 2.34 -5 2 Z " fill="#FFFFFF" transform="translate(486,217)"/>
+<path d="M0 0 C2 2 2 2 2 6 C0.68 6.33 -0.64 6.66 -2 7 C-1.01 7 -0.02 7 1 7 C1 7.99 1 8.98 1 10 C-4.28301887 11.32075472 -4.28301887 11.32075472 -7.375 9.9375 C-9 8 -9 8 -9.5 5 C-9 2 -9 2 -7.3125 0.0625 C-4.38550346 -1.28233625 -3.01415011 -1.03115662 0 0 Z M-4 2 C-4.66 2.66 -5.32 3.32 -6 4 C-4.35 4 -2.7 4 -1 4 C-1.33 3.34 -1.66 2.68 -2 2 C-2.66 2 -3.32 2 -4 2 Z " fill="#FFFFFF" transform="translate(444,217)"/>
+<path d="M0 0 C2 3 2 3 2 6 C0.68 6.33 -0.64 6.66 -2 7 C-1.01 7 -0.02 7 1 7 C0.67 7.99 0.34 8.98 0 10 C-5.42465753 11.3260274 -5.42465753 11.3260274 -7.875 9.9375 C-9.51670894 7.11011239 -9.46768561 5.20698706 -9 2 C-6.14911792 -1.27323499 -4.00227856 -1.47452368 0 0 Z M-5 2 C-5.33 2.66 -5.66 3.32 -6 4 C-4.35 4 -2.7 4 -1 4 C-1.33 3.34 -1.66 2.68 -2 2 C-2.99 2 -3.98 2 -5 2 Z " fill="#FFFFFF" transform="translate(311,217)"/>
+<path d="M0 0 C0.99 0 1.98 0 3 0 C3.33 2.31 3.66 4.62 4 7 C4.66 7 5.32 7 6 7 C6.66 4.69 7.32 2.38 8 0 C8.99 0 9.98 0 11 0 C11 3.3 11 6.6 11 10 C7.33291043 10.94296589 4.64653273 11.11421833 1 10 C-0.60725635 6.78548731 -0.05748185 3.56387464 0 0 Z " fill="#FFFFFF" transform="translate(277,217)"/>
+<path d="M0 0 C0 0.99 0 1.98 0 3 C-1.32 3 -2.64 3 -4 3 C-1.525 3.99 -1.525 3.99 1 5 C0.67 6.65 0.34 8.3 0 10 C-2.8125 10.6875 -2.8125 10.6875 -6 11 C-7.875 9.5625 -7.875 9.5625 -9 8 C-5.25 6.875 -5.25 6.875 -3 8 C-3 7.34 -3 6.68 -3 6 C-4.65 5.67 -6.3 5.34 -8 5 C-8 3.35 -8 1.7 -8 0 C-5.13822943 -1.43088528 -3.06624227 -0.59991697 0 0 Z " fill="#FFFFFF" transform="translate(336,217)"/>
+<path d="M0 0 C1 1 1 1 1.09765625 2.84765625 C1.04882812 5.92382812 1.04882812 5.92382812 1 9 C0.01 9 -0.98 9 -2 9 C-2.66 6.69 -3.32 4.38 -4 2 C-4.99 2.495 -4.99 2.495 -6 3 C-6.65772428 6.02934491 -6.65772428 6.02934491 -7 9 C-7.99 9 -8.98 9 -10 9 C-10 5.7 -10 2.4 -10 -1 C-5.94988606 -2.15717541 -3.76349849 -1.88174925 0 0 Z " fill="#FFFFFF" transform="translate(457,218)"/>
+<path d="M0 0 C0 0.99 0 1.98 0 3 C-1.98 3 -3.96 3 -6 3 C-5.67 4.32 -5.34 5.64 -5 7 C-3.35 7 -1.7 7 0 7 C0 7.99 0 8.98 0 10 C-5.42465753 11.3260274 -5.42465753 11.3260274 -7.875 9.9375 C-9.46240233 7.20364043 -9.26430653 5.10560173 -9 2 C-6.98558063 -2.02883874 -3.72407517 -0.90585612 0 0 Z " fill="#FFFFFF" transform="translate(434,217)"/>
+<path d="M0 0 C0.99 0 1.98 0 3 0 C3 0.99 3 1.98 3 3 C3.99 3 4.98 3 6 3 C6 3.66 6 4.32 6 5 C5.01 5 4.02 5 3 5 C3.34444881 7.47266765 3.34444881 7.47266765 4 10 C4.66 10.33 5.32 10.66 6 11 C5.67 11.99 5.34 12.98 5 14 C3.35 13.67 1.7 13.34 0 13 C0 10.36 0 7.72 0 5 C-0.66 5 -1.32 5 -2 5 C-2 4.34 -2 3.68 -2 3 C-1.34 3 -0.68 3 0 3 C0 2.01 0 1.02 0 0 Z " fill="#FFFFFF" transform="translate(461,214)"/>
+<path d="M0 0 C0 0.99 0 1.98 0 3 C-1.65 3 -3.3 3 -5 3 C-5 5.31 -5 7.62 -5 10 C-5.99 10 -6.98 10 -8 10 C-8 6.7 -8 3.4 -8 0 C-4.29847322 -0.92538169 -3.36541838 -1.08174162 0 0 Z " fill="#FFFFFF" transform="translate(322,217)"/>
+<path d="M0 0 C-0.33 0.99 -0.66 1.98 -1 3 C-1.99 3 -2.98 3 -4 3 C-4.33 5.31 -4.66 7.62 -5 10 C-5.99 10 -6.98 10 -8 10 C-8 6.7 -8 3.4 -8 0 C-4.29847322 -0.92538169 -3.36541838 -1.08174162 0 0 Z " fill="#FFFFFF" transform="translate(476,217)"/>
+<path d="M0 0 C0.99 0 1.98 0 3 0 C3 4.95 3 9.9 3 15 C2.01 15 1.02 15 0 15 C0 10.05 0 5.1 0 0 Z " fill="#FFFFFF" transform="translate(391,212)"/>
+<path d="M0 0 C0.99 0 1.98 0 3 0 C3 3.3 3 6.6 3 10 C2.01 10 1.02 10 0 10 C0 6.7 0 3.4 0 0 Z " fill="#FFFFFF" transform="translate(396,217)"/>
+<path d="M0 0 C0.99 0 1.98 0 3 0 C3 3.3 3 6.6 3 10 C2.01 10 1.02 10 0 10 C0 6.7 0 3.4 0 0 Z " fill="#FFFFFF" transform="translate(373,217)"/>
+<path d="M0 0 C0.99 0.33 1.98 0.66 3 1 C3 1.99 3 2.98 3 4 C1.68 3.67 0.36 3.34 -1 3 C-0.67 2.01 -0.34 1.02 0 0 Z " fill="#FFFFFF" transform="translate(396,212)"/>
+<path d="M0 0 C0.66 0.33 1.32 0.66 2 1 C2 1.99 2 2.98 2 4 C1.01 4 0.02 4 -1 4 C-0.67 2.68 -0.34 1.36 0 0 Z " fill="#FFFFFF" transform="translate(374,212)"/>
+</svg></div>
+    <div class="hr-bot">RVR Super Speciality Centre</div>
+    <div class="hr-top">Est. 2026</div>
+    <div class="hr-wm">RVR</div>
   </div>
 </section>
 
-<!-- MARQUEE -->
-
-<div class="marquee-strip">
-  <div class="marquee-inner">
-    <div class="marquee-item"><span>◆</span> Neurology</div>
-    <div class="marquee-item"><span>◆</span> Cardiology</div>
-    <div class="marquee-item"><span>◆</span> Advanced Diagnostics</div>
-    <div class="marquee-item"><span>◆</span> Super Speciality Care</div>
-    <div class="marquee-item"><span>◆</span> Emergency Medicine</div>
-    <div class="marquee-item"><span>◆</span> AI-Powered Clinical Notes</div>
-    <div class="marquee-item"><span>◆</span> World-Class Equipment</div>
-    <div class="marquee-item"><span>◆</span> Opening April 23, 2026</div>
-    <div class="marquee-item"><span>◆</span> Neurology</div>
-    <div class="marquee-item"><span>◆</span> Cardiology</div>
-    <div class="marquee-item"><span>◆</span> Advanced Diagnostics</div>
-    <div class="marquee-item"><span>◆</span> Super Speciality Care</div>
-    <div class="marquee-item"><span>◆</span> Emergency Medicine</div>
-    <div class="marquee-item"><span>◆</span> AI-Powered Clinical Notes</div>
-    <div class="marquee-item"><span>◆</span> World-Class Equipment</div>
-    <div class="marquee-item"><span>◆</span> Opening April 23, 2026</div>
+<!-- STRIP -->
+<div class="strip">
+  <div class="strip-in">
+    <div class="si"><span class="d">◆</span>Neurology</div>
+    <div class="si"><span class="d">◆</span>Cardiology</div>
+    <div class="si"><span class="d">◆</span>Advanced Diagnostics</div>
+    <div class="si"><span class="d">◆</span>Super Speciality</div>
+    <div class="si"><span class="d">◆</span>Emergency Medicine</div>
+    <div class="si"><span class="d">◆</span>AI Clinical Notes</div>
+    <div class="si"><span class="d">◆</span>World-Class Equipment</div>
+    <div class="si"><span class="d">◆</span>Opening April 23 · 2026</div>
+    <div class="si"><span class="d">◆</span>Neurology</div>
+    <div class="si"><span class="d">◆</span>Cardiology</div>
+    <div class="si"><span class="d">◆</span>Advanced Diagnostics</div>
+    <div class="si"><span class="d">◆</span>Super Speciality</div>
+    <div class="si"><span class="d">◆</span>Emergency Medicine</div>
+    <div class="si"><span class="d">◆</span>AI Clinical Notes</div>
+    <div class="si"><span class="d">◆</span>World-Class Equipment</div>
+    <div class="si"><span class="d">◆</span>Opening April 23 · 2026</div>
   </div>
 </div>
 
 <!-- COUNTDOWN -->
-
-<section id="countdown-section">
-  <div class="countdown-heading">Grand opening countdown</div>
-  <div class="countdown-grid">
-    <div class="cd-item reveal">
-      <span class="cd-num" id="cd-days">00</span>
-      <span class="cd-label">Days</span>
-    </div>
-    <div class="cd-item reveal">
-      <span class="cd-num" id="cd-hours">00</span>
-      <span class="cd-label">Hours</span>
-    </div>
-    <div class="cd-item reveal">
-      <span class="cd-num" id="cd-mins">00</span>
-      <span class="cd-label">Minutes</span>
-    </div>
-    <div class="cd-item reveal">
-      <span class="cd-num" id="cd-secs">00</span>
-      <span class="cd-label">Seconds</span>
-    </div>
+<section id="cdown">
+  <div class="cdl reveal">
+    <div class="cdov">Grand Opening Countdown</div>
+    <div class="cdbig">The wait ends<br>April 23, 2026</div>
+    <div class="cdloc">Falnir, Ayush Building<br>Mangalore, Karnataka — 575001</div>
   </div>
-  <div class="cd-date-badge">
-    <div class="cd-pulse"></div>
-    April 23, 2026 — Falnir, Ayush Building, Mangalore
+  <div class="cdr reveal">
+    <div class="cdg">
+      <div class="cdc"><span class="cdn" id="cd1">00</span><span class="cdu">Days</span></div>
+      <div class="cdc"><span class="cdn" id="cd2">00</span><span class="cdu">Hours</span></div>
+      <div class="cdc"><span class="cdn" id="cd3">00</span><span class="cdu">Minutes</span></div>
+      <div class="cdc"><span class="cdn" id="cd4">00</span><span class="cdu">Seconds</span></div>
+    </div>
   </div>
 </section>
 
 <!-- ABOUT -->
-
 <section id="about">
-  <div class="about-left">
-    <div class="section-label reveal">Our vision</div>
-    <h2 class="section-title reveal">Born in Mangalore.<br><em>Built for the world.</em></h2>
-    <p class="about-desc reveal">For too long, people from Coastal Karnataka traveled hundreds of kilometers for advanced medical care. RVR Super Speciality Centre was built to change that — bringing international-standard medicine, AI-powered clinical systems, and the finest specialists to Mangalore.</p>
-    <p class="about-quote reveal">"Not just a hospital. The beginning of a global healthcare ecosystem."</p>
-    <div class="about-stats">
-      <div class="stat-card reveal">
-        <div class="stat-num">8+</div>
-        <div class="stat-label">Super speciality doctors</div>
-      </div>
-      <div class="stat-card reveal">
-        <div class="stat-num">4</div>
-        <div class="stat-label">Neurology specialists</div>
-      </div>
-      <div class="stat-card reveal">
-        <div class="stat-num">AI</div>
-        <div class="stat-label">Powered clinical notes</div>
-      </div>
-      <div class="stat-card reveal">
-        <div class="stat-num">∞</div>
-        <div class="stat-label">Global expansion vision</div>
-      </div>
-    </div>
+  <div class="abst reveal-l">
+    <div class="abno">01</div>
+    <div class="abtg">About RVR</div>
+    <h2 class="abti">Born in<br>Mangalore.<br><em>Built for<br>the world.</em></h2>
   </div>
-  <div class="about-right reveal-right">
-    <div class="about-visual">
-      <div class="about-visual-lines"></div>
-      <div class="about-visual-inner">
-        <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="100" cy="16" r="14" fill="#3ecb96"/>
-          <path d="M100 30 L58 76 L40 104 Q36 116 52 120 Q64 124 72 108 L100 72 L128 108 Q136 124 148 120 Q164 116 160 104 L142 76 Z" fill="#3ecb96" opacity="0.9"/>
-          <path d="M40 104 Q20 136 44 144 Q68 152 76 124" stroke="#3ecb96" stroke-width="10" fill="none" stroke-linecap="round"/>
-          <path d="M160 104 Q180 136 156 144 Q132 152 124 124" stroke="#3ecb96" stroke-width="10" fill="none" stroke-linecap="round"/>
-          <ellipse cx="60" cy="128" rx="20" ry="14" fill="#3ecb96" opacity="0.65" transform="rotate(-20 60 128)"/>
-          <ellipse cx="140" cy="128" rx="20" ry="14" fill="#3ecb96" opacity="0.65" transform="rotate(20 140 128)"/>
-        </svg>
-      </div>
-      <div class="about-visual-label">RVR — Est. 2026</div>
+  <div class="abri">
+    <p class="abin reveal">For too long, people from Coastal Karnataka traveled hundreds of kilometers for advanced medical care — to Bangalore, Chennai, Mumbai.</p>
+    <p class="abbd reveal">RVR Super Speciality Centre was built to change that. Permanently. With the most advanced medical equipment in the region, an extraordinary team of specialists, and an AI-powered system that rivals any hospital in the world.</p>
+    <p class="abbd reveal">This is not just a hospital. This is the beginning of something much larger — a healthcare ecosystem that will grow across India and reach the world.</p>
+    <div class="absts reveal">
+      <div class="abs"><div class="absn">8+</div><div class="absl">Specialist doctors</div></div>
+      <div class="abs"><div class="absn">4</div><div class="absl">Neurologists</div></div>
+      <div class="abs"><div class="absn">AI</div><div class="absl">Clinical documentation</div></div>
+      <div class="abs"><div class="absn">∞</div><div class="absl">Global ambition</div></div>
     </div>
   </div>
 </section>
 
 <!-- SPECIALITIES -->
-
-<section id="specialities">
-  <div class="section-label reveal">What we treat</div>
-  <h2 class="section-title reveal">Super speciality <em>departments</em></h2>
-  <div class="spec-grid">
-    <div class="spec-card reveal">
-      <div class="spec-number">01</div>
-      <svg class="spec-icon" viewBox="0 0 40 40" fill="none">
-        <circle cx="20" cy="10" r="6" stroke="#3ecb96" stroke-width="1.5"/>
-        <path d="M8 35 Q8 22 20 22 Q32 22 32 35" stroke="#3ecb96" stroke-width="1.5" fill="none"/>
-        <path d="M15 28 Q20 32 25 28" stroke="#3ecb96" stroke-width="1.5" fill="none"/>
-      </svg>
-      <div class="spec-name">Neurology</div>
-      <div class="spec-desc">Advanced diagnosis and treatment of neurological disorders. 4 specialist neurologists.</div>
-      <span class="spec-arrow">↗</span>
+<section id="specs">
+  <div class="sphd">
+    <div>
+      <div class="abtg reveal">02 — Specialities</div>
+      <h2 class="spti reveal">Super speciality<br><em>departments</em></h2>
     </div>
-    <div class="spec-card reveal">
-      <div class="spec-number">02</div>
-      <svg class="spec-icon" viewBox="0 0 40 40" fill="none">
-        <path d="M20 8 Q28 12 28 20 Q28 30 20 34 Q12 30 12 20 Q12 12 20 8Z" stroke="#3ecb96" stroke-width="1.5" fill="none"/>
-        <path d="M14 20 L18 18 L20 22 L22 15 L24 20 L26 20" stroke="#3ecb96" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-      </svg>
-      <div class="spec-name">Cardiology</div>
-      <div class="spec-desc">Comprehensive cardiac care with the most advanced cardiac diagnostic technology.</div>
-      <span class="spec-arrow">↗</span>
-    </div>
-    <div class="spec-card reveal">
-      <div class="spec-number">03</div>
-      <svg class="spec-icon" viewBox="0 0 40 40" fill="none">
-        <rect x="10" y="8" width="20" height="26" rx="3" stroke="#3ecb96" stroke-width="1.5"/>
-        <path d="M15 16 L25 16 M15 20 L25 20 M15 24 L21 24" stroke="#3ecb96" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-      <div class="spec-name">Diagnostics</div>
-      <div class="spec-desc">AI-powered diagnostic labs, radiology, and pathology. Results delivered on WhatsApp.</div>
-      <span class="spec-arrow">↗</span>
-    </div>
-    <div class="spec-card reveal">
-      <div class="spec-number">04</div>
-      <svg class="spec-icon" viewBox="0 0 40 40" fill="none">
-        <circle cx="20" cy="20" r="12" stroke="#3ecb96" stroke-width="1.5"/>
-        <path d="M20 14 L20 20 L25 23" stroke="#3ecb96" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-      <div class="spec-name">Emergency</div>
-      <div class="spec-desc">24/7 emergency medicine with rapid response protocols and intensive care.</div>
-      <span class="spec-arrow">↗</span>
-    </div>
-    <div class="spec-card reveal">
-      <div class="spec-number">05</div>
-      <svg class="spec-icon" viewBox="0 0 40 40" fill="none">
-        <path d="M10 20 Q10 10 20 8 Q30 10 30 20 Q30 32 20 35 Q10 32 10 20Z" stroke="#3ecb96" stroke-width="1.5" fill="none"/>
-        <circle cx="20" cy="20" r="4" stroke="#3ecb96" stroke-width="1.5"/>
-      </svg>
-      <div class="spec-name">Surgery</div>
-      <div class="spec-desc">State-of-the-art operation theatres with advanced surgical equipment and techniques.</div>
-      <span class="spec-arrow">↗</span>
-    </div>
-    <div class="spec-card reveal">
-      <div class="spec-number">06</div>
-      <svg class="spec-icon" viewBox="0 0 40 40" fill="none">
-        <path d="M12 30 L12 14 M20 30 L20 10 M28 30 L28 18" stroke="#3ecb96" stroke-width="1.5" stroke-linecap="round"/>
-        <path d="M8 30 L32 30" stroke="#3ecb96" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-      <div class="spec-name">Analytics</div>
-      <div class="spec-desc">Real-time health monitoring, AI-assisted diagnosis, and data-driven patient care.</div>
-      <span class="spec-arrow">↗</span>
-    </div>
-    <div class="spec-card reveal">
-      <div class="spec-number">07</div>
-      <svg class="spec-icon" viewBox="0 0 40 40" fill="none">
-        <path d="M20 6 L24 16 L35 16 L26 22 L30 33 L20 27 L10 33 L14 22 L5 16 L16 16Z" stroke="#3ecb96" stroke-width="1.5" fill="none"/>
-      </svg>
-      <div class="spec-name">Pharmacy</div>
-      <div class="spec-desc">In-house pharmacy with digital prescription routing. Medicine reminders via WhatsApp.</div>
-      <span class="spec-arrow">↗</span>
-    </div>
-    <div class="spec-card reveal">
-      <div class="spec-number">08</div>
-      <svg class="spec-icon" viewBox="0 0 40 40" fill="none">
-        <rect x="8" y="8" width="24" height="24" rx="12" stroke="#3ecb96" stroke-width="1.5"/>
-        <path d="M14 20 L18 24 L26 16" stroke="#3ecb96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <div class="spec-name">Wellness</div>
-      <div class="spec-desc">Preventive care, health screenings, and lifestyle medicine for long-term wellbeing.</div>
-      <span class="spec-arrow">↗</span>
-    </div>
+    <p class="spin reveal">Every department staffed by specialists trained at India's leading institutions, equipped with the most advanced technology in Coastal Karnataka.</p>
+  </div>
+  <div class="spls">
+    <div class="sprw"><div class="spix">01</div><div class="spnm">Neurology</div><div class="spdt">4 specialist neurologists · Advanced brain &amp; spine care</div></div>
+    <div class="sprw"><div class="spix">02</div><div class="spnm">Cardiology</div><div class="spdt">Comprehensive cardiac diagnostics &amp; treatment</div></div>
+    <div class="sprw"><div class="spix">03</div><div class="spnm">Advanced Diagnostics</div><div class="spdt">AI-powered labs · Reports on WhatsApp</div></div>
+    <div class="sprw"><div class="spix">04</div><div class="spnm">Emergency Medicine</div><div class="spdt">24/7 emergency care · Rapid response</div></div>
+    <div class="sprw"><div class="spix">05</div><div class="spnm">Surgical Sciences</div><div class="spdt">State-of-the-art operation theatres</div></div>
+    <div class="sprw"><div class="spix">06</div><div class="spnm">Radiology</div><div class="spdt">Advanced imaging · Digital reports</div></div>
+    <div class="sprw"><div class="spix">07</div><div class="spnm">Pharmacy</div><div class="spdt">Digital prescription routing · WhatsApp reminders</div></div>
+    <div class="sprw"><div class="spix">08</div><div class="spnm">Wellness &amp; Prevention</div><div class="spdt">Preventive care · Health screenings</div></div>
   </div>
 </section>
 
 <!-- DOCTORS -->
-
-<section id="doctors">
-  <div class="doctors-intro">
-    <div class="doctors-intro-left">
-      <div class="section-label reveal">The team</div>
-      <h2 class="section-title reveal">Meet the <em>specialists</em></h2>
-    </div>
-    <div class="doctors-intro-right reveal">
-      <p>RVR brings together Mangalore's finest medical minds — specialists trained at India's leading institutions, with decades of combined experience in super speciality care. Every doctor at RVR is handpicked for clinical excellence and patient empathy.</p>
-    </div>
+<section id="docs">
+  <div class="dchd">
+    <div class="abtg reveal">03 — The Team</div>
+    <h2 class="dcti reveal">Meet the <em>specialists</em></h2>
   </div>
-  <div class="doctors-grid">
-    <div class="doctor-card reveal">
-      <div class="doctor-avatar">
-        <span class="doctor-initials">RB</span>
-        <div class="doctor-speciality-tag">Neurology</div>
-      </div>
-      <div class="doctor-info">
-        <div class="doctor-name">Dr. Raghavendra BS</div>
-        <div class="doctor-qual">MBBS · MD · DM</div>
-        <div class="doctor-spec">Senior Neurologist</div>
-      </div>
-    </div>
-    <div class="doctor-card reveal">
-      <div class="doctor-avatar">
-        <span class="doctor-initials">MR</span>
-        <div class="doctor-speciality-tag">Cardiology</div>
-      </div>
-      <div class="doctor-info">
-        <div class="doctor-name">Dr. Manish Rai</div>
-        <div class="doctor-qual">To be confirmed</div>
-        <div class="doctor-spec">Cardiologist</div>
-      </div>
-    </div>
-    <div class="doctor-card reveal">
-      <div class="doctor-avatar">
-        <span class="doctor-initials">SS</span>
-        <div class="doctor-speciality-tag">Neurology</div>
-      </div>
-      <div class="doctor-info">
-        <div class="doctor-name">Dr. Shruthi</div>
-        <div class="doctor-qual">To be confirmed</div>
-        <div class="doctor-spec">Neurologist</div>
-      </div>
-    </div>
-    <div class="doctor-card reveal">
-      <div class="doctor-avatar">
-        <span class="doctor-initials">SH</span>
-        <div class="doctor-speciality-tag">Neurology</div>
-      </div>
-      <div class="doctor-info">
-        <div class="doctor-name">Dr. Shishir</div>
-        <div class="doctor-qual">To be confirmed</div>
-        <div class="doctor-spec">Neurologist</div>
-      </div>
-    </div>
-    <div class="doctor-card reveal">
-      <div class="doctor-avatar">
-        <span class="doctor-initials">VG</span>
-        <div class="doctor-speciality-tag">Neurology</div>
-      </div>
-      <div class="doctor-info">
-        <div class="doctor-name">Dr. Vignesh</div>
-        <div class="doctor-qual">To be confirmed</div>
-        <div class="doctor-spec">Neurologist</div>
-      </div>
-    </div>
-    <div class="doctor-card reveal">
-      <div class="doctor-avatar">
-        <span class="doctor-initials">NK</span>
-        <div class="doctor-speciality-tag">Speciality</div>
-      </div>
-      <div class="doctor-info">
-        <div class="doctor-name">Dr. Nishitha</div>
-        <div class="doctor-qual">To be confirmed</div>
-        <div class="doctor-spec">Specialist</div>
-      </div>
-    </div>
-    <div class="doctor-card reveal">
-      <div class="doctor-avatar">
-        <span class="doctor-initials">RK</span>
-        <div class="doctor-speciality-tag">Speciality</div>
-      </div>
-      <div class="doctor-info">
-        <div class="doctor-name">Dr. Rakshith Kedambady</div>
-        <div class="doctor-qual">To be confirmed</div>
-        <div class="doctor-spec">Specialist</div>
-      </div>
-    </div>
-    <div class="doctor-card reveal">
-      <div class="doctor-avatar">
-        <span class="doctor-initials">AJ</span>
-        <div class="doctor-speciality-tag">Speciality</div>
-      </div>
-      <div class="doctor-info">
-        <div class="doctor-name">Dr. Anjan</div>
-        <div class="doctor-qual">To be confirmed</div>
-        <div class="doctor-spec">Specialist</div>
-      </div>
-    </div>
+  <div class="dcgr">
+    <div class="dccd"><div class="dcfc"><span class="dcin">RB</span><div class="dctg">Neurology</div></div><div class="dcbd"><div class="dcnm">Dr. Raghavendra BS</div><div class="dcql">MBBS · MD · DM</div><div class="dcdp">Senior Neurologist</div></div></div>
+    <div class="dccd"><div class="dcfc"><span class="dcin">MR</span><div class="dctg">Cardiology</div></div><div class="dcbd"><div class="dcnm">Dr. Manish Rai</div><div class="dcql">To be confirmed</div><div class="dcdp">Cardiologist</div></div></div>
+    <div class="dccd"><div class="dcfc"><span class="dcin">NS</span><div class="dctg">Speciality</div></div><div class="dcbd"><div class="dcnm">Dr. Nishitha</div><div class="dcql">To be confirmed</div><div class="dcdp">Specialist</div></div></div>
+    <div class="dccd"><div class="dcfc"><span class="dcin">RK</span><div class="dctg">Speciality</div></div><div class="dcbd"><div class="dcnm">Dr. Rakshith Kedambady</div><div class="dcql">To be confirmed</div><div class="dcdp">Specialist</div></div></div>
+    <div class="dccd"><div class="dcfc"><span class="dcin">AJ</span><div class="dctg">Speciality</div></div><div class="dcbd"><div class="dcnm">Dr. Anjan</div><div class="dcql">To be confirmed</div><div class="dcdp">Specialist</div></div></div>
+    <div class="dccd"><div class="dcfc"><span class="dcin">SH</span><div class="dctg">Neurology</div></div><div class="dcbd"><div class="dcnm">Dr. Shruthi</div><div class="dcql">To be confirmed</div><div class="dcdp">Neurologist</div></div></div>
+    <div class="dccd"><div class="dcfc"><span class="dcin">SI</span><div class="dctg">Neurology</div></div><div class="dcbd"><div class="dcnm">Dr. Shishir</div><div class="dcql">To be confirmed</div><div class="dcdp">Neurologist</div></div></div>
+    <div class="dccd"><div class="dcfc"><span class="dcin">VG</span><div class="dctg">Neurology</div></div><div class="dcbd"><div class="dcnm">Dr. Vignesh</div><div class="dcql">To be confirmed</div><div class="dcdp">Neurologist</div></div></div>
   </div>
 </section>
 
 <!-- TECHNOLOGY -->
-
-<section id="technology">
-  <div class="tech-bg-text">ADVANCED</div>
-  <div class="section-label reveal">Technology</div>
-  <h2 class="section-title reveal">The most <em>advanced</em><br>systems ever in Mangalore</h2>
-  <div class="tech-grid">
-    <div class="tech-card reveal">
-      <div class="tech-card-num">01 / 04</div>
-      <div class="tech-card-title">AI Clinical Documentation</div>
-      <div class="tech-card-desc">Powered by Sully.ai — the doctor speaks, the AI writes. Zero typing. Clinically accurate notes generated in real time. Prescriptions auto-generated and pushed to pharmacy instantly.</div>
-      <div class="tech-card-tag">Sully.ai powered</div>
-    </div>
-    <div class="tech-card reveal">
-      <div class="tech-card-num">02 / 04</div>
-      <div class="tech-card-title">WhatsApp-First Patient Experience</div>
-      <div class="tech-card-desc">Every patient communication automated via official WhatsApp Business API. Appointment confirmations, lab reports, medicine reminders, follow-ups — all on WhatsApp. 24/7.</div>
-      <div class="tech-card-tag">Wati powered</div>
-    </div>
-    <div class="tech-card reveal">
-      <div class="tech-card-num">03 / 04</div>
-      <div class="tech-card-title">International HMS</div>
-      <div class="tech-card-desc">International-grade Hospital Management System used across 23+ countries. Real-time dashboards. Role-based access. Complete EMR. Pharmacy, lab, billing — all under one system.</div>
-      <div class="tech-card-tag">International standard</div>
-    </div>
-    <div class="tech-card reveal">
-      <div class="tech-card-num">04 / 04</div>
-      <div class="tech-card-title">Instant Doctor Payouts</div>
-      <div class="tech-card-desc">Powered by Razorpay Route — doctors see their earnings in real time and transfer to their bank accounts instantly. Transparent. Automatic. No delays.</div>
-      <div class="tech-card-tag">Razorpay Route</div>
-    </div>
-    <div class="tech-card reveal" style="grid-column: span 2;">
-      <div class="tech-card-num">05 / 04+</div>
-      <div class="tech-card-title">Advanced Diagnostic Equipment</div>
-      <div class="tech-card-desc">The most advanced diagnostic equipment available in Coastal Karnataka — state-of-the-art neurology, cardiology and imaging technology that no other hospital in the region possesses. Patients no longer need to travel to Bangalore or Chennai for advanced diagnosis.</div>
-      <div class="tech-card-tag">Industry first in Mangalore</div>
-    </div>
-    <div class="tech-card reveal">
-      <div class="tech-card-num">06 / 04+</div>
-      <div class="tech-card-title">Complete Security & Privacy</div>
-      <div class="tech-card-desc">Role-based access control — every staff member sees only what they need. Directors get live dashboards. Doctors see only their patients. Every action logged and audited.</div>
-      <div class="tech-card-tag">Zero data breach risk</div>
-    </div>
+<section id="tech">
+  <div class="tcbg">ADVANCED</div>
+  <div class="tctg reveal">04 — Technology</div>
+  <h2 class="tcti reveal">The most <em>advanced</em> systems<br>ever seen in Mangalore</h2>
+  <div class="tcls">
+    <div class="tcit"><div class="tcix">01</div><div><div class="tcnm">AI Clinical Documentation</div><div class="tcpl">Sully.ai</div></div><div class="tcds">The doctor speaks, the AI writes. Zero typing. Clinically accurate notes in real time. Prescriptions auto-generated and pushed to pharmacy the moment the doctor approves.</div></div>
+    <div class="tcit"><div class="tcix">02</div><div><div class="tcnm">WhatsApp-First Patient Experience</div><div class="tcpl">Wati</div></div><div class="tcds">Every patient interaction automated — confirmations, lab reports, medicine reminders, follow-ups — delivered on WhatsApp 24/7. Zero manual effort from staff.</div></div>
+    <div class="tcit"><div class="tcix">03</div><div><div class="tcnm">International Hospital Management System</div><div class="tcpl">HMS</div></div><div class="tcds">International-grade HMS used across 23+ countries. Real-time director dashboards. Role-based access. Complete EMR, pharmacy, lab and billing in one system.</div></div>
+    <div class="tcit"><div class="tcix">04</div><div><div class="tcnm">Most Advanced Equipment in Coastal Karnataka</div><div class="tcpl">Industry First</div></div><div class="tcds">State-of-the-art neurology, cardiology and imaging technology no other hospital in the region possesses. Patients no longer need to travel to Bangalore or Chennai.</div></div>
+    <div class="tcit"><div class="tcix">05</div><div><div class="tcnm">Instant Doctor Payouts</div><div class="tcpl">Razorpay Route</div></div><div class="tcds">Doctors see earnings in real time and transfer to their bank accounts instantly. Transparent, automated. No delays, no manual reconciliation.</div></div>
   </div>
 </section>
 
-<!-- VISION STRIP -->
-
-<section id="vision-strip">
-  <div class="vision-bg-orb"></div>
-  <div class="vision-overline reveal">Our ambition</div>
-  <p class="vision-statement reveal">
-    "Born in Mangalore. <strong>Built for the world.</strong><br>
-    A healthcare ecosystem that will one day mean the same thing in Singapore, London and Dubai<br>
-    that it means in Mangalore today — <strong>the best care, anywhere.</strong>"
-  </p>
-  <div class="vision-phases">
-    <div class="phase-item reveal">
-      <span class="phase-year">2026</span>
-      <span class="phase-label">Mangalore Flagship</span>
-    </div>
-    <div class="phase-item reveal">
-      <span class="phase-year">2027</span>
-      <span class="phase-label">Regional Expansion</span>
-    </div>
-    <div class="phase-item reveal">
-      <span class="phase-year">2029</span>
-      <span class="phase-label">Pan India</span>
-    </div>
-    <div class="phase-item reveal">
-      <span class="phase-year">2031</span>
-      <span class="phase-label">Full Ecosystem</span>
-    </div>
-    <div class="phase-item reveal">
-      <span class="phase-year">2033+</span>
-      <span class="phase-label">International</span>
-    </div>
+<!-- VISION -->
+<section id="vision">
+  <div>
+    <div class="vitg reveal">05 — Our Ambition</div>
+    <p class="vist reveal">"Born in Mangalore. <strong>Built for the world.</strong> A healthcare ecosystem that will one day mean the same thing in Singapore, London and Dubai that it means in Mangalore today — <strong>the best care, anywhere.</strong>"</p>
+  </div>
+  <div class="viri">
+    <div class="virw"><div><div class="viyr">2026</div><div class="viph">Mangalore Flagship</div></div><div class="vige">Karnataka</div></div>
+    <div class="virw"><div><div class="viyr">2027</div><div class="viph">Regional Expansion</div></div><div class="vige">Karnataka · Kerala</div></div>
+    <div class="virw"><div><div class="viyr">2029</div><div class="viph">Pan India</div></div><div class="vige">Multiple cities</div></div>
+    <div class="virw"><div><div class="viyr">2031</div><div class="viph">Full Ecosystem</div></div><div class="vige">Research · Education · Tech</div></div>
+    <div class="virw"><div><div class="viyr">2033+</div><div class="viph">International</div></div><div class="vige">UAE · Singapore · UK</div></div>
   </div>
 </section>
 
 <!-- NOTIFY -->
-
-<section id="notify">
-  <div class="notify-left">
-    <div class="notify-title">Be the first<br>to know.</div>
-    <p class="notify-sub">RVR opens its doors on April 23, 2026. Leave your WhatsApp number and we will notify you on launch day with our first appointment booking link.</p>
+<section id="ntfy">
+  <div>
+    <div class="nttg reveal">Be First</div>
+    <h2 class="ntti reveal">Get notified<br>on launch <em>day.</em></h2>
+    <p class="ntsb reveal">RVR opens April 23, 2026. Leave your WhatsApp number — we will message you on launch day with our first appointment booking link.</p>
   </div>
-  <div class="notify-right">
-    <div class="notify-form-label">Your WhatsApp number</div>
-    <form class="notify-form" onsubmit="handleNotify(event)">
-      <input type="tel" class="notify-input" placeholder="+91 00000 00000" id="notifyInput">
-      <button type="submit" class="notify-submit">Notify Me</button>
+  <div class="reveal-r">
+    <div class="ntfl">Your WhatsApp number</div>
+    <form class="ntfm" onsubmit="nsub(event)">
+      <input type="tel" class="ntip" placeholder="+91 98765 43210" id="ph">
+      <button type="submit" class="ntsm">Notify Me</button>
     </form>
-    <div class="notify-note">We will only contact you with RVR launch updates. No spam.</div>
-    <div class="notify-success-msg" id="notifySuccess">
-      ✓ &nbsp; You're on the list. We'll message you on April 23, 2026.
-    </div>
+    <div class="ntnt">No spam. Only RVR launch updates.</div>
+    <div class="ntok" id="ok">✓ &nbsp;You are on the list. We will message you on April 23, 2026.</div>
   </div>
 </section>
 
 <!-- FOOTER -->
-
 <footer>
-  <div class="footer-logo">RVR</div>
-  <div class="footer-links">
-    <a href="#" class="footer-link">Instagram</a>
-    <a href="#" class="footer-link">Facebook</a>
-    <a href="mailto:info@rvrhealthcare.in" class="footer-link">info@rvrhealthcare.in</a>
-    <a href="#" class="footer-link">rvrhealthcare.in</a>
+  <div class="fmk" style="filter:brightness(0) invert(1) opacity(0.35);"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 666 294">
+<path d="M0 0 C3.05625827 1.51700738 5.13735897 3.30989903 7.62109375 5.64453125 C10.27998288 8.11910211 12.87386698 10.47959008 15.74609375 12.70703125 C24.17742085 20.24140866 30.4076539 29.99972353 36.68359375 39.33203125 C37.09609375 38.79835937 37.50859375 38.2646875 37.93359375 37.71484375 C39.84453202 35.24939215 41.7627089 32.78974133 43.68359375 30.33203125 C44.32039062 29.51605469 44.9571875 28.70007813 45.61328125 27.859375 C47.61098667 25.32814584 49.63748507 22.82428392 51.68359375 20.33203125 C52.34875 19.51734375 53.01390625 18.70265625 53.69921875 17.86328125 C58.03387801 12.79012449 62.73859978 8.32763565 67.87109375 4.08203125 C68.4532666 3.57937744 69.03543945 3.07672363 69.63525391 2.55883789 C71.3515625 1.19140625 71.3515625 1.19140625 74.68359375 -0.66796875 C87.67538433 1.56424249 99.34720558 15.05668305 106.63671875 25.125 C110.47071497 31.13208186 113.4291244 37.56862321 115.68359375 44.33203125 C116.60398438 44.46738281 117.524375 44.60273437 118.47265625 44.7421875 C135.59571179 47.65415316 148.48578526 55.05433178 159.24609375 68.95703125 C162.19250505 73.21295868 163.89600048 76.12806626 163.68359375 81.33203125 C162.58151367 84.73011151 161.76261499 85.27935042 158.68359375 87.33203125 C151.70958438 88.11941941 151.70958438 88.11941941 147.99609375 85.26953125 C145.68359375 82.33203125 145.68359375 82.33203125 143.55859375 79.01953125 C137.6686136 70.58949716 128.28013115 66.15345037 118.68359375 63.33203125 C118.71839844 64.15703125 118.75320312 64.98203125 118.7890625 65.83203125 C119.31813364 88.40573315 112.51579277 109.42472695 96.91015625 126.07421875 C89.14577423 133.94757455 81.44266261 139.38460664 70.05859375 139.70703125 C63.39884753 139.64517602 58.8121174 138.66399697 53.68359375 134.33203125 C47.00968135 127.41154573 46.21348675 119.31834408 46.37109375 110.01953125 C47.94845681 91.40664717 59.13029292 75.47247697 72.87109375 63.53515625 C80.23216197 57.76898615 88.00190452 52.84000733 96.68359375 49.33203125 C95.0531795 39.01225017 88.17359341 30.29092184 80.68359375 23.33203125 C78.53911034 22.06968829 78.53911034 22.06968829 76.68359375 21.33203125 C59.44023245 34.47453585 48.29500037 55.8862457 37.68359375 74.33203125 C34.02835974 71.09290646 31.9284414 67.40705086 29.68359375 63.14453125 C23.20462016 51.27917586 15.38485358 40.3457697 6.74609375 29.95703125 C6.09181396 29.16292847 6.09181396 29.16292847 5.42431641 28.3527832 C2.80860887 25.29642413 0.24221565 23.20364992 -3.31640625 21.33203125 C-11.91369082 28.3145974 -18.15452523 35.96415952 -22.31640625 46.33203125 C-22.31640625 47.32203125 -22.31640625 48.31203125 -22.31640625 49.33203125 C-21.589375 49.66074219 -20.86234375 49.98945313 -20.11328125 50.328125 C-12.06335659 54.13635859 -5.24673767 58.76407267 1.68359375 64.33203125 C2.40289062 64.8734375 3.1221875 65.41484375 3.86328125 65.97265625 C16.25757901 75.8283629 25.13069108 91.87715125 27.68359375 107.33203125 C28.68219516 116.8187446 27.38993504 125.6239761 21.37109375 133.26953125 C20.48421875 133.95015625 19.59734375 134.63078125 18.68359375 135.33203125 C17.71421875 136.09515625 16.74484375 136.85828125 15.74609375 137.64453125 C9.54148668 140.96358962 1.5597729 140.20430785 -5.09375 138.70703125 C-19.34848124 133.66270297 -29.17609549 121.02392464 -35.70825195 107.91137695 C-41.40750202 95.89677764 -44.53782331 84.2557887 -44.37890625 70.89453125 C-44.37439453 70.16298828 -44.36988281 69.43144531 -44.36523438 68.67773438 C-44.35358773 66.89579706 -44.33565816 65.11390262 -44.31640625 63.33203125 C-57.98954236 66.17936545 -66.07175848 74.56868889 -74.31640625 85.33203125 C-76.31640625 87.33203125 -76.31640625 87.33203125 -80.19140625 87.70703125 C-83.37397413 87.63771943 -84.12564781 87.47876851 -86.75390625 85.45703125 C-89.36766724 81.90231631 -89.77617131 79.76057283 -89.31640625 75.33203125 C-87.91364648 72.97164634 -86.60039425 71.05191065 -84.87890625 68.95703125 C-84.42298096 68.38903809 -83.96705566 67.82104492 -83.49731445 67.23583984 C-74.25759098 55.96866621 -63.53842495 47.87554294 -48.81640625 46.14453125 C-46.06886592 45.78505793 -43.98502169 45.25413865 -41.31640625 44.33203125 C-38.49919095 40.66390194 -37.57626952 36.73078464 -36.31640625 32.33203125 C-31.76295988 22.93537375 -12.93702239 -3.73057475 0 0 Z M-27.31640625 67.33203125 C-25.82692531 86.93982505 -21.29526581 103.4898482 -6.51953125 117.51171875 C-2.74940799 120.62674967 0.44955181 122.48096738 5.49609375 122.14453125 C7.85049237 121.44290244 7.85049237 121.44290244 9.68359375 119.33203125 C11.24198405 109.40754563 8.38223528 100.21498217 3.109375 91.828125 C1.40451595 89.54305751 -0.39447642 87.43718766 -2.31640625 85.33203125 C-3.28513672 84.22601563 -3.28513672 84.22601563 -4.2734375 83.09765625 C-10.3742809 76.53274127 -17.53818236 71.70147176 -25.31640625 67.33203125 C-25.97640625 67.33203125 -26.63640625 67.33203125 -27.31640625 67.33203125 Z M79.484375 81.40625 C69.91003522 91.64518604 64.07751384 102.45504084 64.21484375 116.6171875 C64.48197023 119.33492791 64.48197023 119.33492791 66.015625 121.19921875 C67.7871731 122.62397452 67.7871731 122.62397452 70.87109375 122.39453125 C79.37461228 120.02469822 86.2514401 113.07715802 90.71679688 105.60253906 C97.68958093 93.16921722 101.37357655 81.74500527 100.68359375 67.33203125 C94.76282796 67.33203125 83.65814541 77.51847671 79.484375 81.40625 Z " fill="#47BD95" transform="translate(94.31640625,79.66796875)"/>
+<path d="M0 0 C10.02375 -0.04125 20.0475 -0.0825 30.375 -0.125 C33.5207959 -0.14320801 36.6665918 -0.16141602 39.90771484 -0.18017578 C42.425454 -0.1860218 44.94319505 -0.1911171 47.4609375 -0.1953125 C49.39223511 -0.2106604 49.39223511 -0.2106604 51.36254883 -0.22631836 C65.64489789 -0.22906338 78.15259848 2.12665086 89 12 C96.83684929 19.90082357 100.08675416 29.46233686 100.5 40.5 C100.12380146 50.87053984 97.21485683 60.40266883 90 68 C89.47535156 68.55300781 88.95070313 69.10601562 88.41015625 69.67578125 C82.96434699 74.8396898 76.22807652 77.32175695 69 79 C69.56847656 79.6290625 70.13695312 80.258125 70.72265625 80.90625 C74.30075926 84.87262796 77.8754359 88.83900637 81.375 92.875 C83.85090418 95.72343606 86.38636788 98.5088647 88.95239258 101.27636719 C105 118.60458855 105 118.60458855 105 122 C83.05856808 124.24897016 83.05856808 124.24897016 77.05078125 119.4921875 C74.40419071 116.82875539 72.2298193 113.86147445 70.16015625 110.73535156 C68.4654609 108.20044109 66.5166339 105.90048163 64.5625 103.5625 C63.86253906 102.68851562 63.16257812 101.81453125 62.44140625 100.9140625 C58.87375095 96.65570913 55.07357196 92.62461299 51.25219727 88.59399414 C47.09743581 84.19487162 47.09743581 84.19487162 46 82 C33.13 81.505 33.13 81.505 20 81 C20 94.53 20 108.06 20 122 C13.4 122 6.8 122 0 122 C0 81.74 0 41.48 0 0 Z M20 19 C20 33.19 20 47.38 20 62 C30.1165625 62.12375 30.1165625 62.12375 40.4375 62.25 C43.60363892 62.30462402 43.60363892 62.30462402 46.83374023 62.36035156 C48.53368111 62.37204967 50.23363331 62.38223883 51.93359375 62.390625 C53.2248114 62.4213208 53.2248114 62.4213208 54.54211426 62.45263672 C62.08878127 62.45692034 67.97437933 60.4336514 73.875 55.6875 C78.4678191 49.87893467 79.57821248 45.0224738 79.34765625 37.71484375 C78.60913352 31.94772805 76.26496943 28.29371874 72.25 24.1875 C65.32336214 19.5253399 59.38935986 18.55907819 51.25 18.70703125 C50.45207031 18.71005249 49.65414062 18.71307373 48.83203125 18.71618652 C45.88788682 18.73173066 42.94392864 18.77361316 40 18.8125 C33.4 18.874375 26.8 18.93625 20 19 Z " fill="#47BD96" transform="translate(512,78)"/>
+<path d="M0 0 C10.02375 -0.04125 20.0475 -0.0825 30.375 -0.125 C33.5207959 -0.14320801 36.6665918 -0.16141602 39.90771484 -0.18017578 C42.425454 -0.1860218 44.94319505 -0.1911171 47.4609375 -0.1953125 C49.39223511 -0.2106604 49.39223511 -0.2106604 51.36254883 -0.22631836 C65.64489789 -0.22906338 78.15259848 2.12665086 89 12 C96.83684929 19.90082357 100.08675416 29.46233686 100.5 40.5 C100.12380146 50.87053984 97.21485683 60.40266883 90 68 C89.47535156 68.55300781 88.95070313 69.10601562 88.41015625 69.67578125 C82.96434699 74.8396898 76.22807652 77.32175695 69 79 C69.56847656 79.6290625 70.13695312 80.258125 70.72265625 80.90625 C74.30075926 84.87262796 77.8754359 88.83900637 81.375 92.875 C83.85090418 95.72343606 86.38636788 98.5088647 88.95239258 101.27636719 C105 118.60458855 105 118.60458855 105 122 C83.05856808 124.24897016 83.05856808 124.24897016 77.05078125 119.4921875 C74.40419071 116.82875539 72.2298193 113.86147445 70.16015625 110.73535156 C68.4654609 108.20044109 66.5166339 105.90048163 64.5625 103.5625 C63.86253906 102.68851562 63.16257812 101.81453125 62.44140625 100.9140625 C58.87375095 96.65570913 55.07357196 92.62461299 51.25219727 88.59399414 C47.09743581 84.19487162 47.09743581 84.19487162 46 82 C33.13 81.505 33.13 81.505 20 81 C20 94.53 20 108.06 20 122 C13.4 122 6.8 122 0 122 C0 81.74 0 41.48 0 0 Z M20 19 C20 33.19 20 47.38 20 62 C30.1165625 62.12375 30.1165625 62.12375 40.4375 62.25 C43.60363892 62.30462402 43.60363892 62.30462402 46.83374023 62.36035156 C48.53368111 62.37204967 50.23363331 62.38223883 51.93359375 62.390625 C53.2248114 62.4213208 53.2248114 62.4213208 54.54211426 62.45263672 C62.08878127 62.45692034 67.97437933 60.4336514 73.875 55.6875 C78.4678191 49.87893467 79.57821248 45.0224738 79.34765625 37.71484375 C78.60913352 31.94772805 76.26496943 28.29371874 72.25 24.1875 C65.32336214 19.5253399 59.38935986 18.55907819 51.25 18.70703125 C50.45207031 18.71005249 49.65414062 18.71307373 48.83203125 18.71618652 C45.88788682 18.73173066 42.94392864 18.77361316 40 18.8125 C33.4 18.874375 26.8 18.93625 20 19 Z " fill="#47BD96" transform="translate(262,78)"/>
+<path d="M0 0 C7.59 0 15.18 0 23 0 C28.006234 10.55662387 32.1503105 21.42572315 36.375 32.3125 C37.56857214 35.37799122 38.76332526 38.44302027 39.95822144 41.50799561 C40.7688619 43.58733967 41.5791838 45.66680796 42.38919067 47.74639893 C46.43708267 58.1347439 50.52630168 68.50661542 54.625 78.875 C55.27653466 80.52384254 55.92806475 82.17268688 56.57958984 83.8215332 C58.052317 87.54798293 59.52586771 91.27410591 61 95 C63.95195395 89.29539392 66.46090437 83.55460083 68.765625 77.5625 C69.11651688 76.66013107 69.46740875 75.75776215 69.82893372 74.82804871 C70.58179828 72.8912986 71.33303992 70.95391697 72.08279419 69.01596069 C74.07111784 63.87830124 76.07314789 58.74598627 78.07421875 53.61328125 C78.4814769 52.56795731 78.88873505 51.52263336 79.30833435 50.44563293 C83.16434208 40.55759514 87.06916254 30.68937683 91.00598145 20.83325195 C91.70957654 19.07129701 92.41213434 17.30892749 93.11364746 15.54614258 C94.08479535 13.10650031 95.05937291 10.66826002 96.03515625 8.23046875 C96.32284378 7.50667526 96.61053131 6.78288177 96.90693665 6.03715515 C98.88514045 1.11485955 98.88514045 1.11485955 100 0 C101.63472882 -0.08700342 103.27314055 -0.10701063 104.91015625 -0.09765625 C105.89951172 -0.09443359 106.88886719 -0.09121094 107.90820312 -0.08789062 C108.94912109 -0.07951172 109.99003906 -0.07113281 111.0625 -0.0625 C112.62967773 -0.05573242 112.62967773 -0.05573242 114.22851562 -0.04882812 C116.8190666 -0.03699913 119.40950559 -0.02051689 122 0 C121.31343897 4.35846446 119.81761421 8.25911023 118.1484375 12.31640625 C117.85806107 13.03183594 117.56768463 13.74726562 117.26850891 14.484375 C116.30851885 16.84561676 115.34191552 19.20408659 114.375 21.5625 C113.69354178 23.23355104 113.01231182 24.90469519 112.33129883 26.57592773 C107.2422307 39.04549438 102.07122896 51.48063132 96.87011719 63.90380859 C93.2369292 72.58910875 89.64545086 81.29044015 86.08984375 90.0078125 C85.46933388 91.52866707 85.46933388 91.52866707 84.83628845 93.08024597 C82.79544268 98.08456911 80.75828712 103.09036283 78.7253418 108.09790039 C77.98622456 109.91294728 77.247051 111.72797124 76.5078125 113.54296875 C76.16689072 114.38590485 75.82596893 115.22884094 75.47471619 116.09732056 C73.1132084 121.8867916 73.1132084 121.8867916 72 123 C70.43827255 123.08685603 68.87270656 123.10702219 67.30859375 123.09765625 C66.36435547 123.09443359 65.42011719 123.09121094 64.44726562 123.08789062 C63.45404297 123.07951172 62.46082031 123.07113281 61.4375 123.0625 C60.44041016 123.05798828 59.44332031 123.05347656 58.41601562 123.04882812 C55.94395151 123.03700007 53.47200482 123.02051849 51 123 C48.0685225 117.29421236 45.47588564 111.53433987 43.05078125 105.59765625 C42.4958625 104.24997162 42.4958625 104.24997162 41.92973328 102.87506104 C40.72126748 99.93865142 39.51690769 97.00057614 38.3125 94.0625 C37.03518659 90.95598846 35.75683562 87.84990508 34.47848511 84.74382019 C33.60664433 82.62516356 32.73516677 80.50635743 31.86404419 78.3874054 C27.9533063 68.87648171 24.01305541 59.37795635 20.06719971 49.88156128 C14.8269707 37.2668001 9.60282469 24.64563844 4.4375 12 C3.74817383 10.31644409 3.74817383 10.31644409 3.04492188 8.59887695 C2.63693359 7.59687256 2.22894531 6.59486816 1.80859375 5.5625 C1.45595459 4.69753906 1.10331543 3.83257812 0.73999023 2.94140625 C0 1 0 1 0 0 Z " fill="#47BD96" transform="translate(373,78)"/>
+<path d="M0 0 C4.86108919 2.29796944 7.70203056 5.13891081 10 10 C10.77379561 15.29813119 10.67768515 19.56643525 8.375 24.4375 C4.04565669 29.10863357 0.92123974 31.23861982 -5.5 31.5 C-10.4207651 31.29969749 -13.30010527 30.42917072 -17 27 C-20.12846245 23.1105602 -21.9013906 20.02907952 -22 15 C-20.87876534 9.73387329 -19.41795519 5.34693575 -15 2 C-10.24878386 -0.84658919 -5.38259209 -0.62497441 0 0 Z " fill="#47BD96" transform="translate(137,64)"/>
+<path d="M0 0 C0 0.99 0 1.98 0 3 C0.66 3 1.32 3 2 3 C2.33 1.68 2.66 0.36 3 -1 C5.75 -1.6875 5.75 -1.6875 9 -2 C11.375 -0.5625 11.375 -0.5625 13 1 C13.556875 0.484375 14.11375 -0.03125 14.6875 -0.5625 C17 -2 17 -2 19.75 -1.6875 C20.86375 -1.3471875 20.86375 -1.3471875 22 -1 C22 -0.01 22 0.98 22 2 C20.35 2.33 18.7 2.66 17 3 C17.33 3.99 17.66 4.98 18 6 C20.475 6.495 20.475 6.495 23 7 C23 7.66 23 8.32 23 9 C17.62295082 10.3442623 17.62295082 10.3442623 14.625 8.6875 C13 7 13 7 13 5 C11.68 5.33 10.36 5.66 9 6 C9.99 6.33 10.98 6.66 12 7 C10.875 8.5625 10.875 8.5625 9 10 C5.8125 9.6875 5.8125 9.6875 3 9 C2.67 7.68 2.34 6.36 2 5 C1.34 5 0.68 5 0 5 C-0.33 6.32 -0.66 7.64 -1 9 C-2.98 9.33 -4.96 9.66 -7 10 C-7.33 11.32 -7.66 12.64 -8 14 C-8.99 14 -9.98 14 -11 14 C-11 9.05 -11 4.1 -11 -1 C-5.98177299 -2.0036454 -4.53099278 -1.79132273 0 0 Z M-6 1 C-6.66 2.32 -7.32 3.64 -8 5 C-6.02 5.99 -6.02 5.99 -4 7 C-3.67 5.35 -3.34 3.7 -3 2 C-3.99 1.67 -4.98 1.34 -6 1 Z M6 1 C5.67 1.66 5.34 2.32 5 3 C6.32 2.67 7.64 2.34 9 2 C8.01 1.67 7.02 1.34 6 1 Z " fill="#FFFFFF" transform="translate(349,218)"/>
+<path d="M0 0 C0.99 0 1.98 0 3 0 C3 0.99 3 1.98 3 3 C5.31 3 7.62 3 10 3 C10.66 4.32 11.32 5.64 12 7 C12.66 5.68 13.32 4.36 14 3 C14.99 3 15.98 3 17 3 C16.39644592 6.85025879 15.23227397 9.86101159 13.4375 13.3125 C12.98246094 14.19550781 12.52742188 15.07851562 12.05859375 15.98828125 C11.70925781 16.65214844 11.35992187 17.31601563 11 18 C10.01 18 9.02 18 8 18 C8.20625 17.154375 8.4125 16.30875 8.625 15.4375 C9.05843012 11.46439054 8.2762763 8.75375382 7 5 C5.68 5 4.36 5 3 5 C3 6.65 3 8.3 3 10 C3.99 10 4.98 10 6 10 C5.67 11.32 5.34 12.64 5 14 C1.125 13.125 1.125 13.125 0 12 C-0.04092937 9.66702567 -0.04241723 7.33294775 0 5 C-0.66 5 -1.32 5 -2 5 C-2 4.34 -2 3.68 -2 3 C-1.34 3 -0.68 3 0 3 C0 2.01 0 1.02 0 0 Z " fill="#FFFFFF" transform="translate(402,214)"/>
+<path d="M0 0 C0 1.32 0 2.64 0 4 C-2.97 3.505 -2.97 3.505 -6 3 C-5.4225 3.268125 -4.845 3.53625 -4.25 3.8125 C-1.9674132 5.01719859 -0.0262058 6.40798115 2 8 C1.6875 10.375 1.6875 10.375 1 13 C-2 15 -2 15 -5.5625 14.875 C-9 14 -9 14 -10.4375 11.9375 C-10.623125 11.298125 -10.80875 10.65875 -11 10 C-10.01 9.67 -9.02 9.34 -8 9 C-8 9.66 -8 10.32 -8 11 C-6.35 11 -4.7 11 -3 11 C-3 10.34 -3 9.68 -3 9 C-3.969375 8.690625 -4.93875 8.38125 -5.9375 8.0625 C-9 7 -9 7 -10 6 C-10.25 3.5625 -10.25 3.5625 -10 1 C-6.1496895 -1.56687367 -4.41430237 -0.83288724 0 0 Z " fill="#FFFFFF" transform="translate(274,213)"/>
+<path d="M0 0 C2 2 2 2 2.375 4.9375 C2 8 2 8 0.3125 9.9375 C-2.56502006 11.25960381 -4.02211118 10.90991047 -7 10 C-7 11.65 -7 13.3 -7 15 C-7.99 15 -8.98 15 -10 15 C-10 10.05 -10 5.1 -10 0 C-5.66955459 -0.86608908 -3.99392372 -1.18738273 0 0 Z M-6 3 C-5.67 4.65 -5.34 6.3 -5 8 C-3.68 7.34 -2.36 6.68 -1 6 C-1.66 4.68 -2.32 3.36 -3 2 C-4.2236068 1.9254644 -4.2236068 1.9254644 -6 3 Z " fill="#FFFFFF" transform="translate(299,217)"/>
+<path d="M0 0 C0 3.3 0 6.6 0 10 C-7.625 11.25 -7.625 11.25 -11 9 C-11.97868153 6.13923862 -12.22135111 4.61297231 -11.1875 1.75 C-8.37354036 -2.39688789 -4.35856806 -0.63269536 0 0 Z M-7 2 C-7.33 3.65 -7.66 5.3 -8 7 C-6.68 7 -5.36 7 -4 7 C-4 5.68 -4 4.36 -4 3 C-4.99 2.67 -5.98 2.34 -7 2 Z " fill="#FFFFFF" transform="translate(389,217)"/>
+<path d="M0 0 C0.33 1.98 0.66 3.96 1 6 C-0.32 6.33 -1.64 6.66 -3 7 C-1.68 7.33 -0.36 7.66 1 8 C-0.125 9.5625 -0.125 9.5625 -2 11 C-5.64734979 10.77669287 -7.38372835 10.61627165 -10 8 C-10.375 5.0625 -10.375 5.0625 -10 2 C-6.92702006 -1.66393762 -4.38919352 -1.09729838 0 0 Z M-5 2 C-5.33 2.66 -5.66 3.32 -6 4 C-4.68 3.67 -3.36 3.34 -2 3 C-2.99 2.67 -3.98 2.34 -5 2 Z " fill="#FFFFFF" transform="translate(486,217)"/>
+<path d="M0 0 C2 2 2 2 2 6 C0.68 6.33 -0.64 6.66 -2 7 C-1.01 7 -0.02 7 1 7 C1 7.99 1 8.98 1 10 C-4.28301887 11.32075472 -4.28301887 11.32075472 -7.375 9.9375 C-9 8 -9 8 -9.5 5 C-9 2 -9 2 -7.3125 0.0625 C-4.38550346 -1.28233625 -3.01415011 -1.03115662 0 0 Z M-4 2 C-4.66 2.66 -5.32 3.32 -6 4 C-4.35 4 -2.7 4 -1 4 C-1.33 3.34 -1.66 2.68 -2 2 C-2.66 2 -3.32 2 -4 2 Z " fill="#FFFFFF" transform="translate(444,217)"/>
+<path d="M0 0 C2 3 2 3 2 6 C0.68 6.33 -0.64 6.66 -2 7 C-1.01 7 -0.02 7 1 7 C0.67 7.99 0.34 8.98 0 10 C-5.42465753 11.3260274 -5.42465753 11.3260274 -7.875 9.9375 C-9.51670894 7.11011239 -9.46768561 5.20698706 -9 2 C-6.14911792 -1.27323499 -4.00227856 -1.47452368 0 0 Z M-5 2 C-5.33 2.66 -5.66 3.32 -6 4 C-4.35 4 -2.7 4 -1 4 C-1.33 3.34 -1.66 2.68 -2 2 C-2.99 2 -3.98 2 -5 2 Z " fill="#FFFFFF" transform="translate(311,217)"/>
+<path d="M0 0 C0.99 0 1.98 0 3 0 C3.33 2.31 3.66 4.62 4 7 C4.66 7 5.32 7 6 7 C6.66 4.69 7.32 2.38 8 0 C8.99 0 9.98 0 11 0 C11 3.3 11 6.6 11 10 C7.33291043 10.94296589 4.64653273 11.11421833 1 10 C-0.60725635 6.78548731 -0.05748185 3.56387464 0 0 Z " fill="#FFFFFF" transform="translate(277,217)"/>
+<path d="M0 0 C0 0.99 0 1.98 0 3 C-1.32 3 -2.64 3 -4 3 C-1.525 3.99 -1.525 3.99 1 5 C0.67 6.65 0.34 8.3 0 10 C-2.8125 10.6875 -2.8125 10.6875 -6 11 C-7.875 9.5625 -7.875 9.5625 -9 8 C-5.25 6.875 -5.25 6.875 -3 8 C-3 7.34 -3 6.68 -3 6 C-4.65 5.67 -6.3 5.34 -8 5 C-8 3.35 -8 1.7 -8 0 C-5.13822943 -1.43088528 -3.06624227 -0.59991697 0 0 Z " fill="#FFFFFF" transform="translate(336,217)"/>
+<path d="M0 0 C1 1 1 1 1.09765625 2.84765625 C1.04882812 5.92382812 1.04882812 5.92382812 1 9 C0.01 9 -0.98 9 -2 9 C-2.66 6.69 -3.32 4.38 -4 2 C-4.99 2.495 -4.99 2.495 -6 3 C-6.65772428 6.02934491 -6.65772428 6.02934491 -7 9 C-7.99 9 -8.98 9 -10 9 C-10 5.7 -10 2.4 -10 -1 C-5.94988606 -2.15717541 -3.76349849 -1.88174925 0 0 Z " fill="#FFFFFF" transform="translate(457,218)"/>
+<path d="M0 0 C0 0.99 0 1.98 0 3 C-1.98 3 -3.96 3 -6 3 C-5.67 4.32 -5.34 5.64 -5 7 C-3.35 7 -1.7 7 0 7 C0 7.99 0 8.98 0 10 C-5.42465753 11.3260274 -5.42465753 11.3260274 -7.875 9.9375 C-9.46240233 7.20364043 -9.26430653 5.10560173 -9 2 C-6.98558063 -2.02883874 -3.72407517 -0.90585612 0 0 Z " fill="#FFFFFF" transform="translate(434,217)"/>
+<path d="M0 0 C0.99 0 1.98 0 3 0 C3 0.99 3 1.98 3 3 C3.99 3 4.98 3 6 3 C6 3.66 6 4.32 6 5 C5.01 5 4.02 5 3 5 C3.34444881 7.47266765 3.34444881 7.47266765 4 10 C4.66 10.33 5.32 10.66 6 11 C5.67 11.99 5.34 12.98 5 14 C3.35 13.67 1.7 13.34 0 13 C0 10.36 0 7.72 0 5 C-0.66 5 -1.32 5 -2 5 C-2 4.34 -2 3.68 -2 3 C-1.34 3 -0.68 3 0 3 C0 2.01 0 1.02 0 0 Z " fill="#FFFFFF" transform="translate(461,214)"/>
+<path d="M0 0 C0 0.99 0 1.98 0 3 C-1.65 3 -3.3 3 -5 3 C-5 5.31 -5 7.62 -5 10 C-5.99 10 -6.98 10 -8 10 C-8 6.7 -8 3.4 -8 0 C-4.29847322 -0.92538169 -3.36541838 -1.08174162 0 0 Z " fill="#FFFFFF" transform="translate(322,217)"/>
+<path d="M0 0 C-0.33 0.99 -0.66 1.98 -1 3 C-1.99 3 -2.98 3 -4 3 C-4.33 5.31 -4.66 7.62 -5 10 C-5.99 10 -6.98 10 -8 10 C-8 6.7 -8 3.4 -8 0 C-4.29847322 -0.92538169 -3.36541838 -1.08174162 0 0 Z " fill="#FFFFFF" transform="translate(476,217)"/>
+<path d="M0 0 C0.99 0 1.98 0 3 0 C3 4.95 3 9.9 3 15 C2.01 15 1.02 15 0 15 C0 10.05 0 5.1 0 0 Z " fill="#FFFFFF" transform="translate(391,212)"/>
+<path d="M0 0 C0.99 0 1.98 0 3 0 C3 3.3 3 6.6 3 10 C2.01 10 1.02 10 0 10 C0 6.7 0 3.4 0 0 Z " fill="#FFFFFF" transform="translate(396,217)"/>
+<path d="M0 0 C0.99 0 1.98 0 3 0 C3 3.3 3 6.6 3 10 C2.01 10 1.02 10 0 10 C0 6.7 0 3.4 0 0 Z " fill="#FFFFFF" transform="translate(373,217)"/>
+<path d="M0 0 C0.99 0.33 1.98 0.66 3 1 C3 1.99 3 2.98 3 4 C1.68 3.67 0.36 3.34 -1 3 C-0.67 2.01 -0.34 1.02 0 0 Z " fill="#FFFFFF" transform="translate(396,212)"/>
+<path d="M0 0 C0.66 0.33 1.32 0.66 2 1 C2 1.99 2 2.98 2 4 C1.01 4 0.02 4 -1 4 C-0.67 2.68 -0.34 1.36 0 0 Z " fill="#FFFFFF" transform="translate(374,212)"/>
+</svg></div>
+  <div class="fls">
+    <a href="https://instagram.com" class="fa">Instagram</a>
+    <a href="https://facebook.com" class="fa">Facebook</a>
+    <a href="mailto:info@rvrhealthcare.in" class="fa">info@rvrhealthcare.in</a>
+    <a href="https://rvrhealthcare.in" class="fa">rvrhealthcare.in</a>
   </div>
-  <div class="footer-copy">© 2026 RVR Super Speciality Centre Private Limited</div>
+  <div class="fcp">© 2026 RVR Super Speciality Centre Private Limited</div>
 </footer>
 
 <script>
-gsap.registerPlugin(ScrollTrigger);
-
-// ── CURSOR ──
-const cur = document.getElementById('cursor');
-const fol = document.getElementById('cursor-follower');
-let mx=0,my=0,fx=0,fy=0;
-document.addEventListener('mousemove',e=>{
-  mx=e.clientX; my=e.clientY;
-  cur.style.left=mx+'px'; cur.style.top=my+'px';
-});
-(function animFol(){
-  fx+=(mx-fx)*0.1; fy+=(my-fy)*0.1;
-  fol.style.left=fx+'px'; fol.style.top=fy+'px';
-  requestAnimationFrame(animFol);
-})();
-document.querySelectorAll('a,button,.spec-card,.doctor-card,.tech-card,.stat-card').forEach(el=>{
-  el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
-  el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
+/* ── CURSOR — requestAnimationFrame, zero jank ── */
+const dot=document.getElementById('dot'),ring=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';},{passive:true});
+(function raf(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(raf);})();
+document.querySelectorAll('a,button,.sprw,.dccd,.tcit,.abs').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
 });
 
-// ── LOADER ──
-const bar=document.getElementById('loaderBar');
-const pct=document.getElementById('loaderPercent');
-const logoEl=document.querySelector('.loader-logo');
-let progress=0;
-gsap.to(logoEl,{opacity:1,duration:0.6,delay:0.2});
-const interval=setInterval(()=>{
-  progress+=Math.random()*4+1;
-  if(progress>=100){progress=100;clearInterval(interval);}
-  bar.style.width=progress+'%';
-  pct.textContent=Math.floor(progress)+'%';
-  if(progress===100){
-    setTimeout(()=>{
-      gsap.to('#loader',{opacity:0,duration:0.8,ease:'power2.inOut',onComplete:()=>{
-        document.getElementById('loader').style.display='none';
-        initPage();
-      }});
-    },400);
-  }
-},60);
+/* ── SCROLL REVEAL — IntersectionObserver, no library ── */
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}}); 
+},{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>io.observe(el));
 
-// ── INIT PAGE ──
-function initPage(){
-  // Nav
-  gsap.to('#mainNav',{opacity:1,duration:0.8,ease:'power2.out'});
+/* ── NAV scroll ── */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('sc',window.scrollY>60),{passive:true});
 
-  // Hero eyebrow
-  gsap.to('#heroEyebrow',{opacity:1,y:0,duration:0.8,delay:0.2,ease:'power3.out'});
-
-  // Hero words
-  gsap.to('.word',{
-    y:0, duration:1.2, stagger:0.12,
-    ease:'power4.out', delay:0.4
-  });
-
-  // Hero bottom
-  gsap.to('#heroBottom',{opacity:1,y:0,duration:1,delay:1,ease:'power3.out'});
-
-  // Scroll reveals
-  document.querySelectorAll('.reveal').forEach(el=>{
-    gsap.to(el,{
-      scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'},
-      opacity:1, y:0, duration:0.9, ease:'power3.out'
-    });
-  });
-  document.querySelectorAll('.reveal-left').forEach(el=>{
-    gsap.to(el,{
-      scrollTrigger:{trigger:el,start:'top 88%'},
-      opacity:1, x:0, duration:1, ease:'power3.out'
-    });
-  });
-  document.querySelectorAll('.reveal-right').forEach(el=>{
-    gsap.to(el,{
-      scrollTrigger:{trigger:el,start:'top 85%'},
-      opacity:1, x:0, duration:1, ease:'power3.out'
-    });
-  });
-  document.querySelectorAll('.reveal-scale').forEach(el=>{
-    gsap.to(el,{
-      scrollTrigger:{trigger:el,start:'top 85%'},
-      opacity:1, scale:1, duration:1, ease:'power3.out'
-    });
-  });
-
-  // Stagger spec cards
-  gsap.set('.spec-card',{opacity:0,y:40});
-  ScrollTrigger.create({
-    trigger:'.spec-grid', start:'top 80%',
-    onEnter:()=>{
-      gsap.to('.spec-card',{opacity:1,y:0,duration:0.7,stagger:0.08,ease:'power3.out'});
-    }
-  });
-
-  // Stagger doctor cards
-  gsap.set('.doctor-card',{opacity:0,y:40});
-  ScrollTrigger.create({
-    trigger:'.doctors-grid', start:'top 80%',
-    onEnter:()=>{
-      gsap.to('.doctor-card',{opacity:1,y:0,duration:0.7,stagger:0.07,ease:'power3.out'});
-    }
-  });
-
-  // Stagger tech cards
-  gsap.set('.tech-card',{opacity:0,y:40});
-  ScrollTrigger.create({
-    trigger:'.tech-grid', start:'top 80%',
-    onEnter:()=>{
-      gsap.to('.tech-card',{opacity:1,y:0,duration:0.8,stagger:0.1,ease:'power3.out'});
-    }
-  });
-
-  // Nav scroll effect
-  ScrollTrigger.create({
-    start:'top -80',
-    onUpdate:self=>{
-      const nav=document.getElementById('mainNav');
-      if(self.progress>0){
-        nav.style.background='rgba(5,10,7,0.92)';
-        nav.style.backdropFilter='blur(20px)';
-      } else {
-        nav.style.background='transparent';
-        nav.style.backdropFilter='none';
-      }
-    }
-  });
-}
-
-// ── COUNTDOWN ──
-function pad(n){return String(n).padStart(2,'0');}
+/* ── COUNTDOWN ── */
+function p2(n){return String(n).padStart(2,'0')}
 function tick(){
-  const launch=new Date('2026-04-23T00:00:00+05:30').getTime();
-  const diff=Math.max(0,launch-Date.now());
-  document.getElementById('cd-days').textContent=pad(Math.floor(diff/86400000));
-  document.getElementById('cd-hours').textContent=pad(Math.floor(diff%86400000/3600000));
-  document.getElementById('cd-mins').textContent=pad(Math.floor(diff%3600000/60000));
-  document.getElementById('cd-secs').textContent=pad(Math.floor(diff%60000/1000));
+  const d=Math.max(0,new Date('2026-04-23T00:00:00+05:30')-Date.now());
+  document.getElementById('cd1').textContent=p2(Math.floor(d/86400000));
+  document.getElementById('cd2').textContent=p2(Math.floor(d%86400000/3600000));
+  document.getElementById('cd3').textContent=p2(Math.floor(d%3600000/60000));
+  document.getElementById('cd4').textContent=p2(Math.floor(d%60000/1000));
 }
-tick(); setInterval(tick,1000);
+tick();setInterval(tick,1000);
 
-// ── NOTIFY ──
-function handleNotify(e){
+/* ── NOTIFY ── */
+function nsub(e){
   e.preventDefault();
-  const val=document.getElementById('notifyInput').value.trim();
-  if(val.length<8)return;
-  document.querySelector('.notify-form').style.display='none';
-  document.querySelector('.notify-note').style.display='none';
-  document.getElementById('notifySuccess').style.display='block';
+  if(document.getElementById('ph').value.trim().length<8)return;
+  document.querySelector('.ntfm').style.display='none';
+  document.querySelector('.ntnt').style.display='none';
+  document.getElementById('ok').style.display='block';
 }
 
-// ── SMOOTH NAV SCROLL ──
+/* ── SMOOTH SCROLL ── */
+function go(s){document.querySelector(s)?.scrollIntoView({behavior:'smooth'});}
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{
-    const target=document.querySelector(a.getAttribute('href'));
-    if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth'});}
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}
   });
 });
 </script>
-
 </body>
 </html>
