@@ -4,7 +4,52 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="1RoWCf-s7bcErDoXG419ycRe8ggcT6kmU17S-dbX0aw" />
-<title>Coming Soon</title>
+
+<!-- SEO META TAGS -->
+<title>RVR Super Speciality Centre | Best Hospital in Mangalore | Premium Healthcare</title>
+<meta name="description" content="RVR Super Speciality Centre — Mangalore's most advanced premium multi-speciality hospital. Expert doctors in Cardiology, Neurology, Orthopaedics, Gynaecology, Oncology & more. Serving Mangalore, Udupi, Kasaragod, Kannur & Coastal Karnataka." />
+<meta name="keywords" content="best hospital in Mangalore, top hospital Mangalore, premium hospital Mangalore, RVR Super Speciality Centre, RVR hospital Mangalore, RVR healthcare, multi speciality hospital Mangalore, super speciality hospital Mangalore, private hospital Mangalore, new hospital Mangalore, hospital Falnir Mangalore, best doctors Mangalore, specialist doctors Mangalore, cardiology hospital Mangalore, heart specialist Mangalore, neurology hospital Mangalore, brain specialist Mangalore, orthopaedics hospital Mangalore, bone specialist Mangalore, gynaecology hospital Mangalore, women hospital Mangalore, oncology hospital Mangalore, cancer treatment Mangalore, ICU hospital Mangalore, emergency hospital Mangalore, advanced healthcare Mangalore, world class hospital Mangalore, Coastal Karnataka hospital, Udupi hospital, Kasaragod hospital, Kannur hospital, Dakshina Kannada hospital, rvrhealthcare.in" />
+<meta name="author" content="RVR Super Speciality Centre" />
+<meta name="robots" content="index, follow" />
+<meta name="geo.region" content="IN-KA" />
+<meta name="geo.placename" content="Mangalore, Karnataka, India" />
+<link rel="canonical" href="https://www.rvrhealthcare.in/" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://www.rvrhealthcare.in/" />
+<meta property="og:title" content="RVR Super Speciality Centre | Best Hospital in Mangalore" />
+<meta property="og:description" content="Mangalore's most advanced premium multi-speciality hospital. Expert specialists. Compassionate care. Coming soon to Falnir, Mangalore." />
+<meta property="og:site_name" content="RVR Super Speciality Centre" />
+<meta property="og:locale" content="en_IN" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="RVR Super Speciality Centre | Best Hospital in Mangalore" />
+<meta name="twitter:description" content="Mangalore's most advanced premium multi-speciality hospital. Expert specialists. Compassionate care. Coming soon." />
+
+<!-- Schema.org Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Hospital",
+  "name": "RVR Super Speciality Centre",
+  "url": "https://www.rvrhealthcare.in",
+  "description": "Premium multi-speciality hospital in Mangalore offering world-class healthcare in Cardiology, Neurology, Orthopaedics, Gynaecology and more.",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Opp. Highland Hospital, Mother Theresa Road, Falnir",
+    "addressLocality": "Mangalore",
+    "addressRegion": "Karnataka",
+    "postalCode": "575002",
+    "addressCountry": "IN"
+  },
+  "email": "info@rvrhealthcare.in",
+  "medicalSpecialty": ["Cardiology","Neurology","Orthopaedics","Gynaecology","Oncology"],
+  "areaServed": ["Mangalore","Udupi","Kasaragod","Kannur","Coastal Karnataka"]
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;300;400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
@@ -18,7 +63,7 @@ body{background:#1a6644;font-family:'DM Sans',sans-serif;font-weight:300;overflo
   position:fixed;inset:0;background:#1a6644;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   z-index:1000;gap:2rem;
-  transition:opacity .7s ease,visibility .7s ease;
+  transition:opacity .5s ease,visibility .5s ease;
 }
 #loader.out{opacity:0;visibility:hidden;pointer-events:none;}
 .spin-wrap{position:relative;width:100px;height:100px;flex-shrink:0;}
@@ -28,14 +73,14 @@ body{background:#1a6644;font-family:'DM Sans',sans-serif;font-weight:300;overflo
 .spin-icon{position:absolute;inset:24px;display:flex;align-items:center;justify-content:center;animation:icon-p 2.2s ease-in-out infinite;}
 .spin-icon svg{width:100%;height:100%;display:block;}
 .prog-wrap{width:120px;height:1px;background:rgba(255,255,255,.1);overflow:hidden;}
-.prog-fill{height:100%;width:0;background:linear-gradient(90deg,rgba(255,255,255,.15),#fff);animation:prog 2.5s cubic-bezier(.4,0,.2,1) forwards;}
+.prog-fill{height:100%;width:0;background:linear-gradient(90deg,rgba(255,255,255,.15),#fff);animation:prog 1s cubic-bezier(.4,0,.2,1) forwards;}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes pulse-r{0%,100%{opacity:.1;transform:scale(1)}50%{opacity:.3;transform:scale(1.08)}}
 @keyframes icon-p{0%,100%{opacity:.85;transform:scale(1)}50%{opacity:1;transform:scale(1.06)}}
 @keyframes prog{0%{width:0%}60%{width:70%}85%{width:88%}100%{width:100%}}
 
 /* MAIN */
-#main{opacity:0;transform:translateY(6px);transition:opacity .8s ease,transform .8s ease;min-height:100vh;display:flex;flex-direction:column;}
+#main{opacity:1;min-height:100vh;display:flex;flex-direction:column;}
 #main.show{opacity:1;transform:translateY(0);}
 
 /* shimmer top line */
@@ -216,30 +261,16 @@ footer{background:rgba(0,0,0,.2);border-top:1px solid rgba(255,255,255,.07);padd
 </div>
 
 <script>
-/* LOADER — clean 3 step fade */
-window.addEventListener('DOMContentLoaded', function() {
-  setTimeout(function() {
-    var loader   = document.getElementById('loader');
-    var main     = document.getElementById('main');
-    var spinWrap = loader.querySelector('.spin-wrap');
-    var progWrap = loader.querySelector('.prog-wrap');
-    /* step 1: fade icon + bar */
-    spinWrap.style.transition = 'opacity .45s ease';
-    progWrap.style.transition = 'opacity .35s ease';
-    spinWrap.style.opacity = '0';
-    progWrap.style.opacity = '0';
-    /* step 2: fade whole loader */
-    setTimeout(function() {
-      loader.classList.add('out');
-      /* step 3: reveal main */
-      setTimeout(function() {
-        main.classList.add('show');
-      }, 280);
-    }, 460);
-  }, 2500);
+/* LOADER */
+window.addEventListener('load', function() {
+  var loader = document.getElementById('loader');
+  if (loader) {
+    loader.classList.add('out');
+    setTimeout(function() { loader.style.display = 'none'; }, 600);
+  }
 });
 
-/* COUNTDOWN — fixed target April 27 2026 10:00 AM IST */
+/* COUNTDOWN */
 var TARGET = new Date('2026-04-27T10:00:00+05:30').getTime();
 function p2(n) { return String(Math.max(0, n)).padStart(2, '0'); }
 var prevSec = -1;
