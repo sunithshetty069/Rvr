@@ -22,7 +22,10 @@
 <meta property="og:title" content="RVR Super Speciality Centre | Best Hospital in Mangalore" />
 <meta property="og:description" content="Coastal Karnataka's Most Advanced Hospital opening April 27, 2026. Best Neurology, Cardiology, Surgery, ENT &amp; Emergency Care in Mangalore." />
 <meta property="og:site_name" content="RVR Super Speciality Centre" />
-<meta property="og:locale" content="en_IN" />
+<meta property="og:locale" content="en_IN" /><meta property="og:image" content="https://www.rvrhealthcare.in/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:image" content="https://www.rvrhealthcare.in/og-image.png" />
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
@@ -130,9 +133,18 @@ footer{background:rgba(0,0,0,.2);border-top:1px solid rgba(255,255,255,.07);padd
 .ftr-copy{font-size:.52rem;color:rgba(255,255,255,.16);letter-spacing:.06em;line-height:1.7;}
 @media(max-width:640px){.hero{padding:3.5rem 1.5rem 2.5rem;}.wm{display:none;}.cd{gap:1rem;}.cds{display:none;}.mapframe{height:280px;}.maphdr{padding:1.2rem 1.5rem .9rem;}footer{padding:1.3rem 1.5rem;}}
 @media(max-width:380px){.hl{font-size:1.65rem;}.cdn{font-size:1.5rem;}}
+body{cursor:none}
+#cur-dot{position:fixed;width:8px;height:8px;background:#3ecb96;border-radius:50%;pointer-events:none;z-index:9999;top:0;left:0;transform:translate(-50%,-50%);opacity:0;transition:opacity .4s}
+#cur-ring{position:fixed;width:34px;height:34px;border:1.5px solid rgba(62,203,150,.5);border-radius:50%;pointer-events:none;z-index:9998;top:0;left:0;transform:translate(-50%,-50%);opacity:0;transition:opacity .4s,width .25s,height .25s}
+body.cur-on #cur-dot{opacity:1}
+body.cur-on #cur-ring{opacity:1}
+body.cur-hov #cur-ring{width:48px;height:48px;border-color:rgba(255,255,255,.5)}
+body.cur-hov #cur-dot{opacity:0}
 </style>
 </head>
 <body>
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
 
 <div id="loader">
   <div class="spin-wrap">
@@ -240,6 +252,24 @@ function nsub(e) {
   document.querySelector('.ntfy-note').style.display = 'none';
   document.getElementById('ok').style.display = 'block';
 }
+</script>
+<script>
+(function(){
+  var dot=document.getElementById('cur-dot'),ring=document.getElementById('cur-ring');
+  var mx=0,my=0,rx=0,ry=0,t;
+  document.addEventListener('mousemove',function(e){
+    mx=e.clientX;my=e.clientY;
+    dot.style.left=mx+'px';dot.style.top=my+'px';
+    document.body.classList.add('cur-on');
+    clearTimeout(t);
+    t=setTimeout(function(){document.body.classList.remove('cur-on');},3000);
+  },{passive:true});
+  (function raf(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(raf);})();
+  document.querySelectorAll('a,button,input').forEach(function(el){
+    el.addEventListener('mouseenter',function(){document.body.classList.add('cur-hov');});
+    el.addEventListener('mouseleave',function(){document.body.classList.remove('cur-hov');});
+  });
+})();
 </script>
 </body>
 </html>
